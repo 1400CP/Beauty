@@ -25,6 +25,20 @@ public class PageInfo {
 		this.startPage = startPage;
 		this.endPage = endPage;
 	}
+	
+	
+	public PageInfo(int listCount, int currentPage, int pageLimit, int reviewLimit, int startPage, int endPage) {
+		super();
+		this.listCount = listCount;
+		this.currentPage = currentPage;
+		this.pageLimit = pageLimit;
+		this.reviewLimit = reviewLimit;
+		this.startPage = startPage;
+		this.endPage = endPage;
+	}
+
+
+
 	public int getListCount() {
 		return listCount;
 	}

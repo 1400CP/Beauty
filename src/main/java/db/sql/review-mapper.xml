@@ -12,23 +12,23 @@
 	<entry key="selectReviewArrayList">
 		SELECT *
 		FROM (
-		SELECT ROWNUM RNUM, A.*
-		FROM (
-		SELECT
-		REVIEW_NO
-		, CREATE_DATE
-		, TITLE
-		, CONTENT
-		, PR_RATING
-		, P_RATING
-		, R_RATING
-		, LIKE_REVIEW
-		FROM REVIEW RV
-		WHERE STATUS = 'Y'
-		ORDER
-		BY REVIEW_NO
-		) A
-		)
+			SELECT ROWNUM RNUM, A.*
+			FROM (
+					SELECT
+					REVIEW_NO
+					, CREATE_DATE
+					, TITLE
+					, CONTENT
+					, PR_RATING
+					, P_RATING
+					, R_RATING
+					, LIKE_REVIEW
+					FROM REVIEW RV
+					WHERE STATUS = 'Y'
+					ORDER
+					BY REVIEW_NO
+					) A
+				)
 		WHERE RNUM BETWEEN ? AND ?
 
 	</entry>

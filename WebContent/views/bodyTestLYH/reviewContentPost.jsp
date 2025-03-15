@@ -13,9 +13,11 @@
 	ArrayList<Review> list = (ArrayList<Review>)request.getAttribute("list");
 	
 	int currentPage = pi.getCurrentPage();
-	int starPage = pi.getStartPage();
+	int startPage = pi.getStartPage();
 	int endPage = pi.getEndPage();
 	int maxPage = pi.getMaxPage();
+	int listCount = pi.getListCount();
+	int pageLimit = pi.getPageLimit();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -446,7 +448,7 @@ img {
         });
     </script>
 
-	<form action="" id="reviewForm_CP1" method="post">
+	<form action="" id="reviewForm_CP1" method="get">
 		<table id="reviewTable_CP1">
 			<tr>
 				<td height="50"></td>
@@ -568,27 +570,26 @@ img {
 		</table>
 
 		<div class="paging-area" align="center">
-			<% if(currentPage != 1) { %>
+			<% if(startPage > pageLimit) { %>
 			<!-- 이전버튼 -->
 			<button
-				onclick="location.href='<%= contextPath %>/review.li?currentPage=<%= currentPage -1 %>'">
-				&lt;</button>
+				onclick="location.href='<%= contextPath %>/review.li?currentPage=<%= startPage - pageLimit %>'">
+				&lt;
+			</button>
 			<% } %>
 
-			<% for(int p=starPage; p<=endPage; p++) { %>
-			<% if(p == currentPage) { %>
-			<button disabled><%= p %></button>
-			<% }else { %>
+			<% for(int i=startPage; i<=endPage; i++) { %>
 			<button
-				onclick="location.href='<%= contextPath %>/review.li?currentPage=<%= p %>'"><%= p %></button>
-			<% } %>
+				onclick="location.href='<%= contextPath %>/review.li?currentPage=<%= i %>'"><%= i %>
+			</button>
 			<% } %>
 
-			<% if(currentPage != maxPage) { %>
+			<% if(endPage < listCount) { %>
 			<!-- 다음버튼 -->
 			<button
-				onclick="location.href='<%= contextPath %>/review.li?currentPage=<%= currentPage +1 %>'">
-				&gt;</button>
+				onclick="location.href='<%= contextPath %>/review.li?currentPage=<%= startPage + pageLimit %>'">
+				&gt;
+			</button>
 			<% } %>
 		</div>
 

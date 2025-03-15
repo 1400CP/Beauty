@@ -44,40 +44,28 @@ public class ReviewListController extends HttpServlet {
 		
 		
 		// ------------- 페이징 처리 -------------
-		int listCount;		// 현재 총 게시글 개수
-		int currentPage;	// 현재 페이지 (즉, 사용자가 요청한 페이지)
-		int pageLimit;		// 페이지 하단에 보여질 페이징바의 최대 개수(몇개 단위씩 보여질건지)
-		int reviewLimit;	// 한 페이지 내에 보여질 게시글 최대 개수(몇개 단위씩)
 		
-		// 위의 4개를 가지고 아래의 3개 값을 구할 것임
-		int maxPage;		// 가장 마지막 페이지 (총 페이지 수)
-		int startPage;		// 페이징바의 시작수
-		int endPage;		// 페이징바의 끝수
+		// 한 페이지에 출력될 글 수
+		
+		
+		// 현 페이지 정보 설정
+		String pageNum = request.getParameter("currentPage");
+		if(pageNum == null) {
+			pageNum = "1";
+		}
 		
 		// * listCount : 총 게시글 개수
-		listCount = new ReviewService().selectReviewList();
-
-//		int cpage1 = 0;
-//	    int cpage = new ReviewService().selectReviewCpage(cpage1);
-//	    cpage = (listCount - reviewLimit) + 1;
-	 // * currentPage : 현재 페이지(즉, 사용자가 요청한 페이지)
-		
-		
-		
-		currentPage = 1;
-		
-		if(request.getParameter("currentPage") != null && !request.getParameter("currentPage").equals("")) {
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		}
+		int listCount = new ReviewService().selectReviewList();
 
 		// * pageLimit : 페이징바의 페이지 최대 개수(단위) ㅡ 개발자가 지정
-		pageLimit = 5;
+		int pageLimit = 10;
 		
 		// * reviewLitmit : 게시글 최대 개수(단위) ㅡ 개발자가 지정
-		reviewLimit = 3;
+		int reviewLimit = 2;
 		
-
-
+		// 첫행 번호 계산
+		int currentPage = Integer.parseInt(pageNum);
+		
 		
 		/* 공식을 외우란 것이 아닌,, 원리를 이해하기!!
 		 * * maxPage : 제일 마지막 페이지 수 (총 페이지 수)
@@ -101,8 +89,9 @@ public class ReviewListController extends HttpServlet {
 		 * 총게시글개수(실수형) / boardLimit => 올림처리 ㅡ Math.ceil(올림처리하려고하는값)
 		 *   
 		 */
-		maxPage = (int)Math.ceil((double)listCount / reviewLimit); // ㅡ maxPage는 listCount와 boardLimit의 영향을 받음.. listCount를 double로 바꾸고 listCount를 boardLimit으로 나눈값을 Math.ceil 사용해서 올림처리 한 후 그 값을 int로 형변환한다.★
+		int maxPage =  (int)Math.ceil((double)listCount / reviewLimit);
 		
+		int startPage = (currentPage - 1) * reviewLimit + 1;
 		/*
 		 * * startPage : 페이징바의 시작수
 		 * 
@@ -134,8 +123,9 @@ public class ReviewListController extends HttpServlet {
 		 * 				ㄴ n을 구하려면 이런 공식을 도출.. 나눴을 때의 몫 * pageLimit + 1
 		 * 
 		 */
-		startPage = (currentPage - 1) / pageLimit * pageLimit + 1;
+
 		
+		int endPage = startPage + pageLimit - 1;
 		/*
 		 * * endPage : 페이징바의 끝 수
 		 * 
@@ -149,23 +139,32 @@ public class ReviewListController extends HttpServlet {
 		 * 
 		 */
 		
-		endPage = startPage + pageLimit - 1;
+
 		
 		// startPage가 11이면 endPage는 20으로 됨 (근데 만약에 maxPage가 고작 13까지 밖에 안되면?)
-		if(endPage > maxPage) {
-			endPage = maxPage;
-		}
+
+		
+//		listCount == 게시글의 개수 (DB에서 추출해옴)  == cnt
+//		currentPage, == pageNum (jsp에서 request)
+//		pageLimit, == 페이징바의 최대 개수? 지정 == pageBlock
+//		reviewLimit, == 게시글의 최대 개수? 지정 == pageSize
+//		maxPage, == maxPage
+//		startPage, == startRow
+//		endPage == endPage
 		
 		// com.kh.common.model.vo.PageInfo - jsp 가져가야해서 가방에 담아야함
 		// * jsp에서 페이징바를 만드려면 7개의 값이 필요한데
 		// 그걸 담기 위한 가방, 그릇! (vo)
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, reviewLimit, maxPage, startPage, endPage);
 		
+		
 		// * 현재 요청한 페이지(c)에 보여질 게시글 리스트 boardLimit 수만큼 조회
 		ArrayList<Review> list = new ReviewService().selectReviewArrayList(pi);
 		
+		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
+		
 		
 		RequestDispatcher rd = request.getRequestDispatcher("views/bodyTestLYH/reviewContentPost.jsp");
 		rd.forward(request, response);
