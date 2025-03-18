@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 import com.kh.common.model.vo.PageInfo;
 import com.kh.review.model.dao.ReviewDao;
+import com.kh.review.model.vo.Image;
 import com.kh.review.model.vo.Review;
+import com.kh.review.model.vo.SubCategory;
 
 import static com.kh.common.JDBCTemplate.*;
 
@@ -31,13 +33,33 @@ public class ReviewService {
 		
 	}
 	
-	public int selectReviewCpage(int cpage1) {
+	public ArrayList<SubCategory> selectSubCategoryList() {
 		Connection conn = getConnection();
 		
-		int result = new ReviewDao().selectReviewCpage(conn, cpage1);
+		ArrayList<SubCategory> list = new ReviewDao().selectSubCategoryList(conn);
 		
 		close(conn);
-		return result;
+		return list;
+		
+	}
+	
+	public int insertReview(Review rv, Image img) {
+		Connection conn = getConnection();
+		
+		int result1 = new ReviewDao().insertReview(conn, rv);
+		int result2 = 1;
+		
+		if(img != null) {
+			result2 = new ReviewDao().insertImage(conn, img);
+		}
+		
+		if(result1 > 0 && result2 > 0) {
+			close(conn);
+		}else {
+			rollback(conn);
+		}
+		return result1 * result2;
+		
 	}
 
 }

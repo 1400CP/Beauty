@@ -2,151 +2,163 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 
-   <entry key="loginMember">
-    SELECT 
-        M.*,
-        NVL(FOLLOWING_CNT, 0) AS FOLLOWING_COUNT,
-        NVL(FOLLOWER_CNT, 0) AS FOLLOWER_COUNT,
-        NVL(REVIEW_CNT, 0) AS REVIEW_COUNT,
-        NVL(POST_CNT, 0) AS POST_COUNT
-    FROM MEMBER M
-    LEFT JOIN (SELECT FOLLOWING, COUNT(*) AS FOLLOWING_CNT FROM FOLLOW GROUP BY FOLLOWING) F1 
-        ON M.MEM_NO = F1.FOLLOWING
-    LEFT JOIN (SELECT FOLLOWER, COUNT(*) AS FOLLOWER_CNT FROM FOLLOW GROUP BY FOLLOWER) F2
-        ON M.MEM_NO = F2.FOLLOWER
-    LEFT JOIN (SELECT MEM_NO, COUNT(*) AS REVIEW_CNT FROM REVIEW GROUP BY MEM_NO) R
-        ON M.MEM_NO = R.MEM_NO
-    LEFT JOIN (SELECT MEM_NO, COUNT(*) AS POST_CNT FROM POST GROUP BY MEM_NO) P
-        ON M.MEM_NO = P.MEM_NO
-    WHERE M.MEM_ID = ? AND M.MEM_PWD = ?
-   </entry>
-   
-   <entry key="insertMember">
-         INSERT
-        INTO MEMBER
-       (
-          MEM_NO
-        , MEM_ID
-        , MEM_PWD
-        , MEM_NAME
-        , EMAIL
-        , NICKNAME
-        , PHONE
-        , AGREE_YN
-        , GENDER
-        , TOKEN
-       )
-       VALUES
-       (
-         SEQ_MEM.NEXTVAL
-       , ?
-       , ?
-       , ?
-       , ?
-       , ?
-       , ?
-       , ?
-       , ?
-       , ?
-       )
-   </entry>
-   
-   <entry key="deleteMember">
-          UPDATE MEMBER
-             SET STATUS = 'N'
-           WHERE MEM_ID = ?
-             AND MEM_PWD = ?
-   </entry>
+	<entry key="loginMember">
+		SELECT
+		M.*,
+		NVL(FOLLOWING_CNT, 0) AS FOLLOWING_COUNT,
+		NVL(FOLLOWER_CNT, 0) AS FOLLOWER_COUNT,
+		NVL(REVIEW_CNT, 0) AS REVIEW_COUNT,
+		NVL(POST_CNT, 0) AS POST_COUNT
+		FROM MEMBER M
+		LEFT JOIN (SELECT FOLLOWING, COUNT(*) AS FOLLOWING_CNT FROM FOLLOW GROUP
+		BY FOLLOWING) F1
+		ON M.MEM_NO = F1.FOLLOWING
+		LEFT JOIN (SELECT FOLLOWER, COUNT(*) AS FOLLOWER_CNT FROM FOLLOW GROUP BY
+		FOLLOWER) F2
+		ON M.MEM_NO = F2.FOLLOWER
+		LEFT JOIN (SELECT MEM_NO, COUNT(*) AS REVIEW_CNT FROM REVIEW GROUP BY
+		MEM_NO) R
+		ON M.MEM_NO = R.MEM_NO
+		LEFT JOIN (SELECT MEM_NO, COUNT(*) AS POST_CNT FROM POST GROUP BY MEM_NO)
+		P
+		ON M.MEM_NO = P.MEM_NO
+		WHERE M.MEM_ID = ? AND M.MEM_PWD = ?
+	</entry>
 
-   <entry key="kakaoCheckUser">
-      SELECT
-             COUNT(*) "COUNT"
-        FROM MEMBER
-       WHERE EMAIL = ?
-         AND STATUS = 'Y'
-   </entry>
-   
-   <entry key="kakaoLoginMember">
-    SELECT 
-        M.*,
-        NVL(FOLLOWING_CNT, 0) AS FOLLOWING_COUNT,
-        NVL(FOLLOWER_CNT, 0) AS FOLLOWER_COUNT,
-        NVL(REVIEW_CNT, 0) AS REVIEW_COUNT,
-        NVL(POST_CNT, 0) AS POST_COUNT
-    FROM MEMBER M
-           LEFT JOIN (SELECT FOLLOWING, COUNT(*) AS FOLLOWING_CNT FROM FOLLOW GROUP BY FOLLOWING) F1 
-                  ON M.MEM_NO = F1.FOLLOWING
-    			 LEFT JOIN (SELECT FOLLOWER, COUNT(*) AS FOLLOWER_CNT FROM FOLLOW GROUP BY FOLLOWER) F2
-        					ON M.MEM_NO = F2.FOLLOWER
-    			 LEFT JOIN (SELECT MEM_NO, COUNT(*) AS REVIEW_CNT FROM REVIEW GROUP BY MEM_NO) R
-        					ON M.MEM_NO = R.MEM_NO
-    			 LEFT JOIN (SELECT MEM_NO, COUNT(*) AS POST_CNT FROM POST GROUP BY MEM_NO) P
-        					ON M.MEM_NO = P.MEM_NO
-    			WHERE M.EMAIL = ? 
-      			AND M.STATUS = 'Y'
-   </entry>
-   
-      <entry key="NaverCheckUser">
-      SELECT
-             COUNT(*) "COUNT"
-        FROM MEMBER
-       WHERE Token = ?
-      </entry>
-      
-      <entry key="NaverLoginMember">
-    SELECT 
-        M.*,
-        NVL(FOLLOWING_CNT, 0) AS FOLLOWING_COUNT,
-        NVL(FOLLOWER_CNT, 0) AS FOLLOWER_COUNT,
-        NVL(REVIEW_CNT, 0) AS REVIEW_COUNT,
-        NVL(POST_CNT, 0) AS POST_COUNT
-    FROM MEMBER M
-           LEFT JOIN (SELECT FOLLOWING, COUNT(*) AS FOLLOWING_CNT FROM FOLLOW GROUP BY FOLLOWING) F1 
-                  ON M.MEM_NO = F1.FOLLOWING
-    			 LEFT JOIN (SELECT FOLLOWER, COUNT(*) AS FOLLOWER_CNT FROM FOLLOW GROUP BY FOLLOWER) F2
-        					ON M.MEM_NO = F2.FOLLOWER
-    			 LEFT JOIN (SELECT MEM_NO, COUNT(*) AS REVIEW_CNT FROM REVIEW GROUP BY MEM_NO) R
-        					ON M.MEM_NO = R.MEM_NO
-    			 LEFT JOIN (SELECT MEM_NO, COUNT(*) AS POST_CNT FROM POST GROUP BY MEM_NO) P
-        					ON M.MEM_NO = P.MEM_NO
-    			WHERE M.TOKEN = ? 
-      			AND M.STATUS = 'Y'
-   </entry>
-   
-   <entry key="updateMember">
-   		UPDATE MEMBER
-         SET MEM_NAME = ?
-              , MEM_ID = ?
-              , MEM_PWD = ?
-              , EMAIL = ?
-              , NICKNAME = ?
-              , PHONE = ?
-       WHERE MEM_NO = ?
-   </entry>
-   
-   <entry key="selectMember">
-			SELECT
-						 MEM_NO
-					 , MEM_ID
-					 , MEM_PWD
-					 , MEM_NAME
-					 , EMAIL
-					 , NICKNAME
-					 , PHONE
-					 , ENROLL_DATE
-					 , STATUS
-					 , AGREE_YN
-					 , GENDER
-					 , TOKEN
-				FROM MEMBER
-		 	 WHERE MEM_NO = ?
-		 	   AND STATUS = 'Y'
-   </entry>
-   <entry key="idCheck">
-	   	SELECT count(*) "COUNT"
-	      FROM MEMBER
-	      WHERE MEM_ID = ?
-   </entry>
-   
+	<entry key="insertMember">
+		INSERT
+		INTO MEMBER
+		(
+		MEM_NO
+		, MEM_ID
+		, MEM_PWD
+		, MEM_NAME
+		, EMAIL
+		, NICKNAME
+		, PHONE
+		, AGREE_YN
+		, GENDER
+		, TOKEN
+		)
+		VALUES
+		(
+		SEQ_MEM.NEXTVAL
+		, ?
+		, ?
+		, ?
+		, ?
+		, ?
+		, ?
+		, ?
+		, ?
+		, ?
+		)
+	</entry>
+
+	<entry key="deleteMember">
+		UPDATE MEMBER
+		SET STATUS = 'N'
+		WHERE MEM_ID = ?
+		AND MEM_PWD = ?
+	</entry>
+
+	<entry key="kakaoCheckUser">
+		SELECT
+		COUNT(*) "COUNT"
+		FROM MEMBER
+		WHERE EMAIL = ?
+		AND STATUS = 'Y'
+	</entry>
+
+	<entry key="kakaoLoginMember">
+		SELECT
+		M.*,
+		NVL(FOLLOWING_CNT, 0) AS FOLLOWING_COUNT,
+		NVL(FOLLOWER_CNT, 0) AS FOLLOWER_COUNT,
+		NVL(REVIEW_CNT, 0) AS REVIEW_COUNT,
+		NVL(POST_CNT, 0) AS POST_COUNT
+		FROM MEMBER M
+		LEFT JOIN (SELECT FOLLOWING, COUNT(*) AS FOLLOWING_CNT FROM FOLLOW GROUP
+		BY FOLLOWING) F1
+		ON M.MEM_NO = F1.FOLLOWING
+		LEFT JOIN (SELECT FOLLOWER, COUNT(*) AS FOLLOWER_CNT FROM FOLLOW GROUP BY
+		FOLLOWER) F2
+		ON M.MEM_NO = F2.FOLLOWER
+		LEFT JOIN (SELECT MEM_NO, COUNT(*) AS REVIEW_CNT FROM REVIEW GROUP BY
+		MEM_NO) R
+		ON M.MEM_NO = R.MEM_NO
+		LEFT JOIN (SELECT MEM_NO, COUNT(*) AS POST_CNT FROM POST GROUP BY MEM_NO)
+		P
+		ON M.MEM_NO = P.MEM_NO
+		WHERE M.EMAIL = ?
+		AND M.STATUS = 'Y'
+	</entry>
+
+	<entry key="NaverCheckUser">
+		SELECT
+		COUNT(*) "COUNT"
+		FROM MEMBER
+		WHERE Token = ?
+	</entry>
+
+	<entry key="NaverLoginMember">
+		SELECT
+		M.*,
+		NVL(FOLLOWING_CNT, 0) AS FOLLOWING_COUNT,
+		NVL(FOLLOWER_CNT, 0) AS FOLLOWER_COUNT,
+		NVL(REVIEW_CNT, 0) AS REVIEW_COUNT,
+		NVL(POST_CNT, 0) AS POST_COUNT
+		FROM MEMBER M
+		LEFT JOIN (SELECT FOLLOWING, COUNT(*) AS FOLLOWING_CNT FROM FOLLOW GROUP
+		BY FOLLOWING) F1
+		ON M.MEM_NO = F1.FOLLOWING
+		LEFT JOIN (SELECT FOLLOWER, COUNT(*) AS FOLLOWER_CNT FROM FOLLOW GROUP BY
+		FOLLOWER) F2
+		ON M.MEM_NO = F2.FOLLOWER
+		LEFT JOIN (SELECT MEM_NO, COUNT(*) AS REVIEW_CNT FROM REVIEW GROUP BY
+		MEM_NO) R
+		ON M.MEM_NO = R.MEM_NO
+		LEFT JOIN (SELECT MEM_NO, COUNT(*) AS POST_CNT FROM POST GROUP BY MEM_NO)
+		P
+		ON M.MEM_NO = P.MEM_NO
+		WHERE M.TOKEN = ?
+		AND M.STATUS = 'Y'
+	</entry>
+
+	<entry key="updateMember">
+		UPDATE MEMBER
+		SET MEM_NAME = ?
+		, MEM_ID = ?
+		, MEM_PWD = ?
+		, EMAIL = ?
+		, NICKNAME = ?
+		, PHONE = ?
+		WHERE MEM_NO = ?
+	</entry>
+
+	<entry key="selectMember">
+		SELECT
+		MEM_NO
+		, MEM_ID
+		, MEM_PWD
+		, MEM_NAME
+		, EMAIL
+		, NICKNAME
+		, PHONE
+		, ENROLL_DATE
+		, STATUS
+		, AGREE_YN
+		, GENDER
+		, TOKEN
+		FROM MEMBER
+		WHERE MEM_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	<entry key="idCheck">
+		SELECT count(*) "COUNT"
+		FROM MEMBER
+		WHERE MEM_ID = ?
+	</entry>
+
 
 </properties>

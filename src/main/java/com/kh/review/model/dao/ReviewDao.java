@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.kh.common.model.vo.PageInfo;
+import com.kh.review.model.vo.Image;
 import com.kh.review.model.vo.Review;
+import com.kh.review.model.vo.SubCategory;
 
 import static com.kh.common.JDBCTemplate.*;
 
@@ -146,8 +148,98 @@ public class ReviewDao {
 
 	}
 	
+	public ArrayList<SubCategory> selectSubCategoryList(Connection conn){
+		// select에 여러 행 조회 => Resultset
+		
+		ArrayList<SubCategory> list = new ArrayList<SubCategory>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectSubCategoryList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				SubCategory sc = new SubCategory();
+				sc.setScId(rset.getInt("SC_ID"));
+				sc.setScName(rset.getString("SC_NAME"));
+				list.add(sc);
+			}
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+
+	}
 	
+	public int insertReview(Connection conn, Review rv) {
+		// insert => 삽입! DML => 트랜잭션이 필요함.
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql); // 미완성
+			
+			pstmt.setString(1, rv.getPcode());
+			pstmt.setInt(2, rv.getMemNo());
+			pstmt.setString(3, rv.getTitle());
+			pstmt.setString(4, rv.getContent());
+			pstmt.setInt(5, rv.getpRating());
+			pstmt.setInt(6, rv.getrRating());
+			pstmt.setInt(7, rv.getpRating());
+			pstmt.setInt(8, rv.getLikeReview());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+
+	}
 	
+	public int insertImage(Connection conn, Image img) {
+		// insert => 삽입! DML => 트랜잭션이 필요함.
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertImage");
+		
+		try {
+			pstmt = conn.prepareStatement(sql); // 미완성
+			
+			pstmt.setString(1, img.getOriginName());
+			pstmt.setString(2, img.getChangeName());
+			pstmt.setString(3, img.getFilePath());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+		
+	}
 	
 
 }

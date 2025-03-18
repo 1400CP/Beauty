@@ -1,114 +1,116 @@
 <%@page import="java.util.UUID"%>
 <%@page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
 <style>
-    .outer {
-        width: 100%;
-        height: 100%;
-        margin: auto;
-        background-color: #fff;
-        border-radius: 10px;
-        text-align: center;
-        display: block;
-    }
+.outer {
+	width: 100%;
+	height: 100%;
+	margin: auto;
+	background-color: #fff;
+	border-radius: 10px;
+	text-align: center;
+	display: block;
+}
 
-    h2 {
-        margin: auto;
-    }
+h2 {
+	margin: auto;
+}
 
-    input[type="text"], input[type="password"] {
-        width: 100%;
-        padding: 12px;
-        margin: 8px 0;
-        border: 1px solid #ddd;
-        border-radius: 30px;
-        font-size: 13px;
-        box-sizing: border-box;
-    }
+input[type="text"], input[type="password"] {
+	width: 100%;
+	padding: 12px;
+	margin: 8px 0;
+	border: 1px solid #ddd;
+	border-radius: 30px;
+	font-size: 13px;
+	box-sizing: border-box;
+}
 
-    .btn {
-        width: 100%;
-        padding: 12px;
-        margin: 8px 0;
-        border: none;
-        border-radius: 30px;
-        font-size: 16px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-            #naver_id_login a {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;  /* 원하는 가로 크기 */
-            height: 50px;  /* 고정된 세로 크기 */
-            margin: 8px 0;
-            margin-top: 35px; /* 위아래 여백 */
-            border: none;  /* 테두리 없음 */
-            border-radius: 30px;  /* 둥근 모서리 */
-            font-size: 16px;  /* 글자 크기 */
-            cursor: pointer;  /* 마우스 포인터 변경 */
-            background-color: #1ec800;  /* 버튼 배경색 */
-            color: white;  /* 글자 색상 */
-            text-decoration: none;  /* 링크 스타일 제거 */
-        }
+.btn {
+	width: 100%;
+	padding: 12px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 30px;
+	font-size: 16px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
-    .btn-login {
-        background-color: #000;
-        color: white;
-    }
+#naver_id_login a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%; /* 원하는 가로 크기 */
+	height: 50px; /* 고정된 세로 크기 */
+	margin: 8px 0;
+	margin-top: 35px; /* 위아래 여백 */
+	border: none; /* 테두리 없음 */
+	border-radius: 30px; /* 둥근 모서리 */
+	font-size: 16px; /* 글자 크기 */
+	cursor: pointer; /* 마우스 포인터 변경 */
+	background-color: #1ec800; /* 버튼 배경색 */
+	color: white; /* 글자 색상 */
+	text-decoration: none; /* 링크 스타일 제거 */
+}
 
-    .btn-kakao {
-        background-color: #FEE500;
-        color: black;
-    }
+.btn-login {
+	background-color: #000;
+	color: white;
+}
 
-    .btn-insta {
-        background-color: #03c75a;
-        color: white;
-    }
+.btn-kakao {
+	background-color: #FEE500;
+	color: black;
+}
 
-    .btn img {
-        width: 18px;
-        height: 18px;
-        margin-right: 10px;
-    }
+.btn-insta {
+	background-color: #03c75a;
+	color: white;
+}
 
-    .error-message {
-        color: red;
-        font-size: 12px;
-        display: none;
-    }
+.btn img {
+	width: 18px;
+	height: 18px;
+	margin-right: 10px;
+}
 
-    #login-etc a{
-        text-decoration: none;
-        color: black;
-    }
-    
+.error-message {
+	color: red;
+	font-size: 12px;
+	display: none;
+}
 
+#login-etc a {
+	text-decoration: none;
+	color: black;
+}
 
-    .inner{
-        height: 2000px;
-        width: 500px;
-        margin: auto;
-        margin-top: 50px;
-    }
+.inner {
+	height: 2000px;
+	width: 500px;
+	margin: auto;
+	margin-top: 50px;
+}
 </style>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+<script type="text/javascript"
+	src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
+	charset="utf-8"></script>
 </head>
 <body>
-<%
+	<%
 String clientId = "6VzT269VW306H2aC74fu";
 String redirectURI = "http://localhost:8123/beautyTalk/views/member/callback.jsp";
 String encodedRedirectURI = URLEncoder.encode(redirectURI, "UTF-8");
@@ -124,76 +126,69 @@ String naverLoginURL = "https://nid.naver.com/oauth2.0/authorize?response_type=c
                + "&state=" + state
                + "&scope=name,email,nickname,profile_image,gender,birthday,age,birthyear,mobile"; 
 %>
-	<%@ include file="../common/header.jsp" %>
-	
-		<br><br><br><br><br>
-		
+	<%@ include file="../common/header.jsp"%>
 
-        <div class="outer">
-            <div class="inner">
-            <h2>로그인</h2>
-            
-            <form action="<%= contextPath %>/login.me" id="login-form" method="post">
-                <input type="text" name="userId" id="userId" minlength="6" maxlength="15" placeholder="아이디를 입력하세요. (6자 이상 15자 이내)" required>
-                <div class="error-message" id="userIdError">아이디는 최소 6자 이상 입력해야 합니다.</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
 
-                <input type="password" name="userPwd" id="userPwd" minlength="8" maxlength="16" placeholder="비밀번호를 입력하세요. (8~16자, 영문+숫자+특수문자)" required>
-                <div class="error-message" id="userPwdError">비밀번호는 최소 8자 이상 입력해야 합니다.</div>
-                
-                <div style="text-align: left; margin-top: 10px;">
-                    <input type="checkbox" name="rememId" id="rememId">
-                    <label for="rememId">아이디 저장</label>
-                </div>
 
-                <button type="submit" class="btn btn-login">로그인</button>
-            </form>
+	<div class="outer">
+		<div class="inner">
+			<h2>로그인</h2>
 
-            <br>
-            <button type="button" class="btn btn-kakao" onclick="kakaoLogin()">
-                <img src="/beautyTalk/resources/images/kakao.png" alt="Kakao"> 카카오톡 로그인
-            </button>
-            
+			<form action="<%= contextPath %>/login.me" id="login-form"
+				method="post">
+				<input type="text" name="userId" id="userId" minlength="6"
+					maxlength="15" placeholder="아이디를 입력하세요. (6자 이상 15자 이내)" required>
+				<div class="error-message" id="userIdError">아이디는 최소 6자 이상 입력해야
+					합니다.</div>
 
-						<div id="naver_id_login"></div>
-						
-						
-						
-						<button id="naverLoginBtn" style="
-						    width: 100%;
-						    height: 45px;
-						    background-color: #03C75A;
-						    color: white;
-						    font-size: 18px;
-						    font-weight: bold;
-						    border: none;
-						    border-radius: 30px;
-						    display: flex;
-						    align-items: center;
-						    justify-content: center;
-						    gap: 12px;
-						    cursor: pointer;
-						    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-						">
-						    <img src="/beautyTalk/resources/images/naver.jpg" 
-						        alt="네이버 로고" width="24" height="24">
-						    네이버 로그인
-						</button>
+				<input type="password" name="userPwd" id="userPwd" minlength="8"
+					maxlength="16" placeholder="비밀번호를 입력하세요. (8~16자, 영문+숫자+특수문자)"
+					required>
+				<div class="error-message" id="userPwdError">비밀번호는 최소 8자 이상
+					입력해야 합니다.</div>
+
+				<div style="text-align: left; margin-top: 10px;">
+					<input type="checkbox" name="rememId" id="rememId"> <label
+						for="rememId">아이디 저장</label>
+				</div>
+
+				<button type="submit" class="btn btn-login">로그인</button>
+			</form>
+
+			<br>
+			<button type="button" class="btn btn-kakao" onclick="kakaoLogin()">
+				<img src="/beautyTalk/resources/images/kakao.png" alt="Kakao">
+				카카오톡 로그인
+			</button>
+
+
+			<div id="naver_id_login"></div>
 
 
 
-            <br>
+			<button id="naverLoginBtn"
+				style="width: 100%; height: 45px; background-color: #03C75A; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 30px; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+				<img src="/beautyTalk/resources/images/naver.jpg" alt="네이버 로고"
+					width="24" height="24"> 네이버 로그인
+			</button>
 
-            <div id="login-etc">
-                <a href="">아이디 찾기</a>
-                <span>|</span>
-                <a href="">비밀번호 찾기</a>
-                <span>|</span>
-                <a href="">회원가입</a>
-            </div>
-        </div>
-    </div>
 
-    <script>
+
+			<br>
+
+			<div id="login-etc">
+				<a href="">아이디 찾기</a> <span>|</span> <a href="">비밀번호 찾기</a> <span>|</span>
+				<a href="">회원가입</a>
+			</div>
+		</div>
+	</div>
+
+	<script>
         $(document).ready(function() {
             // 저장된 아이디가 있으면 자동 입력
             let savedUserId = localStorage.getItem("savedUserId");
@@ -238,7 +233,7 @@ String naverLoginURL = "https://nid.naver.com/oauth2.0/authorize?response_type=c
             });
         });
     </script>
-    
+
 	<script>
 	    // 카카오 SDK 초기화
 	    Kakao.init('59fed56fbad84e6ce2251947508fca03'); // ★ 여기에 본인의 카카오 앱 키 입력 ★
@@ -290,9 +285,9 @@ String naverLoginURL = "https://nid.naver.com/oauth2.0/authorize?response_type=c
 	        });
 	    }
 	</script>
-	
-	
-<script type="text/javascript">
+
+
+	<script type="text/javascript">
     var naverLogin = new naver_id_login("<%= clientId %>", "<%= redirectURI %>");
     var state = "<%= state %>";
 
@@ -315,7 +310,7 @@ String naverLoginURL = "https://nid.naver.com/oauth2.0/authorize?response_type=c
     });
 </script>
 
-	
+
 
 </body>
 </html>

@@ -12,9 +12,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-<!--
-footer -->#footer_footer {
-	
+<!-- footer -->
+#footer_footer {
 }
 
 #form_footer {
@@ -27,6 +26,7 @@ footer -->#footer_footer {
 /* #table_footer td{
     border: 1px solid white;
 } */
+
 #table_footer {
 	color: white;
 	width: 1000px;
@@ -39,47 +39,24 @@ footer -->#footer_footer {
 }
 
 .logo1_footer {
-	background-image: url("resources/images/LOGO.jpg");
-}
-
-.kakao_footer {
-	background-image: url("resources/images/kakao_logo.png");
-}
-
-.facebook_footer {
-	background-image: url("resources/images/Facebook_logo.png");
-}
-
-.instar_footer {
-	background-image: url("resources/images/Instar_logo.png");
-}
-
-.youtube_footer {
-	background-image: url("resources/images/Youtube_logo.png");
-}
-
-.logo1_footer {
 	width: 100%;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: contain;
 }
 
 .kakao_footer, .facebook_footer, .instar_footer, .youtube_footer {
 	width: 50px;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: contain;
 }
+
 </style>
 </head>
 <body>
-	<!-- footer -->
+<!-- footer -->
 	<footer id="footer_footer">
 		<form action="" id="form_footer" method="">
 			<table id="table_footer" style="text-align: left;">
 				<tr>
-					<td rowspan="4" style="width: 30%;" class="logo1_footer"></td>
+					<td rowspan="4" style="width: 30%;" class="logo1_footer">
+						<img src="<%= contextPath %>/resources/images/LOGO.jpg" alt="">
+					</td>
 
 					<td style="width: 15%; height: 30%; padding: 5px;">뷰티톡 소개</td>
 					<td style="width: 15%; padding: 5px;">이용 약관</td>
@@ -92,7 +69,8 @@ footer -->#footer_footer {
 				</tr>
 				<tr>
 					<td colspan="2" style="height: 25%; padding: 5px;">email:
-						beautytalk@abcd.com</td>
+						beautytalk@abcd.com
+					</td>
 
 					<td></td>
 					<td></td>
@@ -117,10 +95,18 @@ footer -->#footer_footer {
 					<td colspan="3">© 2025 Brand, Inc. • Privacy • Terms • Sitemap</td>
 
 
-					<td class="kakao_footer"></td>
-					<td class="facebook_footer"></td>
-					<td class="instar_footer"></td>
-					<td class="youtube_footer"></td>
+					<td class="kakao_footer">
+						<img src="<%= contextPath %>/resources/images/kakao.png" alt="">
+					</td>
+					<td class="facebook_footer">
+						<img src="<%= contextPath %>/resources/images/Facebook_logo.png" alt="">
+					</td>
+					<td class="instar_footer">
+						<img src="<%= contextPath %>/resources/images/Instagram.png" alt="">
+					</td>
+					<td class="youtube_footer">
+						<img src="<%= contextPath %>/resources/images/Youtube_logo.png" alt="">
+					</td>
 				</tr>
 			</table>
 		</form>

@@ -26,7 +26,7 @@
 					FROM REVIEW RV
 					WHERE STATUS = 'Y'
 					ORDER
-					BY REVIEW_NO
+					BY REVIEW_NO DESC
 					) A
 				)
 		WHERE RNUM BETWEEN ? AND ?
@@ -35,12 +35,76 @@
 
 	<entry key="selectReviewCpage">
 		SELECT
-		REVIEW_NO
+			REVIEW_NO
 		FROM
-		REVIEW A
+			REVIEW A
 		WHERE STATUS = 'Y';
 	</entry>
+	
+	<entry key="selectSubCategoryList">
+		SELECT
+	      SC_ID
+	    , SC_NAME
+		FROM SUBCATEGORY SC
+	</entry>
+	
+	<entry key="insertReview">
+	INSERT
+    	INTO
+    	REVIEW
+	    (
+	      REVIEW_NO
+	    , PCODE
+	    , MEM_NO
+	    , TITLE
+	    , CONTENT
+	    , CREATE_DATE
+	    , P_RATING
+	    , R_RATING
+	    , PR_RATING
+	    , LIKE_REVIEW
+	    , STATUS
+	    )
+    VALUES
+	    (
+	       SEQ_REVIEW.NEXTVAL
+	     , ?
+	     , ?
+	     , ?
+	     , ?
+	     , SYSDATE
+	     , ?
+	     , ?
+	     , ?
+	     , ?
+	     , 'Y'
+	    )
+	
+	</entry>
 
+	<entry key="insertImage">
+	INSERT
+	    INTO
+	    IMAGE
+	    (
+	      IMAGE_NO
+	    , REF_BNO
+	    , ORIGIN_NAME
+	    , CHANGE_NAME
+	    , FILE_PATH
+	    , UPLOAD_DATE
+	    )
+    VALUES
+	    (
+	      SEQ_I_NO.NEXTVAL
+	    , SEQ_REVIEW.CURRVAL
+	    , ?
+	    , ?
+	    , ?
+	    , SYSDATE
+	    )
+	
+	</entry>
 
 
 </properties>
