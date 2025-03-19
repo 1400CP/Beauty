@@ -1,3 +1,5 @@
+<%@page import="com.kh.review.model.vo.Image"%>
+<%@page import="com.kh.review.model.vo.Review"%>
 <%@page import="com.kh.review.model.vo.SubCategory"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.kh.member.model.vo.Member"%>
@@ -5,6 +7,8 @@
 	pageEncoding="UTF-8"%>
 <%
 	ArrayList<SubCategory> list = (ArrayList<SubCategory>)request.getAttribute("list");
+	Review rv = (Review)request.getAttribute("rv");
+	Image img = (Image)request.getAttribute("img");
 %>
 <!DOCTYPE html>
 <html>
@@ -448,7 +452,7 @@ button {
 }
 
 #review_upload{
-	filter:opacity(0);
+	display: none;
 	cursor: pointer;
 }
 
@@ -472,6 +476,13 @@ button {
 .reviewPost_category2 select{
 	margin-left: 5px;
 	margin-right: 30px;
+}
+
+#image_container img{
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	margin: auto;
 }
 
 </style>
@@ -609,19 +620,20 @@ button {
 	<div class="review_Enrollouter">
 		<h2 align="center">리뷰 작성</h2>
 		<form action="<%= contextPath %>/insert.re" id="reviewEnroll_Form1" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="MEM_NO" value="<%= loginUser.getUserNo() %>">
 			<table id="reviewPost_table1" align="center">
 				<tr>
 					<th width="75" height="50" align="left" class="review_EnrollTh">
 						제목
 					</th>
 					<td width="350">
-						<input type="text">
+						<input type="text" name="TITLE">
 					</td>
 					<th width="75" class="review_EnrollTh2">
 						카테고리
 					</th>
 					<td width="100">
-						<select class="reviewPost_category1">
+						<select class="reviewPost_category1" name="SC_ID">
                             <!-- Category 테이블로부터 조회해올 것 -->
                             <% for(SubCategory sc : list) { %>
                             	<option value="<%= sc.getScId() %>"><%= sc.getScName() %></option>
@@ -633,29 +645,30 @@ button {
 					<th align="left" class="review_EnrollTh">
 						내용
 					</th>
+					<!-- 높낮이를 고정시키기 위해서 style 부여 -->
 					<td colspan="3" style="height: 200px;"><textarea
-							id="reviewPost_textarea1" style="resize: none;"></textarea> <!-- 높낮이를 고정시키기 위해서 style 부여 -->
+							id="reviewPost_textarea1" name="CONTENT" style="resize: none;"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="4" class="reviewPost_category2">
 						가격 : 
-						<select>
-							<% for(int i=1; i<=5; i++) { %>
+						<select name="PR_RATING">
+							<% for(int i=5; i>=1; i--) { %>
 								<option><%= i %></option>
 							<% } %>
 						</select>
 						
 						성분 : 
-						<select>
-							<% for(int i=1; i<=5; i++) { %>
+						<select name="P_RATING">
+							<% for(int i=5; i>=1; i--) { %>
 								<option><%= i %></option>
 							<% } %>
 						</select>
 						
 						재구매 : 
-						<select>
-							<% for(int i=1; i<=5; i++) { %>
+						<select name="R_RATING">
+							<% for(int i=5; i>=1; i--) { %>
 								<option><%= i %></option>
 							<% } %>
 						</select>
@@ -666,22 +679,34 @@ button {
 						첨부파일
 					</th>
 					<td colspan="3" align="center">
-						<div>
-							<input type="file" id="review_upload" onchange="view_img(this.value)">
-						</div>
-						
+						<label for="review_upload">
+							<span class="material-icons">
+								<svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 0 24 24" width="48px" fill="#e8618c"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+							</span>
+						</label>
+						<input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
+						<div id="image_container"></div>
 					</td>
 				</tr>
 			</table>
-
+			<input type="hidden" name="LIKE_REVIEW" value="0">
+			
 			<script>
-				function view_img(this.value) { 
-					<span class="material-icons">file_upload</span>
-        } 
-
-
+				function setThumbnail(event){
+					const reader = new FileReader();
+					
+					reader.onload = function(event){
+						var img = document.createElement("img");
+						img.setAttribute("src", event.target.result);
+						img.setAttribute("class", "col-lg-6");
+						document.querySelector("div#image_container").appendChild(img);
+					};
+					
+					reader.readAsDataURL(event.target.files[0]);
+					
+					
+				}
 			</script>
-
 			<br>
 
 			<div class="reviewEnrollForm_btn" align="center">

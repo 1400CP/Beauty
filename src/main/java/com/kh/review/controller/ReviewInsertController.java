@@ -36,6 +36,7 @@ public class ReviewInsertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
 		
 		// enctype이 multipart/form-data로 잘 전송되었을 경우
 		// 전반적인 내용들이 수행되도록 if문 수행해보자.
@@ -87,25 +88,24 @@ public class ReviewInsertController extends HttpServlet {
 			//	> 제목, 카테고리 번호, 내용, 작성자 뽑아서 review 테이블 insert
 			//	> 넘어온 첨부파일이 있다면 원본명, 수정명, 저장경로 Image 테이블 insert
 			String category = multiRequest.getParameter("SC_ID");
-			int reviewWriter = Integer.parseInt(multiRequest.getParameter("MEM_NO"));
+			String reviewWriter = multiRequest.getParameter("MEM_NO");
 			String reviewTitle = multiRequest.getParameter("TITLE");
 			String content = multiRequest.getParameter("CONTENT");
-		    int pRating = Integer.parseInt(multiRequest.getParameter("P_RATING")); 
-		    int rRating = Integer.parseInt(multiRequest.getParameter("R_RATING"));
-		    int prRating = Integer.parseInt(multiRequest.getParameter("PR_RATING"));
-		    int likeReview = Integer.parseInt(multiRequest.getParameter("LIKE_REVIEW"));
+			String pRating = multiRequest.getParameter("P_RATING"); 
+			String rRating = multiRequest.getParameter("R_RATING");
+			String prRating = multiRequest.getParameter("PR_RATING");
+			String likeReview = multiRequest.getParameter("LIKE_REVIEW");
 			
 			Review rv = new Review();
 			rv.setPcode(category);
-			rv.setMemNo(reviewWriter);
+			rv.setMemNo(Integer.parseInt(reviewWriter));
 			rv.setTitle(reviewTitle);
 			rv.setContent(content);
-			rv.setpRating(pRating);
-			rv.setrRating(rRating);
-			rv.setPrRating(prRating);
-			rv.setLikeReview(likeReview);
-			
-			
+			rv.setpRating(Integer.parseInt(pRating));
+			rv.setrRating(Integer.parseInt(rRating));
+			rv.setPrRating(Integer.parseInt(prRating));
+			rv.setLikeReview(Integer.parseInt(likeReview));
+
 			Image img = null;
 			// 첨에는 null로 초기화, 넘어온 첨부파일이 있다면 생성.
 			// multiRequest.getOriginalFileName("키"); -- upfile 이라는 키값을 줄 거임.
@@ -119,7 +119,9 @@ public class ReviewInsertController extends HttpServlet {
 				img.setFilePath("resources/images/"); // /가 있어야 한다.
 			}
 			
+			
 			// 4. Service 요청 (요청처리)
+
 			int result = new ReviewService().insertReview(rv, img);
 			
 			// 5. 응답뷰 지정
@@ -134,9 +136,14 @@ public class ReviewInsertController extends HttpServlet {
 				if(img != null) { // 첨부파일이 있었다면
 					new File(savePath + img.getChangeName()).delete();
 				}
-				
+				response.sendRedirect(request.getContextPath() + "/review.li?cpage=1");
 				request.getSession().setAttribute("alertMsg", "등록실패!!");
 			}
+			
+			Image img2 = new ReviewService().selectAttrImage();
+			
+			request.getSession().setAttribute("img2", img2);
+			
 		}
 		
 	}

@@ -1,7 +1,5 @@
 package com.kh.review.model.vo;
 
-import java.sql.Date;
-
 public class Review {
 	
 	private String reviewNo;

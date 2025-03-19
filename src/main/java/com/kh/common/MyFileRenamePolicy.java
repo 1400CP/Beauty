@@ -15,7 +15,7 @@ public class MyFileRenamePolicy implements FileRenamePolicy {
 		String originName = originFile.getName();
 		
 		// 수정파일명("2025022709461274152.jpg")
-		//			파일업로드시간(년월일시분초) + 5자리 랜덤값(10000 ~ 99999) + "원본 파일 확장자"
+		//		파일업로드시간(년월일시분초) + 5자리 랜덤값(10000 ~ 99999) + "원본 파일 확장자"
 		
 		// 1. 파일 업로드시간(년월일시분초 형태) (String currentTime)
 		String currentTime = new SimpleDateFormat("yyyyMMddmmss").format(new Date()); // "20250227102922"

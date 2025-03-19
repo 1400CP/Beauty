@@ -23,7 +23,7 @@
 					, P_RATING
 					, R_RATING
 					, LIKE_REVIEW
-					FROM REVIEW RV
+					FROM REVIEW
 					WHERE STATUS = 'Y'
 					ORDER
 					BY REVIEW_NO DESC
@@ -85,7 +85,7 @@
 	<entry key="insertImage">
 	INSERT
 	    INTO
-	    IMAGE
+	    IMAGE IMG
 	    (
 	      IMAGE_NO
 	    , REF_BNO
@@ -103,6 +103,56 @@
 	    , ?
 	    , SYSDATE
 	    )
+	
+	</entry>
+	
+	<entry key="selectMemNo">
+		SELECT
+		    MEM_NO
+		FROM REVIEW
+		WHERE STATUS = 'Y'
+	
+	</entry>
+	
+	<entry key="selectReview">
+		SELECT
+		      REVIEW_NO
+		    , PCODE
+		    , MEM_NO
+		    , TITLE
+		    , CONTENT
+		    , TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') "CREATE_DATE"
+		    , P_RATING
+		    , R_RATING
+		    , PR_RATING
+		    , LIKE_REVIEW
+		    , STATUS
+		FROM REVIEW
+		WHERE REVIEW_NO = ?
+		AND STATUS = 'Y'
+	
+	</entry>
+	
+	<entry key="selectImage">
+		SELECT
+		      IMAGE_NO
+		    , ORIGIN_NAME
+		    , CHANGE_NAME
+		    , FILE_PATH
+		FROM IMAGE IMG
+		WHERE REF_BNO = ?
+		AND STATUS = 'Y'
+	
+	</entry>
+	
+	<entry key="selectAttrImage">
+		SELECT
+		     REF_BNO
+		    , CHANGE_NAME
+		    , FILE_PATH
+		FROM
+		    IMAGE
+		WHERE STATUS = 'Y'
 	
 	</entry>
 

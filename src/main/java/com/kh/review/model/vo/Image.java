@@ -9,13 +9,13 @@ public class Image {
 	private String originName;
 	private String changeName;
 	private String filePath;
-	private Date uploadDate;
+	private String uploadDate;
 	private int fileLevel;
 	private String status;
 	
 	public Image () {}
 	
-	public Image(int imgNo, String refBno, String originName, String changeName, String filePath, Date uploadDate,
+	public Image(int imgNo, String refBno, String originName, String changeName, String filePath, String uploadDate,
 			int fileLevel, String status) {
 		super();
 		this.imgNo = imgNo;
@@ -68,11 +68,11 @@ public class Image {
 		this.filePath = filePath;
 	}
 
-	public Date getUploadDate() {
+	public String getUploadDate() {
 		return uploadDate;
 	}
 
-	public void setUploadDate(Date uploadDate) {
+	public void setUploadDate(String uploadDate) {
 		this.uploadDate = uploadDate;
 	}
 

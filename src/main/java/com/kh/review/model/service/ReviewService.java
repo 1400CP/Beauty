@@ -54,11 +54,52 @@ public class ReviewService {
 		}
 		
 		if(result1 > 0 && result2 > 0) {
-			close(conn);
+			commit(conn);
 		}else {
 			rollback(conn);
 		}
 		return result1 * result2;
+		
+	}
+	
+	public int selectMemNo(int boardNo) {
+		Connection conn = getConnection();
+		
+		int result = new ReviewDao().selectMemNo(conn, boardNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
+	}
+	
+	public Review selectReview(int boardNo) {
+		Connection conn = getConnection();
+		
+		Review rv = new ReviewDao().selectReview(conn, boardNo);
+		
+		close(conn);
+		return rv;
+	}
+	
+	public Image selectImage(int boardNo) {
+		Connection conn = getConnection();
+		
+		Image img = new ReviewDao().selectImage(conn, boardNo);
+		
+		close(conn);
+		return img;
+	}
+	
+	public Image selectAttrImage() {
+		Connection conn = getConnection();
+		
+		Image img = new ReviewDao().selectAttrImage(conn);
+		
+		close(conn);
+		return img;
 		
 	}
 

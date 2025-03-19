@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import com.kh.common.model.vo.PageInfo;
 import com.kh.review.model.vo.Image;
 import com.kh.review.model.vo.Review;
@@ -239,6 +241,147 @@ public class ReviewDao {
 		}
 		return result;
 		
+	}
+	
+	public int selectMemNo(Connection conn, int boardNo) {
+		// select 조회 => 대량으로 될 수도 있지 않나? 하나만인가?
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectMemNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				Review rv = new Review();
+				rv.setMemNo(rset.getInt("MEM_NO"));
+			}
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+
+	}
+	
+	public Review selectReview(Connection conn, int boardNo) {
+		// select인데 게시글 하나 조회하는 거니까 Array는 아니지.
+		Review rv = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectReview");
+		// 다 NOT NULL 이라 그냥 다 조회해야 함.
+		
+		try {
+			pstmt = conn.prepareStatement(sql); // 미완성
+			
+			pstmt.setInt(1, boardNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				rv = new Review();
+				rv.setReviewNo(rset.getString("REVIEW_NO"));
+				rv.setPcode(rset.getString("PCODE"));
+				rv.setMemNo(rset.getInt("MEM_NO"));
+				rv.setTitle(rset.getString("TITLE"));
+				rv.setContent(rset.getString("CONTENT"));
+				rv.setCreateDate(rset.getString("CREATE_DATE"));
+				rv.setpRating(rset.getInt("P_RATING"));
+				rv.setrRating(rset.getInt("R_RATING"));
+				rv.setPrRating(rset.getInt("PR_RATING"));
+				rv.setLikeReview(rset.getInt("LIKE_REVIEW"));
+				rv.setStatus(rset.getString("STATUS"));
+			}
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return rv;
+
+	}
+	
+	public Image selectImage(Connection conn, int boardNo) {
+		// select 조회인데, 게시글 하나임
+		Image img = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectImage");
+		// (해당 게시글에 달린 이미지를 조회해야 함.)
+		
+		
+		try {
+			pstmt = conn.prepareStatement(sql); // 미완성
+			
+			pstmt.setInt(1, boardNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				img = new Image();
+				img.setImgNo(rset.getInt("IMAGE_NO"));
+				img.setOriginName(rset.getString("ORIGIN_NAME"));
+				img.setChangeName(rset.getString("CHANGE_NAME"));
+				img.setFilePath(rset.getString("FILE_PATH"));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return img;
+		
+	}
+	
+	public Image selectAttrImage (Connection conn) {
+		// 조회 ResultSet 다만, 조회를 하나만 할 거여.
+		Image img = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAttrImage");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				img = new Image();
+				img.setRefBno(rset.getString("REF_BNO"));
+				img.setChangeName(rset.getString("CHANGE_NAME"));
+				img.setFilePath(rset.getString("FILE_PATH"));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return img;
+
 	}
 	
 

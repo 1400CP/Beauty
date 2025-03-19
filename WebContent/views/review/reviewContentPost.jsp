@@ -1,3 +1,5 @@
+<%@page import="com.kh.review.model.vo.Image"%>
+<%@page import="java.awt.font.ImageGraphicAttribute"%>
 <%@page import="com.kh.review.model.vo.Review"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.kh.common.model.vo.PageInfo"%>
@@ -11,6 +13,13 @@
 	
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	ArrayList<Review> list = (ArrayList<Review>)request.getAttribute("list");
+	
+	
+	String reviewNo = request.getParameter("REVIEW_NO");
+	String refBno = request.getParameter("REF_BNO");
+	String filePath = request.getParameter("FILE_PATH");
+	String changeName = request.getParameter("CHANGE_NAME");
+	
 	
 	int currentPage = pi.getCurrentPage();
 	int startPage = pi.getStartPage();
@@ -363,7 +372,9 @@ img {
 	font-weight: 700;
 	text-decoration-line: none;
 }
-
+.review_img2, .review_title1{
+	cursor:pointer;
+}
 
 
 
@@ -479,9 +490,15 @@ img {
 			<tr>
 				<td colspan="5"></td>
 				<td>
+					<% if(loginUser != null) { %>
 					<button type="button" class="reviewContent_btn" style="width: 100px;">
 						<a href="<%= contextPath %>/review.wr"> + 리뷰 작성 </a>
 					</button>
+					<% }else { %>
+					<button type="button" class="reviewContent_btn" style="width: 100px;" disabled>
+						+ 리뷰 작성
+					</button>
+					<% } %>
 				</td>
 			</tr>
 			<!-- 게시글이 없는 경우 -->
@@ -494,12 +511,15 @@ img {
 			</tr>
 			<!-- 게시글이 있는 경우 -->
 			<% }else { %>
-			<% for(Review rv: list) { %>
+				<% for(Review rv : list) { %>
 			<tr>
-				<td rowspan="6" align="center" style="width: 250px; height: 250px;"
-					onclick="location.href='http://www.yahoo.co.jp'"><img
-					src="<%= contextPath %>/resources/images/medicube.png"
-					class="review_img2"></td>
+				<td rowspan="6" align="center" style="width: 250px; height: 250px;">
+					<% if(refBno == reviewNo) { %>
+						<img src="<%= contextPath %>/" class="review_img2">
+					<% }else { %>
+						<img src="<%= contextPath %>/<%= filePath %><%= changeName %>">
+					<% } %>
+				</td>
 				<td colspan="3"><%= rv.getCreateDate() %></td>
 
 
@@ -510,9 +530,7 @@ img {
 			</tr>
 			<tr>
 
-				<td colspan="4" class="review_title1"
-					onclick="location.href='https://www.daum.net/'"><b><%= rv.getReviewNo() %>
-						<%= rv.getTitle() %></b></td>
+				<td colspan="4" class="review_title1"><b><%= rv.getReviewNo() %>  <%= rv.getTitle() %></b></td>
 
 
 
@@ -533,8 +551,7 @@ img {
 			</tr>
 			<tr>
 
-				<td colspan="4"><textarea cols="80" rows="10"
-						style="resize: none; border-color: white;" readonly><%= rv.getContent() %> 어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고어쩌고 저쩌고</textarea>
+				<td colspan="4"><textarea cols="80" rows="10" style="resize: none; border-color: white;" disabled><%= rv.getContent() %></textarea>
 				</td>
 
 
@@ -585,6 +602,18 @@ img {
 			<% } %>
 			<% } %>
 		</table>
+		
+		<script>
+			$(function(){
+				$(".review_img2").click(function(){
+					location.href='<%= contextPath %>/detail.re?bno=' + $(this).children().eq(0).text();
+				})
+				$(".review_title1").click(function(){
+					location.href='<%= contextPath %>/detail.re?bno=' + $(this).children().eq(0).text();
+				})
+			})
+
+		</script>
 
 
 		<div class="paging-area" align="center">
@@ -611,33 +640,16 @@ img {
            		<% } %>
             <% } %>
             
-            <% if(currentPage <= maxPage) { %>
+            <% if(currentPage < maxPage) { %>
             <!-- 다음버튼 -->
             	<button>
             		<a href="<%= contextPath %>/review.li?cpage=<%= currentPage + 1 %>">&gt;</a>
            	 	</button> 
-			<% } %>
-			
-		<!--
-			<% if(startPage > pageLimit) { %>
-				<button>
-					<a href="<%= contextPath %>/review.li?currentPage=<%= startPage - pageLimit %>"> &lt; </a>
-				</button>
-			<% } %>
-
-			<% for(int i=startPage; i<=endPage; i++) { %>
-				<button>
-					<a href="<%= contextPath %>/review.li?currentPage=<%= i %>"><%= i %></a>
-				</button>
-			<% } %>
-
-			<% if(endPage < listCount) { %>
-			<button>
-				<a href="<%= contextPath %>/review.li?currentPage=<%= startPage + pageLimit %>">&gt;</a>
-			</button>
-			 다음버튼 
-			<% } %>
-		-->
+			<% }else if(currentPage == maxPage){ %>
+            	<button>
+            		<a href="<%= contextPath %>/review.li?cpage=<%= currentPage %>">&gt;</a>
+           	 	</button>
+           	<% } %>
 		</div>
 
 	</form>
