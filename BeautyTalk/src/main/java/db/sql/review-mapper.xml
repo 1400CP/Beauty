@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="selectReviewList">
+		SELECT
+		COUNT(*) count
+		FROM REVIEW RV
+		WHERE STATUS = 'Y'
+	</entry>
+
+	<entry key="selectReviewArrayList">
+		SELECT *
+		FROM (
+			SELECT ROWNUM RNUM, A.*
+			FROM (
+					SELECT
+					REVIEW_NO
+					, CREATE_DATE
+					, TITLE
+					, CONTENT
+					, PR_RATING
+					, P_RATING
+					, R_RATING
+					, LIKE_REVIEW
+					FROM REVIEW
+					WHERE STATUS = 'Y'
+					ORDER
+					BY REVIEW_NO DESC
+					) A
+				)
+		WHERE RNUM BETWEEN ? AND ?
+
+	</entry>
+
+	<entry key="selectReviewCpage">
+		SELECT
+			REVIEW_NO
+		FROM
+			REVIEW RV
+		WHERE STATUS = 'Y';
+	</entry>
+	
+	<entry key="selectSubCategoryList">
+		SELECT
+	      SC_ID
+	    , SC_NAME
+		FROM SUBCATEGORY SC
+	</entry>
+	
+	<entry key="insertReview">
+	INSERT
+    	INTO
+    	REVIEW RV
+	    (
+	      REVIEW_NO
+	    , PCODE
+	    , MEM_NO
+	    , TITLE
+	    , CONTENT
+	    , CREATE_DATE
+	    , P_RATING
+	    , R_RATING
+	    , PR_RATING
+	    , LIKE_REVIEW
+	    , STATUS
+	    )
+    VALUES
+	    (
+	       SEQ_REVIEW.NEXTVAL
+	     , ?
+	     , ?
+	     , ?
+	     , ?
+	     , SYSDATE
+	     , ?
+	     , ?
+	     , ?
+	     , ?
+	     , 'Y'
+	    )
+	
+	</entry>
+
+	<entry key="insertImage">
+	INSERT
+	    INTO
+	    IMAGE IMG
+	    (
+	      IMAGE_NO
+	    , REF_BNO
+	    , ORIGIN_NAME
+	    , CHANGE_NAME
+	    , FILE_PATH
+	    , UPLOAD_DATE
+	    )
+    VALUES
+	    (
+	      SEQ_I_NO.NEXTVAL
+	    , TO_CHAR(SEQ_REVIEW.CURRVAL || 'R')
+	    , ?
+	    , ?
+	    , ?
+	    , SYSDATE
+	    )
+	
+	</entry>
+	
+	<entry key="selectMemNo">
+		SELECT
+		    MEM_NO
+		FROM REVIEW RV
+		WHERE STATUS = 'Y'
+	
+	</entry>
+	
+	<entry key="selectReview">
+		SELECT
+		      REVIEW_NO
+		    , PCODE
+		    , MEM_NO
+		    , TITLE
+		    , CONTENT
+		    , CREATE_DATE
+		    , P_RATING
+		    , R_RATING
+		    , PR_RATING
+		    , LIKE_REVIEW
+		    , STATUS
+		FROM REVIEW
+		WHERE REVIEW_NO = ?
+		AND STATUS = 'Y'
+	
+	</entry>
+	
+	<entry key="selectImage">
+		SELECT
+		      IMAGE_NO
+		    , ORIGIN_NAME
+		    , CHANGE_NAME
+		    , FILE_PATH
+		FROM IMAGE IMG2
+		WHERE REF_BNO = ?
+		AND STATUS = 'Y'
+	
+	</entry>
+	
+	<entry key="selectAttrImage">
+		SELECT
+		     REF_BNO
+		    , CHANGE_NAME
+		    , FILE_PATH
+		FROM
+		    IMAGE IMG
+		WHERE STATUS = 'Y'
+	
+	</entry>
+
+
+</properties>
