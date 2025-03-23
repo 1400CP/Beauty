@@ -1,7 +1,6 @@
 package com.kh.review.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,22 +8,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.review.model.service.ReviewService;
 import com.kh.review.model.vo.Image;
 import com.kh.review.model.vo.Review;
-import com.kh.review.model.vo.SubCategory;
+import com.kh.review.model.service.*;
 
 /**
- * Servlet implementation class ReviewDetailController
+ * Servlet implementation class ReviewUpdateForm
  */
-@WebServlet("/detail.re")
-public class ReviewDetailController extends HttpServlet {
+@WebServlet("/updateReview.wr")
+public class ReviewUpdateForm extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewDetailController() {
+    public ReviewUpdateForm() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,7 +31,7 @@ public class ReviewDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		String refBno = request.getParameter("bno");
 		
 		ReviewService rService = new ReviewService();
@@ -46,17 +44,16 @@ public class ReviewDetailController extends HttpServlet {
 		if(rv != null) { // 유효한 게시글 => 게시글, 첨부파일 DB로부터 조회 
 			Review rv1 = rService.selectReview(refBno);
 			Image img = rService.selectImage(refBno);
+	
+			request.setAttribute("rv1", rv1);
+			request.setAttribute("img", img);
+		
+			request.getRequestDispatcher("views/review/reviewUpdateForm.jsp").forward(request, response);
 			
-			request.setAttribute("rv1", rv1); // review에 대한 정보
-			request.setAttribute("img", img); // image에 대한 정보
-			
-			request.getRequestDispatcher("views/review/reviewDetail.jsp").forward(request, response);
-			
-		}else { // 에러 => db로부터 조회x
+		}else {
 			response.sendRedirect(request.getContextPath() + "/review.li?cpage=1");
 			request.getSession().setAttribute("alertMsg", "게시글 조회 오류");
 		}
-		
 	}
 
 	/**

@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 import com.kh.common.model.vo.PageInfo;
 import com.kh.review.model.vo.Image;
 import com.kh.review.model.vo.Review;
@@ -40,7 +38,6 @@ public class ReviewDao {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		
 		
 		String sql = prop.getProperty("selectReviewList");
 	
@@ -76,15 +73,15 @@ public class ReviewDao {
 			pstmt = conn.prepareStatement(sql); // 미완성
 			
 			/*
-			 * currentPage : 1 => 시작값(RNUM) : 1 | 끝값(RNUM) : 4
-			 * currentPage : 2 => 시작값 : 5 | 끝값 : 9
-			 * currentPage : 3 => 시작값 : 10 | 끝값 : 15
+			 * currentPage : 1 => 시작값(RNUM) : 1 | 끝값(RNUM) : 5
+			 * currentPage : 2 => 시작값 : 6 | 끝값 : 10
+			 * currentPage : 3 => 시작값 : 11 | 끝값 : 15
 			 * 
 			 * 시작값 : (current - 1) * reviewLimit + 1
 			 * 끝값 : 시작값 + reviewLimit - 1
 			 */
 			
-			int startReview = (pi.getCurrentPage() - 1 ) * (pi.getreviewLimit() + 1);
+			int startReview = (pi.getCurrentPage() - 1) * (pi.getreviewLimit() + 1);
 			int endReview = startReview + pi.getreviewLimit() - 1;
 			
 			pstmt.setInt(1, startReview);
@@ -117,27 +114,37 @@ public class ReviewDao {
 
 	}
 	
-	public int selectReviewCpage(Connection conn, int cpage1) {
-		// int인데 조회를 해야 해
-		int result = 0;
+	public Image selectImageArraylist(Connection conn, PageInfo pi){
+		Image img = null; // 초기화
 		
-		PreparedStatement pstmt = null;
+		PreparedStatement pstmt = null; // 초기화
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("selectReviewCpage");
+		String sql = prop.getProperty("selectImageArraylist"); 
 		
+		int startReview = (pi.getCurrentPage() - 1) * (pi.getreviewLimit() + 1);
+		int endReview = startReview + pi.getreviewLimit();
+
 		try {
 			pstmt = conn.prepareStatement(sql); // 미완성
 			
-			pstmt.setInt(1, cpage1);
+			pstmt.setInt(1, startReview);
+			pstmt.setInt(2, endReview);
 			
 			rset = pstmt.executeQuery();
 			
-			result = pstmt.executeUpdate();
-			
 			if(rset.next()) {
-				Review a = new Review();
-				a.setReviewNo(rset.getString("REVIEW_NO"));
+				img = new Image();
+				img.setImgNo(rset.getInt("IMAGE_NO"));
+				img.setRefBno(rset.getString("REF_BNO"));
+				img.setOriginName(rset.getString("ORIGIN_NAME"));
+				img.setChangeName(rset.getString("CHANGE_NAME"));
+				img.setFilePath(rset.getString("FILE_PATH"));
+				img.setUploadDate(rset.getString("UPLOAD_DATE"));
+				img.setReviewBno(rset.getString("REVIEW_BNO"));
+				img.setPostBno(rset.getString("POST_BNO"));
+				img.setProfileBno(rset.getString("PROFILE_BNO"));
+				img.setFileLevel(rset.getInt("FILE_LEVEL"));
 			}
 			
 		} catch (SQLException e) {
@@ -146,8 +153,36 @@ public class ReviewDao {
 			close(rset);
 			close(pstmt);
 		}
-		return result;
+		return img;
 
+	}
+	
+	public Review selectRefBno(Connection conn, String refBno) {
+		Review rv = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectRefBno");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				rv = new Review();
+				rv.setReviewNo(rset.getString("REVIEW_NO"));
+			}
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return rv;
 	}
 	
 	public ArrayList<SubCategory> selectSubCategoryList(Connection conn){
@@ -230,6 +265,7 @@ public class ReviewDao {
 			pstmt.setString(1, img.getOriginName());
 			pstmt.setString(2, img.getChangeName());
 			pstmt.setString(3, img.getFilePath());
+			// 리뷰는 Level 1로
 			
 			result = pstmt.executeUpdate();
 			
@@ -243,10 +279,9 @@ public class ReviewDao {
 		
 	}
 	
-	public int selectMemNo(Connection conn, int boardNo) {
+	public Review selectMemNo(Connection conn, String refBno) {
 		// select 조회 => 대량으로 될 수도 있지 않나? 하나만인가?
-		
-		int result = 0;
+		Review rv = null;
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -258,21 +293,20 @@ public class ReviewDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				Review rv = new Review();
+				rv = new Review();
 				rv.setMemNo(rset.getInt("MEM_NO"));
 			}
 			
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
-		return result;
+		return rv;
 
 	}
 	
-	public Review selectReview(Connection conn, int boardNo) {
+	public Review selectReview(Connection conn, String refBno) {
 		// select인데 게시글 하나 조회하는 거니까 Array는 아니지.
 		Review rv = null;
 		
@@ -280,12 +314,119 @@ public class ReviewDao {
 		ResultSet rset = null;
 		
 		String sql = prop.getProperty("selectReview");
-		// 다 NOT NULL 이라 그냥 다 조회해야 함.
+		// insert 때 다 적어야지! 필요한 것만 조회함.
 		
 		try {
 			pstmt = conn.prepareStatement(sql); // 미완성
 			
-			pstmt.setInt(1, boardNo);
+			pstmt.setString(1, refBno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) { // 수정할 때 필요한 멤버 넘버, 생성날짜, 제목, 카테고리 = PCODE, 내용, 가격, 성분, 재구매, 따봉수
+				rv = new Review();
+				rv.setReviewNo(rset.getString("REVIEW_NO"));
+				rv.setPcode(rset.getString("PCODE"));
+				rv.setMemNo(rset.getInt("MEM_NO"));
+				rv.setTitle(rset.getString("TITLE"));
+				rv.setContent(rset.getString("CONTENT"));
+				rv.setCreateDate(rset.getString("CREATE_DATE"));
+				rv.setpRating(rset.getInt("P_RATING"));
+				rv.setrRating(rset.getInt("R_RATING"));
+				rv.setPrRating(rset.getInt("PR_RATING"));
+				rv.setLikeReview(rset.getInt("LIKE_REVIEW"));
+			}
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return rv;
+
+	}
+	
+	public Image selectImage(Connection conn, String refBno) {
+		// select 조회인데, 게시글 하나임
+		Image img = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectImage");
+		// (해당 게시글에 달린 이미지를 조회해야 함.)
+		// 이미지 데이터중 뭘 불러와야 할까?
+		
+		
+		try {
+			pstmt = conn.prepareStatement(sql); // 미완성'
+			
+			pstmt.setString(1, refBno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				img = new Image();
+				img.setImgNo(rset.getInt("IMAGE_NO"));
+				img.setRefBno(rset.getString("REF_BNO"));
+				img.setOriginName(rset.getString("ORIGIN_NAME"));
+				img.setChangeName(rset.getString("CHANGE_NAME"));
+				img.setFilePath(rset.getString("FILE_PATH"));
+				img.setReviewBno(rset.getString("REVIEW_BNO"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return img;
+		
+	}
+	
+	public Review selectImgMemNo (Connection conn) {
+		// 조회 ResultSet 다만, 조회를 하나만 할 거여.
+		Review rv = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectImgMemNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) { // 수정할 때 필요한 멤버 넘버, 생성날짜, 제목, 카테고리 = PCODE, 내용, 가격, 성분, 재구매, 따봉수
+				rv = new Review();
+				rv.setMemNo(rset.getInt("MEM_NO"));
+			}
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return rv;
+
+	}
+	
+	public Review selectImgReview(Connection conn) {
+		Review rv = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectImgReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
 			
 			rset = pstmt.executeQuery();
 			
@@ -301,11 +442,9 @@ public class ReviewDao {
 				rv.setrRating(rset.getInt("R_RATING"));
 				rv.setPrRating(rset.getInt("PR_RATING"));
 				rv.setLikeReview(rset.getInt("LIKE_REVIEW"));
-				rv.setStatus(rset.getString("STATUS"));
 			}
 			
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 		} finally {
 			close(rset);
@@ -315,51 +454,13 @@ public class ReviewDao {
 
 	}
 	
-	public Image selectImage(Connection conn, int boardNo) {
-		// select 조회인데, 게시글 하나임
+	public Image selectImgImage(Connection conn) {
 		Image img = null;
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		
-		String sql = prop.getProperty("selectImage");
-		// (해당 게시글에 달린 이미지를 조회해야 함.)
-		
-		
-		try {
-			pstmt = conn.prepareStatement(sql); // 미완성
-			
-			pstmt.setInt(1, boardNo);
-			
-			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
-				img = new Image();
-				img.setImgNo(rset.getInt("IMAGE_NO"));
-				img.setOriginName(rset.getString("ORIGIN_NAME"));
-				img.setChangeName(rset.getString("CHANGE_NAME"));
-				img.setFilePath(rset.getString("FILE_PATH"));
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(pstmt);
-		}
-		return img;
-		
-	}
-	
-	public Image selectAttrImage (Connection conn) {
-		// 조회 ResultSet 다만, 조회를 하나만 할 거여.
-		Image img = null;
-		
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		
-		String sql = prop.getProperty("selectAttrImage");
+				
+		String sql = prop.getProperty("selectImgImage");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -368,13 +469,16 @@ public class ReviewDao {
 			
 			if(rset.next()) {
 				img = new Image();
+				img.setImgNo(rset.getInt("IMAGE_NO"));
 				img.setRefBno(rset.getString("REF_BNO"));
+				img.setOriginName(rset.getString("ORIGIN_NAME"));
 				img.setChangeName(rset.getString("CHANGE_NAME"));
 				img.setFilePath(rset.getString("FILE_PATH"));
+				img.setReviewBno(rset.getString("REVIEW_BNO"));
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} finally {
 			close(rset);
@@ -383,6 +487,5 @@ public class ReviewDao {
 		return img;
 
 	}
-	
 
 }

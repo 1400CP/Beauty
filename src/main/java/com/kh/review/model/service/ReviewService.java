@@ -33,6 +33,25 @@ public class ReviewService {
 		
 	}
 	
+	public Image selectImageArraylist(PageInfo pi){
+		Connection conn = getConnection();
+		
+		Image img = new ReviewDao().selectImageArraylist(conn, pi);
+		
+		close(conn);
+		return img;
+	}
+	
+	public Review selectRefBno(String refBno) {
+		Connection conn = getConnection();
+		
+		Review rv = new ReviewDao().selectRefBno(conn, refBno);
+		
+		close(conn);
+		return rv;
+	}
+	
+	
 	public ArrayList<SubCategory> selectSubCategoryList() {
 		Connection conn = getConnection();
 		
@@ -62,45 +81,61 @@ public class ReviewService {
 		
 	}
 	
-	public int selectMemNo(int boardNo) {
+	public Review selectMemNo(String refBno) {
 		Connection conn = getConnection();
 		
-		int result = new ReviewDao().selectMemNo(conn, boardNo);
-		
-		if(result > 0) {
-			commit(conn);
-		}else {
-			rollback(conn);
-		}
-		return result;
-	}
-	
-	public Review selectReview(int boardNo) {
-		Connection conn = getConnection();
-		
-		Review rv = new ReviewDao().selectReview(conn, boardNo);
+		Review rv = new ReviewDao().selectMemNo(conn, refBno);
 		
 		close(conn);
 		return rv;
 	}
 	
-	public Image selectImage(int boardNo) {
+	public Review selectReview(String refBno) {
 		Connection conn = getConnection();
 		
-		Image img = new ReviewDao().selectImage(conn, boardNo);
+		Review rv = new ReviewDao().selectReview(conn, refBno);
+		
+		close(conn);
+		return rv;
+	}
+	
+	public Image selectImage(String refBno) {
+		Connection conn = getConnection();
+		
+		Image img = new ReviewDao().selectImage(conn, refBno);
 		
 		close(conn);
 		return img;
 	}
 	
-	public Image selectAttrImage() {
+	
+	public Review selectImgMemNo() {
 		Connection conn = getConnection();
 		
-		Image img = new ReviewDao().selectAttrImage(conn);
+		Review rv = new ReviewDao().selectImgMemNo(conn);
+		
+		close(conn);
+		return rv;
+		
+	}
+	
+	public Review selectImgReview() {
+		Connection conn = getConnection();
+		
+		Review rv = new ReviewDao().selectImgReview(conn);
+		
+		close(conn);
+		return rv;
+	}
+	
+	public Image selectImgImage() {
+		Connection conn = getConnection();
+		
+		Image img = new ReviewDao().selectImgImage(conn);
 		
 		close(conn);
 		return img;
-		
 	}
-
+	
+	
 }

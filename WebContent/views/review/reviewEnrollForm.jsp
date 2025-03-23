@@ -634,7 +634,7 @@ button {
 					</th>
 					<td width="100">
 						<select class="reviewPost_category1" name="SC_ID">
-                            <!-- Category 테이블로부터 조회해올 것 -->
+<!-- Category 테이블로부터 조회해올 것 -->
                             <% for(SubCategory sc : list) { %>
                             	<option value="<%= sc.getScId() %>"><%= sc.getScName() %></option>
                             <% } %>
@@ -701,10 +701,7 @@ button {
 						img.setAttribute("class", "col-lg-6");
 						document.querySelector("div#image_container").appendChild(img);
 					};
-					
 					reader.readAsDataURL(event.target.files[0]);
-					
-					
 				}
 			</script>
 			<br>

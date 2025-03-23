@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+		<entry key="insertProfile">
+				INSERT 
+				  INTO BEAUTY_PROFILE 
+				   (
+  				 BF_NO
+  			 , MEM_NO
+  			 , ST_NO
+  			 , BT_NO
+  			 , HT_NO
+  			 , SCALP_NO
+  			 , SIM_LIST
+  			 , HIM_LIST
+  			 , BRANDLIST
+  			 , RELEASE
+  			 , GENDER
+  			 , COLOR
+		  	  	) 
+		    VALUES 
+		    	 (
+   					SEQ_BP_NO.NEXTVAL
+   			  , ?
+   			  , ?
+   			  , ?
+   			  , ?
+   			  , ?
+   			  , ?
+   			  , ?
+   			  , ?
+   			  , ?
+   			  , ?
+   			  , ?
+						)
+		</entry>
+		
+		
+		<entry key="selectProfile">
+				SELECT 
+							BF_NO,
+							MEM_NO,
+							ST_NO,
+							BT_NO,
+							HT_NO,
+							SCALP_NO,
+							SIM_LIST,
+							HIM_LIST,
+							BRANDLIST,
+							RELEASE,
+							GENDER,
+							COLOR
+							FROM BEAUTY_PROFILE
+				 WHERE MEM_NO = ?
+		</entry>
+		
+		<entry key="updateProfile">
+				UPDATE BEAUTY_PROFILE
+				  SET ST_NO = ?
+  			 		, BT_NO = ?
+  			 		, SCALP_NO = ?
+  			 		, HT_NO = ?
+  			 		, SIM_LIST = ?
+  			 		, HIM_LIST = ?
+  			 		, BRANDLIST = ?
+  			 		, RELEASE = ?
+  			 		, COLOR = ?
+  			WHERE MEM_NO = ?
+		</entry>
+
+</properties>

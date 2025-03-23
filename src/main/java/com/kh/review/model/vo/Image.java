@@ -1,7 +1,5 @@
 package com.kh.review.model.vo;
 
-import java.util.Date;
-
 public class Image {
 	
 	private int imgNo;
@@ -10,13 +8,16 @@ public class Image {
 	private String changeName;
 	private String filePath;
 	private String uploadDate;
+	private String reviewBno;
+	private String postBno;
+	private String profileBno;
 	private int fileLevel;
 	private String status;
 	
 	public Image () {}
-	
+
 	public Image(int imgNo, String refBno, String originName, String changeName, String filePath, String uploadDate,
-			int fileLevel, String status) {
+			String reviewBno, String postBno, String profileBno, int fileLevel, String status) {
 		super();
 		this.imgNo = imgNo;
 		this.refBno = refBno;
@@ -24,6 +25,9 @@ public class Image {
 		this.changeName = changeName;
 		this.filePath = filePath;
 		this.uploadDate = uploadDate;
+		this.reviewBno = reviewBno;
+		this.postBno = postBno;
+		this.profileBno = profileBno;
 		this.fileLevel = fileLevel;
 		this.status = status;
 	}
@@ -76,6 +80,30 @@ public class Image {
 		this.uploadDate = uploadDate;
 	}
 
+	public String getReviewBno() {
+		return reviewBno;
+	}
+
+	public void setReviewBno(String reviewBno) {
+		this.reviewBno = reviewBno;
+	}
+
+	public String getPostBno() {
+		return postBno;
+	}
+
+	public void setPostBno(String postBno) {
+		this.postBno = postBno;
+	}
+
+	public String getProfileBno() {
+		return profileBno;
+	}
+
+	public void setProfileBno(String profileBno) {
+		this.profileBno = profileBno;
+	}
+
 	public int getFileLevel() {
 		return fileLevel;
 	}
@@ -95,8 +123,9 @@ public class Image {
 	@Override
 	public String toString() {
 		return "Image [imgNo=" + imgNo + ", refBno=" + refBno + ", originName=" + originName + ", changeName="
-				+ changeName + ", filePath=" + filePath + ", uploadDate=" + uploadDate + ", fileLevel=" + fileLevel
-				+ ", status=" + status + "]";
+				+ changeName + ", filePath=" + filePath + ", uploadDate=" + uploadDate + ", reviewBno=" + reviewBno
+				+ ", postBno=" + postBno + ", profileBno=" + profileBno + ", fileLevel=" + fileLevel + ", status="
+				+ status + "]";
 	}
 	
 }

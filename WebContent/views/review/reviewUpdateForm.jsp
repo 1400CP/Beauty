@@ -1,4 +1,3 @@
-<%@page import="java.util.Scanner"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="com.kh.review.model.vo.Image"%>
@@ -8,7 +7,7 @@
 <%@page import="com.kh.member.model.vo.Member"%>
 <%
 	Review rv1 = (Review)request.getAttribute("rv1");
-	Image img = (Image)request.getAttribute("img");
+	Image img = (Image)request.getAttribute("img"); 
 %>
 <!DOCTYPE html>
 <html>
@@ -490,9 +489,9 @@
 
 </style>
 
-
 </head>
 <body>
+
 <!-- 대기중 -->
 	<%@ include file="../common/header.jsp"%> 
 	<br>
@@ -625,7 +624,7 @@
 
 	<div id="review_detailouter" class="review_detailouter">
 		<h2 align="center">리뷰 상세보기</h2>
-
+		<form >
 			<table id="reviewDetail_table1" align="center">
 				<tr>
 					<th width="75" height="50" align="left" class="review_Detailth">
@@ -648,7 +647,7 @@
 					</th>
 					<!-- 높낮이를 고정시키기 위해서 style 부여 -->
 					<td colspan="3" style="height: 200px;"><textarea
-							id="reviewPost_textarea1" name="CONTENT" style="resize: none;" readonly><%= rv1.getContent() %></textarea>
+							id="reviewPost_textarea1" name="CONTENT" style="resize: none;"><%= rv1.getContent() %></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -658,7 +657,7 @@
 						<span>재구매 : <%= rv1.getrRating() %></span>
 					</td>
 					<td>
-						<button type="button" id="review_DetailLikebtn" name="LIKE_REVIEW"> 👍 : <%=rv1.getLikeReview() %></button>
+						<button type="button" id="review_DetailLikebtn" name="LIKE_REVIEW" disabled> 👍 : <%=rv1.getLikeReview() %></button>
 					</td>
 				</tr>
 				<tr>
@@ -673,53 +672,39 @@
 	                    <!-- case2. 첨부파일이 있는 경우 -->
 	                    <!-- 사용자가 다운로드 시 놀래지 않게 하기 위함 -->
 	                    	<img src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
-	                        <br><br><br>
+	                    	<br><br><br>
 	                        <a download="<%= img.getOriginName() %>" href="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>"><%= img.getOriginName() %></a>
 	                	<% } %>
 					</td>
 				</tr>
 
 			</table>
+			</form>
 			
-
-			
-<!-- 잠시 이걸로 좋아요 작성 마무리좀 -->
-			
-<!-- 			
-			<script>
-				function setThumbnail(event){
-					const reader = new FileReader();
-					
-					reader.onload = function(event){
-						var img = document.createElement("img");
-						img.setAttribute("src", event.target.result);
-						img.setAttribute("class", "col-lg-6");
-						document.querySelector("div#image_container").appendChild(img);
-					};
-					
-					reader.readAsDataURL(event.target.files[0]);
-					
-					
-				}
-			</script>
--->			
 			<br>
 
 			<div class="reviewEnrollForm_btn" align="center">
 				<button type="button" onclick="location.href='<%= contextPath %>/review.li?'">
 					목록
 				</button>
-				<% if(loginUser != null && loginUser.getUserNo() == rv1.getMemNo()) { %>
-					<button type="button" onclick="location.href='<%= contextPath %>/updateReview.wr?bno=<%= rv1.getReviewNo() %>'" class="reviewDetail_btn">
-						수정
-					</button>
-					<button onclick=test() type="reset">
-						삭제
-					</button>
-				<% } %>
+				<button type="submit" onclick=update() class="reviewDetail_btn">
+					수정
+				</button>
+				<button onclick=test() type="reset">
+					삭제
+				</button>
+
 			</div>
 			
 			<script>
+				function update(){
+			        if(!confirm("확인(수정) 또는 취소(수정 안 함).")) {
+				           alert("수정 안 함.");
+				        }else {
+				           location.href="<%= contextPath %>/detail.re?bno=<%= rv1.getReviewNo() %>"
+				        }
+				}
+				
 			    function test() {
 			        if(!confirm("확인(삭제) 또는 취소(삭제 안함).")) {
 			           alert("삭제 안함.");
@@ -729,11 +714,8 @@
 			        }
 			    }
 			</script>
-		
-<!-- 나머지 댓글 작성용 -->
-<!-- 댓글 전에 좋아요 AJAX 작성부터 해야 할듯 -->		
-		
-		
+			
+					
 		</form>
 	</div>
 

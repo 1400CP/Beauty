@@ -17,14 +17,14 @@ import com.kh.review.model.vo.SubCategory;
 /**
  * Servlet implementation class ReviewDetailController
  */
-@WebServlet("/detail.re")
-public class ReviewDetailController extends HttpServlet {
+@WebServlet("/detail.im")
+public class ReviewDetailImgController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewDetailController() {
+    public ReviewDetailImgController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,19 +33,15 @@ public class ReviewDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String refBno = request.getParameter("bno");
-		
+
 		ReviewService rService = new ReviewService();
-		rService.selectMemNo(refBno);
+		rService.selectImgMemNo();
 		
-		System.out.println("bno parameter: " + request.getParameter("bno"));
-		
-		Review rv = rService.selectMemNo(refBno);
+		Review rv = rService.selectImgMemNo();
 		
 		if(rv != null) { // 유효한 게시글 => 게시글, 첨부파일 DB로부터 조회 
-			Review rv1 = rService.selectReview(refBno);
-			Image img = rService.selectImage(refBno);
+			Review rv1 = rService.selectImgReview();
+			Image img = rService.selectImgImage();
 			
 			request.setAttribute("rv1", rv1); // review에 대한 정보
 			request.setAttribute("img", img); // image에 대한 정보

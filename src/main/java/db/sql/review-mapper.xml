@@ -5,40 +5,66 @@
 	<entry key="selectReviewList">
 		SELECT
 		COUNT(*) count
-		FROM Review
+		FROM REVIEW RV
 		WHERE STATUS = 'Y'
 	</entry>
 
 	<entry key="selectReviewArrayList">
 		SELECT *
 		FROM (
-			SELECT ROWNUM RNUM, A.*
-			FROM (
-					SELECT
-					REVIEW_NO
-					, CREATE_DATE
-					, TITLE
-					, CONTENT
-					, PR_RATING
-					, P_RATING
-					, R_RATING
-					, LIKE_REVIEW
-					FROM REVIEW
-					WHERE STATUS = 'Y'
-					ORDER
-					BY REVIEW_NO DESC
-					) A
+				SELECT ROWNUM RNUM, A.*
+				FROM (
+						SELECT
+							REVIEW_NO
+							, CREATE_DATE
+							, TITLE
+							, CONTENT
+							, PR_RATING
+							, P_RATING
+							, R_RATING
+							, LIKE_REVIEW
+						FROM REVIEW RV
+						WHERE STATUS = 'Y'
+						ORDER
+						BY REVIEW_NO DESC
+						) A
 				)
 		WHERE RNUM BETWEEN ? AND ?
 
 	</entry>
+	
+	<entry key="selectImageArraylist">
+		SELECT *
+		FROM (
+				SELECT ROWNUM RNUM, A.*
+				FROM (
+						SELECT
+							IMAGE_NO
+							, REF_BNO
+							, ORIGIN_NAME
+							, CHANGE_NAME
+							, FILE_PATH
+							, UPLOAD_DATE
+							, REVIEW_BNO
+							, POST_BNO
+							, PROFILE_BNO
+							, FILE_LEVEL
+						FROM IMAGE IMG
+						WHERE STATUS = 'Y'
+						ORDER
+						BY IMAGE_NO DESC
+						) A
+				)
+		WHERE RNUM BETWEEN ? AND ?
+	
+	</entry>
 
-	<entry key="selectReviewCpage">
+	<entry key="selectRefBno">
 		SELECT
-			REVIEW_NO
-		FROM
-			REVIEW A
-		WHERE STATUS = 'Y';
+    		REVIEW_NO
+		FROM REVIEW
+		WHERE STATUS = 'Y'
+		
 	</entry>
 	
 	<entry key="selectSubCategoryList">
@@ -51,7 +77,7 @@
 	<entry key="insertReview">
 	INSERT
     	INTO
-    	REVIEW
+    	REVIEW RV
 	    (
 	      REVIEW_NO
 	    , PCODE
@@ -93,15 +119,19 @@
 	    , CHANGE_NAME
 	    , FILE_PATH
 	    , UPLOAD_DATE
+	    , REVIEW_BNO
+	    , FILE_LEVEL
 	    )
     VALUES
 	    (
 	      SEQ_I_NO.NEXTVAL
-	    , SEQ_REVIEW.CURRVAL
+	    , TO_CHAR(SEQ_REVIEW.CURRVAL) || 'R'
 	    , ?
 	    , ?
 	    , ?
 	    , SYSDATE
+	    , SEQ_REVIEW.CURRVAL
+	    , 1
 	    )
 	
 	</entry>
@@ -109,25 +139,24 @@
 	<entry key="selectMemNo">
 		SELECT
 		    MEM_NO
-		FROM REVIEW
+		FROM REVIEW RV
 		WHERE STATUS = 'Y'
 	
 	</entry>
 	
 	<entry key="selectReview">
 		SELECT
-		      REVIEW_NO
-		    , PCODE
+			  REVIEW_NO
+			, PCODE
 		    , MEM_NO
 		    , TITLE
 		    , CONTENT
-		    , TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') "CREATE_DATE"
+		    , CREATE_DATE
 		    , P_RATING
 		    , R_RATING
 		    , PR_RATING
 		    , LIKE_REVIEW
-		    , STATUS
-		FROM REVIEW
+		FROM REVIEW RV
 		WHERE REVIEW_NO = ?
 		AND STATUS = 'Y'
 	
@@ -136,23 +165,54 @@
 	<entry key="selectImage">
 		SELECT
 		      IMAGE_NO
+		    , REF_BNO
 		    , ORIGIN_NAME
 		    , CHANGE_NAME
 		    , FILE_PATH
+		    , REVIEW_BNO
 		FROM IMAGE IMG
-		WHERE REF_BNO = ?
+		WHERE REVIEW_BNO = ?
 		AND STATUS = 'Y'
+		AND FILE_LEVEL = 1
 	
 	</entry>
 	
-	<entry key="selectAttrImage">
+	<entry key="selectImgMemNo">
 		SELECT
-		     REF_BNO
+		    MEM_NO
+		FROM REVIEW RV
+		WHERE STATUS = 'Y'
+	
+	</entry>
+	
+	<entry key="selectImgReview">
+		SELECT
+			REVIEW_NO
+			, PCODE
+		    , MEM_NO
+		    , TITLE
+		    , CONTENT
+		    , CREATE_DATE
+		    , P_RATING
+		    , R_RATING
+		    , PR_RATING
+		    , LIKE_REVIEW
+		FROM REVIEW RV
+		WHERE STATUS = 'Y'
+	
+	</entry>
+	
+	<entry key="selectImgImage">
+		SELECT
+		      IMAGE_NO
+		    , REF_BNO
+		    , ORIGIN_NAME
 		    , CHANGE_NAME
 		    , FILE_PATH
-		FROM
-		    IMAGE
+		    , REVIEW_BNO
+		FROM IMAGE IMG
 		WHERE STATUS = 'Y'
+		AND FILE_LEVEL = 1
 	
 	</entry>
 

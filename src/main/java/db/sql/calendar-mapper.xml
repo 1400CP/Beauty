@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="insertSchedule">
+		INSERT 
+		  INTO SCHEDULE 
+		 (
+		   SCH_NO
+		 , MEM_NO
+		 , SCH_TITLE
+		 , SCH_STARTDATE
+		 , SCH_ENDDATE
+		 )
+		 VALUES 
+		 (
+		   SEQ_SCH.NEXTVAL
+		 , ?
+		 , ?
+		 , ?
+		 , ?
+		 )
+	</entry>
+	
+	<entry key="scheduleList">
+		SELECT
+			   SCH_NO
+		     , SCH_TITLE
+		     , SCH_STARTDATE
+		     , SCH_ENDDATE
+		  FROM SCHEDULE
+		 WHERE MEM_NO = ?
+	</entry>
+	
+	<entry key="deleteSchedule">
+		DELETE
+		  FROM SCHEDULE
+		 WHERE SCH_NO = ?
+	</entry>
+
+</properties>
