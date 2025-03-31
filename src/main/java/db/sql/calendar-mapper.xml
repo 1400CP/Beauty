@@ -37,5 +37,95 @@
 		  FROM SCHEDULE
 		 WHERE SCH_NO = ?
 	</entry>
+	
+	<entry key="selectFollowList">
+		SELECT 
+			   FOLLOWING
+			 , MEM_ID
+			 , MEM_NAME
+		  FROM FOLLOW
+		  JOIN MEMBER ON (FOLLOWING = MEM_NO)
+		 WHERE FOLLOWER = ?
+		   AND STATUS = 'Y'
+	</entry>
 
+	<entry key="selectFollowUserName">
+		SELECT MEM_NAME
+		  FROM MEMBER
+		 WHERE MEM_ID = ?
+	</entry>
+	
+	<entry key="followingScheduleList">
+		SELECT
+		       SCH_NO
+		     , SCH_TITLE
+		     , SCH_STARTDATE
+		     , SCH_ENDDATE
+		  FROM SCHEDULE
+		  JOIN MEMBER USING (MEM_NO)
+		 WHERE MEM_ID = ?
+	</entry>
+	
+	<entry key="selectTodos">
+		SELECT 
+			   CHECK_NO
+			 , MEM_NO
+		     , CHECK_TITLE
+		     , CHECK_YN
+		  FROM CHECKLIST
+		 WHERE MEM_NO = ?
+		   AND CHECK_DATE = ?
+	</entry>
+	
+	<entry key="insertTodo">
+		INSERT 
+		  INTO CHECKLIST 
+		 (
+		   CHECK_NO
+		 , MEM_NO
+		 , CHECK_TITLE
+		 , CHECK_YN
+		 , CHECK_DATE
+		 )
+		 VALUES 
+		 (
+		   SEQ_CHECK.NEXTVAL
+		 , ?
+		 , ?
+		 , ?
+		 , ?
+		 )
+	</entry>
+	
+	<entry key="updateTodo">
+		UPDATE CHECKLIST
+		   SET CHECK_YN = ?
+		 WHERE CHECK_NO = ?
+	</entry>
+	
+	<entry key="deleteTodo">
+		DELETE 
+		  FROM CHECKLIST
+		 WHERE CHECK_NO = ?
+	</entry>
+	
+	<entry key="deleteAllTodo">
+		DELETE 
+		  FROM CHECKLIST 
+		 WHERE CHECK_NO IN (#)
+	</entry>
+	
+	<entry key="selectFollowTodos">
+		SELECT
+		       CHECK_NO
+		     , MEM_NO
+			 , CHECK_TITLE
+			 , CHECK_YN
+		  FROM CHECKLIST
+		  JOIN MEMBER 
+		 USING (MEM_NO)
+		 WHERE MEM_ID = ?
+		   AND CHECK_DATE = ?
+	</entry>
+	
 </properties>

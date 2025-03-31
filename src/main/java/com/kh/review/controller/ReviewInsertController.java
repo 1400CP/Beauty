@@ -47,13 +47,12 @@ public class ReviewInsertController extends HttpServlet {
 
 			int maxSize = 10*1024*1024;
 			
-			
 			String savePath = request.getSession().getServletContext().getRealPath("/resources/images/");
 					
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
-				
+			
 			String category = multiRequest.getParameter("SC_ID");
-			String reviewWriter = multiRequest.getParameter("MEM_NO");
+			String memNo = multiRequest.getParameter("MEM_NO");
 			String reviewTitle = multiRequest.getParameter("TITLE");
 			String content = multiRequest.getParameter("CONTENT");
 			String pRating = multiRequest.getParameter("P_RATING"); 
@@ -63,7 +62,7 @@ public class ReviewInsertController extends HttpServlet {
 			
 			Review rv = new Review();
 			rv.setPcode(category);
-			rv.setMemNo(Integer.parseInt(reviewWriter));
+			rv.setMemNo(Integer.parseInt(memNo));
 			rv.setTitle(reviewTitle);
 			rv.setContent(content);
 			rv.setpRating(Integer.parseInt(pRating));
@@ -72,25 +71,16 @@ public class ReviewInsertController extends HttpServlet {
 			rv.setLikeReview(Integer.parseInt(likeReview));
 
 			Image img = null;
-			// 첨에는 null로 초기화, 넘어온 첨부파일이 있다면 생성.
-			// multiRequest.getOriginalFileName("키"); -- upfile 이라는 키값을 줄 거임.
-			// 넘어온 첨부파일이 있었을 경우 "원본명 | 없었을 경우 null
 			if(multiRequest.getOriginalFileName("upfile") != null) {
 				// if문을 타면, 넘어온 첨부파일이 있을 경우
 				img = new Image();
-				// at.setOriginName(원본명);
+				img.setRefBno(Integer.parseInt(memNo));
 				img.setOriginName(multiRequest.getOriginalFileName("upfile"));
 				img.setChangeName(multiRequest.getFilesystemName("upfile"));
 				img.setFilePath("resources/images/"); // /가 있어야 한다.
-				img.setReviewBno(multiRequest.getParameter("upfile"));
-				img.setFileLevel(1);
 			}
-			
-			request.setAttribute("rv", rv);
-			request.setAttribute("img", img);
-			
+	System.out.println("리뷰 이미지 확인 : " + multiRequest.getOriginalFileName("upfile"));
 			// 4. Service 요청 (요청처리)
-
 			int result = new ReviewService().insertReview(rv, img);
 			
 			// 5. 응답뷰 지정

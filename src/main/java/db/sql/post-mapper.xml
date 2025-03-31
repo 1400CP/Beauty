@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="selectPostList">
+		SELECT
+		COUNT(*) count
+		FROM Post
+		WHERE STATUS = 'Y'
+	</entry>
+
+	<entry key="selectPostArrayList">
+		SELECT *
+		FROM (
+				SELECT ROWNUM RNUM, A.*
+				FROM (
+						SELECT
+							POST_NO
+							, MEM_NO
+							, TITLE
+							, CONTENT
+							, CREATE_DATE
+							, LIKE_POST
+						FROM POST
+						WHERE STATUS = 'Y'
+						ORDER
+						BY CREATE_DATE DESC
+						, POST_NO DESC
+						) A
+				)
+		WHERE RNUM BETWEEN ? AND ?
+
+	</entry>
+	
+	<entry key="selectImage2Arraylist">
+		SELECT *
+		FROM (
+				SELECT ROWNUM RNUM, A.*
+				FROM (
+						SELECT
+							IMAGE_NO
+							, REF_BNO
+							, ORIGIN_NAME
+							, CHANGE_NAME
+							, FILE_PATH
+							, UPLOAD_DATE
+							, FILE_LEVEL
+						FROM IMAGE
+						WHERE STATUS = 'Y'
+						ORDER
+						BY IMAGE_NO DESC
+						) A
+				)
+		WHERE RNUM BETWEEN ? AND ?
+	
+	</entry>
+	
+	<entry key="selectSubCategory2List">
+		SELECT
+	      SC_ID
+	    , SC_NAME
+		FROM SUBCATEGORY
+		
+	</entry>
+	
+		<entry key="insertPost">
+	INSERT
+    	INTO
+    	POST
+	    (
+	      POST_NO
+	    , MEM_NO
+	    , TITLE
+	    , CONTENT
+	    , CREATE_DATE
+	    , LIKE_POST
+	    , STATUS
+	    )
+    VALUES
+	    (
+	       SEQ_POST.NEXTVAL
+	     , ?
+	     , ?
+	     , ?
+	     , default
+		 , default
+	     , 'Y'
+	    )
+	
+	</entry>
+
+	<entry key="insertImage">
+	INSERT
+	    INTO
+	    IMAGE
+	    (
+	      IMAGE_NO
+	    , REF_BNO
+	    , ORIGIN_NAME
+	    , CHANGE_NAME
+	    , FILE_PATH
+	    , UPLOAD_DATE
+	    , FILE_LEVEL
+	    , STATUS
+	    )
+    VALUES
+	    (
+	      SEQ_I_NO.NEXTVAL
+	    , ?
+	    , ?
+	    , ?
+	    , ?
+	    , SYSDATE
+	    , 'P'
+	    , 'Y'
+	    )
+	
+	</entry>
+	
+	<entry key="selectPostTest">
+		SELECT
+		    POST_NO
+		FROM POST
+		WHERE POST_NO = ?
+			AND STATUS = 'Y'
+	
+	</entry>
+	
+	<entry key="selectPost">
+		SELECT
+			  POST_NO
+			, MEM_NO
+			, TITLE
+		    , CONTENT
+		    , LIKE_POST
+		FROM POST
+		WHERE POST_NO = ?
+		AND STATUS = 'Y'
+	
+	</entry>
+	
+	<entry key="selectImage">
+		SELECT *
+		FROM(
+		    SELECT
+		        ROWNUM RNUM, A.*
+		    FROM
+		        (
+				SELECT
+                     PO.POST_NO   
+                    , IMG.IMAGE_NO
+				    , IMG.ORIGIN_NAME
+				    , IMG.CHANGE_NAME
+				    , IMG.FILE_PATH
+				FROM IMAGE IMG
+				JOIN POST PO ON (PO.MEM_NO = IMG.REF_BNO)
+				WHERE PO.POST_NO = ?
+				AND IMG.REF_BNO = PO.MEM_NO
+                AND IMG.UPLOAD_DATE = PO.CREATE_DATE
+                AND IMG.STATUS = 'Y'
+				AND IMG.FILE_LEVEL = 'P'
+                ORDER
+                    BY IMG.IMAGE_NO DESC
+		            ) A
+		        )
+		WHERE RNUM BETWEEN 1 AND 1
+	
+	</entry>
+	
+	<entry key="selectImgMemNo">
+		SELECT
+		    MEM_NO
+		FROM POST
+		WHERE STATUS = 'Y'
+	
+	</entry>
+	
+	<entry key="selectImgPost">
+		SELECT
+			  POST_NO
+			, MEM_NO
+			, TITLE
+			, CONTENT
+			, CREATE_DATE
+			, LIKE_POST
+		FROM POST
+		WHERE POST_NO = ?
+		
+	
+	</entry>
+	
+	<entry key="selectImgImage">
+		SELECT
+		   IMG.IMAGE_NO,
+		   IMG.REF_BNO,
+		   IMG.ORIGIN_NAME,
+		   IMG.CHANGE_NAME,
+		   IMG.FILE_PATH,
+		   IMG.UPLOAD_DATE,
+		   PO.MEM_NO,
+		   PO.CREATE_DATE
+		FROM IMAGE IMG
+		JOIN POST PO ON (IMG.REF_BNO = PO.MEM_NO)
+		WHERE IMG.REF_BNO = PO.MEM_NO
+		 AND IMG.FILE_LEVEL = 'P'
+		 AND IMG.STATUS = 'Y'
+		 AND PO.STATUS = 'Y'
+		ORDER
+			BY IMG.UPLOAD_DATE DESC
+			, PO.CREATE_DATE DESC
+	
+	</entry>
+	
+	<entry key="updatePost">
+		UPDATE
+	        POST
+		SET
+	          TITLE = ?
+	        , CONTENT = ?
+		WHERE POST_NO = ?
+	
+	</entry>
+
+	<entry key="updateImage">
+		UPDATE
+	       	IMAGE IMG
+		SET
+	        ORIGIN_NAME = ?
+	        , CHANGE_NAME = ?
+	        , FILE_PATH = ?
+		WHERE IMAGE_NO in ?
+        AND IMG.REF_BNO in
+
+	</entry>
+	
+	<entry key="newInsertImage">
+	INSERT
+	    INTO
+	    IMAGE
+	    (
+	      IMAGE_NO
+	    , REF_BNO
+	    , ORIGIN_NAME
+	    , CHANGE_NAME
+	    , FILE_PATH
+	    , UPLOAD_DATE
+	    , FILE_LEVEL
+	    , STATUS
+	    )
+    VALUES
+	    (
+	      SEQ_I_NO.NEXTVAL
+	    , ?
+	    , ?
+	    , ?
+	    , ?
+	    , SYSDATE
+	    , 'P'
+	    , 'Y'
+	    )
+	
+	</entry>
+	
+	<entry key="deleteNewPost">
+		UPDATE
+		    POST
+		SET STATUS = 'N'
+		WHERE POST_NO = ?
+	
+	</entry>
+	
+	<entry key="selectReplyList">
+		SELECT
+		      REPLY_NO
+		    , MEM_NO
+            , REPLY_CONTENT
+		    , MEM_ID
+		    , CREATE_DATE
+		    , REF_BNO
+		FROM REPLY
+		JOIN MEMBER M USING(MEM_NO)
+		WHERE REPLY_STATUS = 'Y'
+		    AND REF_BNO = ?
+		ORDER
+		   BY REPLY_NO DESC
+	       	, CREATE_DATE DESC
+	</entry>
+	
+	<entry key="insertReply">
+	INSERT
+   		INTO
+       	REPLY
+	    (
+	    REPLY_NO
+	    , MEM_NO
+	    , REPLY_CONTENT
+	    , CREATE_DATE
+	    , REPLY_STATUS
+	    , REF_BNO
+	    )
+    	VALUES
+	    (
+	    SEQ_REPLY.NEXTVAL
+	    , ?
+	    , ?
+	    , default
+	    , default
+	    , ?
+	    )
+	
+	</entry>
+	
+	<entry key="selectPostEnroll">
+		SELECT
+		    POST_NO
+		    , MEM_NO
+		    , LIKE_Post
+		FROM
+		    POST
+		WHERE STATUS = 'Y'
+	
+	</entry>
+	
+	
+</properties>

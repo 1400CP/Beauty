@@ -1,5 +1,9 @@
 package com.kh.review.model.vo;
 
+import java.util.Date;
+
+import com.kh.member.model.vo.Member;
+
 public class Review {
 	
 	private String reviewNo;
@@ -7,17 +11,17 @@ public class Review {
 	private int memNo;
 	private String title;
 	private String content;
-	private String createDate;
+	private Date createDate;
 	private int pRating;
 	private int rRating;
 	private int prRating;
 	private int likeReview;
 	private String status;
-	
+
 	public Review () {}
 
-	public Review(String reviewNo, String pcode, int memNo, String title, String content, String createDate, int pRating,
-			int rRating, int prRating, int likeReview, String status) {
+	public Review(String reviewNo, String pcode, int memNo, String title, String content, Date createDate,
+			int pRating, int rRating, int prRating, int likeReview, String status) {
 		super();
 		this.reviewNo = reviewNo;
 		this.pcode = pcode;
@@ -72,11 +76,11 @@ public class Review {
 		this.content = content;
 	}
 
-	public String getCreateDate() {
+	public Date getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(String createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 

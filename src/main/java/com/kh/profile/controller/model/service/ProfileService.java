@@ -3,6 +3,7 @@ import java.sql.Connection;
 
 import com.kh.profile.controller.model.dao.ProfileDao;
 import com.kh.profile.controller.model.vo.Profile;
+import com.kh.profile.controller.model.vo.UserProfileImage;
 
 import static com.kh.common.JDBCTemplate.*;
 
@@ -24,14 +25,6 @@ public class ProfileService {
 		return result;
 	}
 	
-	public Profile selectProfile(int userNo) {
-		
-		Connection conn = getConnection();
-		Profile p = new ProfileDao().selectProfile(conn, userNo);
-		
-		close(conn);
-		return p;
-	}
 	
 	public int updateProfile(Profile p) {
 		Connection conn = getConnection();
@@ -46,6 +39,26 @@ public class ProfileService {
 		close(conn);
 		return result;
 	}
+	
+	public int insertUserImage(UserProfileImage up, int userNo) {
+		
+		Connection conn = getConnection();
+		
+		int result = new ProfileDao().insertUserImage(conn, up, userNo);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		return result;
+	}
+	
+//	public UserProfileImage selectProfileImg(String userNo) {
+//		
+//		
+//		
+//	}
 	
 	
 

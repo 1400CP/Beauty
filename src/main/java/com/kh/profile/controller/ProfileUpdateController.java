@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.kh.member.model.service.MemberService;
+import com.kh.member.model.vo.Member;
 import com.kh.profile.controller.model.service.ProfileService;
 import com.kh.profile.controller.model.vo.Profile;
 
@@ -82,17 +84,29 @@ public class ProfileUpdateController extends HttpServlet {
 		int result = new ProfileService().updateProfile(p);
 		
 		if(result > 0) {
-			
 			HttpSession session = request.getSession();
-			session.setAttribute("userProfile", p);
+			Member updateMem = new MemberService().selectMember(userNo);
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			 if (updateMem != null) {
+			        // **기존 세션 정보 유지하면서 필요한 정보만 업데이트**
+			        loginUser.setSkinType(updateMem.getSkinType());
+			        loginUser.setBodyType(updateMem.getBodyType());
+			        loginUser.setScalpType(updateMem.getScalpType());
+			        loginUser.setHairType(updateMem.getHairType());
+			        loginUser.setSimList(updateMem.getSimList());
+			        loginUser.setHimList(updateMem.getHimList());
+			        loginUser.setBrandList(updateMem.getBrandList());
+			        loginUser.setMarketingAgree(updateMem.getMarketingAgree());
+			        loginUser.setColor(updateMem.getColor());
 			session.setAttribute("alertMsg", "성공적으로 뷰티 프로필 수정완료.");
-			
+			session.setAttribute("loginUser", loginUser);
 			response.sendRedirect(request.getContextPath() + "/myPage.me");
 		} else {
 			request.setAttribute("alertMsg", "뷰티 프로필 저장실패.");
 			response.sendRedirect(request.getContextPath());
 		}
 	}
+}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

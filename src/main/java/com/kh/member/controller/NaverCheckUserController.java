@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.Member;
+import com.kh.profile.controller.model.vo.Profile;
+import com.kh.profile.controller.model.service.ProfileService;
 
 /**
  * Servlet implementation class NaverCheckUserController
@@ -34,13 +36,13 @@ public class NaverCheckUserController extends HttpServlet {
 		HttpSession session = request.getSession();
 		String Token = (String) session.getAttribute("naverId"); 
 		
+		
 		int result = new MemberService().NaverCheckUser(Token);
 		
 		Member loginUser = null;
 		if(result > 0) {
 			loginUser = new MemberService().NaverLoginMember(Token);
 			session.setAttribute("loginUser", loginUser);
-			System.out.println(loginUser);
 			response.sendRedirect(request.getContextPath());
 			
 			

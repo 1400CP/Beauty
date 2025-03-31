@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="selectSkinList">
+	
+SELECT 
+    ROW_NUMBER() OVER (ORDER BY P.PCODE) AS PCODE,
+    P.PCODE,
+    P.PNAME,
+    P.RATE,
+    P.LIKE_PRODUCT,
+    P.IMAGE_PATH,
+    B.BNAME
+FROM 
+    PRODUCT P
+JOIN 
+    BRAND B ON P.BRAND_ID = B.B_NO
+WHERE 
+    P.SC_ID = 1
+	
+	</entry>
+	
+		<entry key="selectHairList">
+	
+			SELECT 
+			    P.PCODE,
+			    P.PNAME,
+			    P.RATE,
+			    P.LIKE_PRODUCT,
+			    P.IMAGE_PATH,
+			    B.BNAME
+			FROM 
+			    PRODUCT P
+			JOIN 
+			    BRAND B ON P.BRAND_ID = B.B_NO
+			WHERE 
+			    P.SC_ID = 3
+	
+	</entry>
+	
+	<entry key="selectMakeUpList">
+	
+			SELECT 
+			    P.PCODE,
+			    P.PNAME,
+			    P.RATE,
+			    P.LIKE_PRODUCT,
+			    P.IMAGE_PATH,
+			    B.BNAME
+			FROM 
+			    PRODUCT P
+			JOIN 
+			    BRAND B ON P.BRAND_ID = B.B_NO
+			WHERE 
+			    P.SC_ID = 2
+	
+	</entry>
+	
+
+
+</properties>

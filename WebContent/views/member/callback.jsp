@@ -1,10 +1,8 @@
-<%@ page
-	import="java.io.*, java.net.*, javax.servlet.http.*, java.net.URLEncoder, org.json.simple.JSONObject, org.json.simple.parser.JSONParser"%>
-<%@ page language="java" contentType="text/html;charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page import="java.io.*, java.net.*, javax.servlet.http.*, java.net.URLEncoder, org.json.simple.JSONObject, org.json.simple.parser.JSONParser" %>
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%
-		String contextPath = request.getContextPath();
+	String contextPath = request.getContextPath();
     String code = request.getParameter("code");
     String state = (String)session.getAttribute("state");
     String sessionState = (String) session.getAttribute("state");

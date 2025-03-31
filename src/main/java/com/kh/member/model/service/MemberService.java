@@ -1,6 +1,7 @@
 package com.kh.member.model.service;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import static com.kh.common.JDBCTemplate.*;
 
@@ -46,9 +47,9 @@ public class MemberService {
 	}
 
 	
-	public int kakaoCheckUser(String kakaoEmail) {
+	public int kakaoCheckUser(String kakaoId) {
 		Connection conn = getConnection();
-		int result = new MemberDao().kakaoCheckUser(conn, kakaoEmail);
+		int result = new MemberDao().kakaoCheckUser(conn, kakaoId);
 		close(conn);
 		return result;
 	}
@@ -57,9 +58,9 @@ public class MemberService {
 
 
 
-	public Member kakaoLoginMember(String kakaoEmail) {
+	public Member kakaoLoginMember(String kakaoId) {
 		Connection conn = getConnection();
-		Member m = new MemberDao().kakaoLoginMember(conn, kakaoEmail);
+		Member m = new MemberDao().kakaoLoginMember(conn, kakaoId);
 		close(conn);
 		return m;
 	}
@@ -83,7 +84,6 @@ public class MemberService {
 	public Member updateMember(Member m) {
 		Connection conn = getConnection();
 		int result = new MemberDao().updateMember(conn, m);
-		System.out.println(result);
 		Member updateMem = null;
 		if(result > 0) {
 			commit(conn);
@@ -104,7 +104,57 @@ public class MemberService {
 		return count;
 	}
 	
+public Member selectMember(int userNo) {
+		
+		Connection conn = getConnection();
+		Member updateMem = new MemberDao().selectMember(conn, userNo);
+		close(conn);
+		return updateMem;
+		
+		
+	}
 	
+
+	
+public ArrayList<Member> selectListFollow(int userNo) {
+		
+		Connection conn = getConnection();
+		ArrayList<Member> list = new MemberDao().selectListFollow(conn, userNo);
+		close(conn);
+		return list;
+		
+		
+	}
+
+public ArrayList<Member> selectListFollower(int userNo) {
+	
+	Connection conn = getConnection();
+	ArrayList<Member> list = new MemberDao().selectListFollower(conn, userNo);
+	close(conn);
+	return list;
+	
+	
+}
+
+public ArrayList<Member> followList(String nickname) {
+	
+	Connection conn = getConnection();
+	ArrayList<Member> list = new MemberDao().followList(conn, nickname);
+	close(conn);
+	return list;
+		
+}
+
+public ArrayList<Member> followerList(String nickname) {
+	
+	Connection conn = getConnection();
+	ArrayList<Member> list = new MemberDao().followerList(conn, nickname);
+	close(conn);
+	return list;
+		
+}
+
+
 
 
 }

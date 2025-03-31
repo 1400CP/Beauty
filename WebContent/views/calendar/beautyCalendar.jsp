@@ -1,5 +1,11 @@
+<%@page import="com.kh.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
+<%
+	String contextPath = request.getContextPath();
+	Member loginUser = (Member)session.getAttribute("loginUser");
+	String alertMsg = (String)session.getAttribute("alertMsg");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -200,7 +206,6 @@ input[type="checkbox"] {
 <body>
 
 	<div id="calendar"></div>
-
 	<script>
     function initializeCalendar() {
         var calendarEl = document.getElementById('calendar');
@@ -223,39 +228,62 @@ input[type="checkbox"] {
             select: function(arg) {
                 var title = prompt('추가할 일정 제목:');
                 if (title) {
-                    calendar.addEvent({
-                        title: title,
-                        start: arg.start,
-                        end: arg.end,
-                        allDay: arg.allDay
+                    // FormData로 전송
+                    const formData = new URLSearchParams();
+                    formData.append('title', title);
+                    formData.append('startDay', arg.startStr);
+                    formData.append('endDay', arg.endStr);
+
+                    fetch('<%=contextPath%>/insertSchedule.ca', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: formData
+                    })
+                    .then(response => response.text())
+                    .then(result => {
+                        if (result === 'success') {
+                            calendar.addEvent({
+                                title: title,
+                                start: arg.start,
+                                end: arg.end,
+                                allDay: true
+                            });
+                        } else {
+                            alert('일정 저장 실패!');
+                        }
                     });
                 }
                 calendar.unselect();
             },
             eventClick: function(arg) {
                 if (confirm('해당 일정을 삭제하시겠습니까?')) {
-                    arg.event.remove();
+                	$.ajax({
+                        url: '<%=contextPath%>/deleteSchedule.ca',
+                        type: 'POST',
+                        data: { id: arg.event.id }, // event의 고유 id를 넘겨줘야 서버에서 어떤 일정 삭제할지 알 수 있음
+                        success: function(response) {
+                        	if (response === 'success') {
+                                arg.event.remove(); // 서버에서 성공했을 때만 삭제
+                                alert('삭제되었습니다.');
+                            } else {
+                                alert('삭제에 실패했습니다.');
+                            }
+                        },
+                        error: function() {
+                            alert('삭제에 실패했습니다.');
+                        }
+                    });
                 }
             },
             editable: true,
             dayMaxEvents: true,
+            allDayDefault: true,
             dayCellContent: function(info) {
             	return info.date.getDate();
             },
-            events: [
-                { title: 'All Day Event', start: '2025-03-01' },
-                { title: 'Long Event', start: '2025-03-07', end: '2025-03-10' },
-                { groupId: 999, title: 'Repeating Event', start: '2025-03-09T16:00:00' },
-                { groupId: 999, title: 'Repeating Event', start: '2025-03-16T16:00:00' },
-                { title: 'Conference', start: '2025-03-11', end: '2025-03-13' },
-                { title: 'Meeting', start: '2025-03-12T10:30:00', end: '2025-03-12T12:30:00' },
-                { title: 'Lunch', start: '2025-03-12T12:00:00' },
-                { title: 'Meeting', start: '2025-03-12T14:30:00' },
-                { title: 'Happy Hour', start: '2025-03-12T17:30:00' },
-                { title: 'Dinner', start: '2025-03-12T20:00:00' },
-                { title: 'Birthday Party', start: '2025-03-13T07:00:00' },
-                { title: 'Click for Google', url: 'http://google.com/', start: '2025-03-28' }
-            ]
+            events: '<%=contextPath%>/schList.ca'
         });
 
         calendar.render();

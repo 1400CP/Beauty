@@ -8,109 +8,105 @@
 <meta charset="UTF-8">
 <title>로그인</title>
 <style>
-.outer {
-	width: 100%;
-	height: 100%;
-	margin: auto;
-	background-color: #fff;
-	border-radius: 10px;
-	text-align: center;
-	display: block;
-}
+	.outer {
+		width: 100%;
+		height: 100%;
+		margin: auto;
+		background-color: #fff;
+		border-radius: 10px;
+		text-align: center;
+		display: block;
+	}
 
-h2 {
-	margin: auto;
-}
+	h2 {
+		margin: auto;
+	}
 
-input[type="text"], input[type="password"] {
-	width: 100%;
-	padding: 12px;
-	margin: 8px 0;
-	border: 1px solid #ddd;
-	border-radius: 30px;
-	font-size: 13px;
-	box-sizing: border-box;
-}
+	input[type="text"], input[type="password"] {
+		width: 100%;
+		padding: 12px;
+		margin: 8px 0;
+		border: 1px solid #ddd;
+		border-radius: 30px;
+		font-size: 13px;
+		box-sizing: border-box;
+	}
 
-.btn {
-	width: 100%;
-	padding: 12px;
-	margin: 8px 0;
-	border: none;
-	border-radius: 30px;
-	font-size: 16px;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-#naver_id_login a {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%; /* 원하는 가로 크기 */
-	height: 50px; /* 고정된 세로 크기 */
-	margin: 8px 0;
-	margin-top: 35px; /* 위아래 여백 */
-	border: none; /* 테두리 없음 */
-	border-radius: 30px; /* 둥근 모서리 */
-	font-size: 16px; /* 글자 크기 */
-	cursor: pointer; /* 마우스 포인터 변경 */
-	background-color: #1ec800; /* 버튼 배경색 */
-	color: white; /* 글자 색상 */
-	text-decoration: none; /* 링크 스타일 제거 */
-}
-
-.btn-login {
-	background-color: #000;
-	color: white;
-}
-
-.btn-kakao {
-	background-color: #FEE500;
-	color: black;
-}
-
-.btn-insta {
-	background-color: #03c75a;
-	color: white;
-}
-
-.btn img {
-	width: 18px;
-	height: 18px;
-	margin-right: 10px;
-}
-
-.error-message {
-	color: red;
-	font-size: 12px;
-	display: none;
-}
-
-#login-etc a {
-	text-decoration: none;
-	color: black;
-}
-
-.inner {
-	height: 2000px;
-	width: 500px;
-	margin: auto;
-	margin-top: 50px;
-}
+    .btn {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 30px;
+        font-size: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+       #naver_id_login a {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       width: 100%;  /* 원하는 가로 크기 */
+       height: 50px;  /* 고정된 세로 크기 */
+       margin: 8px 0;
+       margin-top: 35px; /* 위아래 여백 */
+       border: none;  /* 테두리 없음 */
+       border-radius: 30px;  /* 둥근 모서리 */
+       font-size: 16px;  /* 글자 크기 */
+       cursor: pointer;  /* 마우스 포인터 변경 */
+       background-color: #1ec800;  /* 버튼 배경색 */
+       color: white;  /* 글자 색상 */
+       text-decoration: none;  /* 링크 스타일 제거 */
+   }
+	
+	.btn-login {
+		background-color: #000;
+		color: white;
+	}
+	
+	.btn-kakao {
+		background-color: #FEE500;
+		color: black;
+	}
+	
+	.btn-insta {
+		background-color: #03c75a;
+		color: white;
+	}
+	
+	.btn img {
+		width: 18px;
+		height: 18px;
+		margin-right: 10px;
+	}
+	
+	.error-message {
+		color: red;
+		font-size: 12px;
+		display: none;
+	}
+	
+	#login-etc a {
+		text-decoration: none;
+		color: black;
+	}
+	
+	.inner {
+		height: 2000px;
+		width: 500px;
+		margin: auto;
+		margin-top: 50px;
+	}
 </style>
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script type="text/javascript"
-	src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
-	charset="utf-8"></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 </head>
 <body>
-	<%
+<%
 String clientId = "6VzT269VW306H2aC74fu";
 String redirectURI = "http://localhost:8123/beautyTalk/views/member/callback.jsp";
 String encodedRedirectURI = URLEncoder.encode(redirectURI, "UTF-8");
@@ -126,15 +122,17 @@ String naverLoginURL = "https://nid.naver.com/oauth2.0/authorize?response_type=c
                + "&state=" + state
                + "&scope=name,email,nickname,profile_image,gender,birthday,age,birthyear,mobile"; 
 %>
-	<%@ include file="../common/header.jsp"%>
+
+	<%@ include file="../common/header.jsp" %>
+	
+	<br><br><br><br><br>
 
 	<br>
 	<br>
 	<br>
 	<br>
 	<br>
-
-
+	
 	<div class="outer">
 		<div class="inner">
 			<h2>로그인</h2>
@@ -177,13 +175,11 @@ String naverLoginURL = "https://nid.naver.com/oauth2.0/authorize?response_type=c
 					width="24" height="24"> 네이버 로그인
 			</button>
 
-
-
-			<br>
+            <br>
 
 			<div id="login-etc">
 				<a href="">아이디 찾기</a> <span>|</span> <a href="">비밀번호 찾기</a> <span>|</span>
-				<a href="">회원가입</a>
+				<a href="<%= contextPath %>/enrollForm.me">회원가입</a>
 			</div>
 		</div>
 	</div>
@@ -233,7 +229,7 @@ String naverLoginURL = "https://nid.naver.com/oauth2.0/authorize?response_type=c
             });
         });
     </script>
-
+    
 	<script>
 	    // 카카오 SDK 초기화
 	    Kakao.init('59fed56fbad84e6ce2251947508fca03'); // ★ 여기에 본인의 카카오 앱 키 입력 ★
@@ -241,21 +237,21 @@ String naverLoginURL = "https://nid.naver.com/oauth2.0/authorize?response_type=c
 	    function kakaoLogin() {
 	        Kakao.Auth.login({
 	            success: function(authObj) {
-	                console.log("로그인 성공:", authObj);
 	
 	                // 로그인 성공 시 사용자 정보 가져오기
 	                Kakao.API.request({
 	                    url: '/v2/user/me',
 	                    success: function(res) {
-	                        console.log("사용자 정보:", res);
 	                        
-	                        const kakaoEmail = res.kakao_account.email; // 카카오 email
-	                        const kakaoNickname = res.kakao_account.profile.nickname; // 카카오 닉네임
+	                        const kakaoEmail = res.kakao_account.email;
+	                        const kakaoNickname = res.kakao_account.profile.nickname;
+	                        const kakaoId = res.id;
+	                        console.log(JSON.stringify({ kakaoId: kakaoId }));
 	                        
 	                        $.ajax({
 	                            type: "POST",
 	                            url: "<%= contextPath %>/kakaoCheckUser.me", // 백엔드 API
-	                            data: JSON.stringify({ email: kakaoEmail }),
+	                            data: JSON.stringify({ kakaoId: kakaoId.toString() }),
 	                            contentType: "application/json",
 	                            success: function(response) {
 	                                if (response.exists) {
@@ -285,9 +281,9 @@ String naverLoginURL = "https://nid.naver.com/oauth2.0/authorize?response_type=c
 	        });
 	    }
 	</script>
-
-
-	<script type="text/javascript">
+	
+	
+<script type="text/javascript">
     var naverLogin = new naver_id_login("<%= clientId %>", "<%= redirectURI %>");
     var state = "<%= state %>";
 

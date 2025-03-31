@@ -33,18 +33,19 @@ public class ReviewDetailImgController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		ReviewService rService = new ReviewService();
-		rService.selectImgMemNo();
 		
-		Review rv = rService.selectImgMemNo();
+		String refBno = request.getParameter("bno");
+		
+		ReviewService rService = new ReviewService();
+		
+		Review rv = rService.selectImgMemNo(refBno);
 		
 		if(rv != null) { // 유효한 게시글 => 게시글, 첨부파일 DB로부터 조회 
-			Review rv1 = rService.selectImgReview();
-			Image img = rService.selectImgImage();
+			Review rv2 = rService.selectImgReview(refBno);
+			Image img2 = rService.selectImgImage(refBno);
 			
-			request.setAttribute("rv1", rv1); // review에 대한 정보
-			request.setAttribute("img", img); // image에 대한 정보
+			request.setAttribute("rv2", rv2); // review에 대한 정보
+			request.setAttribute("img2", img2); // image에 대한 정보
 			
 			request.getRequestDispatcher("views/review/reviewDetail.jsp").forward(request, response);
 			

@@ -70,7 +70,7 @@ public class ReviewListController extends HttpServlet {
 		
 		maxPage = (int)Math.ceil((double)listCount / reviewLimit);
 		
-		startPage = ((currentPage - 1) / pageLimit) * pageLimit + 1;
+		startPage = (currentPage - 1) / pageLimit * pageLimit + 1;
 		
 		endPage = startPage + pageLimit - 1;
 		
@@ -78,56 +78,19 @@ public class ReviewListController extends HttpServlet {
 			endPage = maxPage;
 		}
 		
-		// com.kh.common.model.vo.PageInfo - jsp 가져가야해서 가방에 담아야함
-		// * jsp에서 페이징바를 만드려면 7개의 값이 필요한데
-		// 그걸 담기 위한 가방, 그릇! (vo)
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, reviewLimit, maxPage, startPage, endPage);
 		
 		
 		// * 현재 요청한 페이지(c)에 보여질 게시글 리스트 boardLimit 수만큼 조회
 		ArrayList<Review> list = new ReviewService().selectReviewArrayList(pi);
-		Image img = new ReviewService().selectImageArraylist(pi);
+		ArrayList<Image> list2 = new ReviewService().selectImageArraylist(pi);
 		
-		String refBno = request.getParameter("bno");
-		Review rv = new ReviewService().selectRefBno(refBno);
-		
-		request.setAttribute("rv", rv);
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
-		request.setAttribute("img", img);
+		request.setAttribute("list2", list2);
 
 		RequestDispatcher rd = request.getRequestDispatcher("views/review/reviewContentPost.jsp");
 		rd.forward(request, response);
-		
-//		String pageNum = request.getParameter("currentPage");
-//		if(pageNum == null) {
-//			pageNum = "1";
-//		}
-		
-//		int listCount = new ReviewService().selectReviewList();
-
-//		int pageLimit = 10;
-		
-//		int reviewLimit = 5;
-		
-//		int currentPage = Integer.parseInt(pageNum);
-		
-//		int maxPage =  (int)Math.ceil((double)listCount / reviewLimit);
-		
-//		int startPage = (currentPage - 1) / reviewLimit * reviewLimit + 1;
-		
-//		listCount == 게시글의 개수 (DB에서 추출해옴)  == cnt
-//		currentPage, == pageNum (jsp에서 request)
-//		pageLimit, == 페이징바의 최대 개수? 지정 == pageBlock
-//		reviewLimit, == 게시글의 최대 개수? 지정 == pageSize
-//		maxPage, == maxPage
-//		startPage, == startRow
-//		endPage == endPage
-		
-
-//		request.setAttribute("request","requestValue");
-//		response.sendRedirect("views/bodyTestLYH/reviewlyh.jsp");
-		
 	}
 
 	/**

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.kh.common.model.vo.PageInfo;
+import com.kh.common.model.vo.Reply;
 import com.kh.review.model.dao.ReviewDao;
 import com.kh.review.model.vo.Image;
 import com.kh.review.model.vo.Review;
@@ -33,22 +34,13 @@ public class ReviewService {
 		
 	}
 	
-	public Image selectImageArraylist(PageInfo pi){
+	public ArrayList<Image> selectImageArraylist(PageInfo pi){
 		Connection conn = getConnection();
 		
-		Image img = new ReviewDao().selectImageArraylist(conn, pi);
+		ArrayList<Image> list2 = new ReviewDao().selectImageArraylist(conn, pi);
 		
 		close(conn);
-		return img;
-	}
-	
-	public Review selectRefBno(String refBno) {
-		Connection conn = getConnection();
-		
-		Review rv = new ReviewDao().selectRefBno(conn, refBno);
-		
-		close(conn);
-		return rv;
+		return list2;
 	}
 	
 	
@@ -81,10 +73,10 @@ public class ReviewService {
 		
 	}
 	
-	public Review selectMemNo(String refBno) {
+	public Review selectReviewTest(String refBno) {
 		Connection conn = getConnection();
 		
-		Review rv = new ReviewDao().selectMemNo(conn, refBno);
+		Review rv = new ReviewDao().selectReviewTest(conn, refBno);
 		
 		close(conn);
 		return rv;
@@ -109,33 +101,104 @@ public class ReviewService {
 	}
 	
 	
-	public Review selectImgMemNo() {
+	public Review selectImgMemNo(String refBno) {
 		Connection conn = getConnection();
 		
-		Review rv = new ReviewDao().selectImgMemNo(conn);
+		Review rv = new ReviewDao().selectImgMemNo(conn, refBno);
 		
 		close(conn);
 		return rv;
 		
 	}
 	
-	public Review selectImgReview() {
+	public Review selectImgReview(String refBno) {
 		Connection conn = getConnection();
 		
-		Review rv = new ReviewDao().selectImgReview(conn);
+		Review rv = new ReviewDao().selectImgReview(conn, refBno);
 		
 		close(conn);
 		return rv;
 	}
 	
-	public Image selectImgImage() {
+	public Image selectImgImage(String refBno) {
 		Connection conn = getConnection();
 		
-		Image img = new ReviewDao().selectImgImage(conn);
+		Image img = new ReviewDao().selectImgImage(conn, refBno);
 		
 		close(conn);
 		return img;
 	}
+	
+	public int updateReview(Review rv, Image img) {
+		Connection conn = getConnection();
+		
+		int result1 = new ReviewDao().updateReview2(conn, rv);
+		int result2 = 1;
+		
+		if(img != null) { // 이미지가 있으면
+			if(img.getImgNo() != 0) { // 있으면
+				result2 = new ReviewDao().updateImage(conn, img);
+			}else { // 없으면
+				result2 = new ReviewDao().newInsertImage(conn, img);
+			}
+		}
+		
+		if(result1 > 0 && result2 > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result1 * result2;
+		
+	}
+	
+	public int deleteNewReview(Review rv) {
+		Connection conn = getConnection();
+		
+		int result = new ReviewDao().deleteNewReview(conn, rv);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
+	}
+	
+	public ArrayList<Reply> selectReplyList(String refBno){
+		Connection conn = getConnection();
+		
+		ArrayList<Reply> list = new ReviewDao().selectReplyList(conn, refBno);
+		
+		close(conn);
+		return list;
+	}
+	
+	public int insertReply(Reply r) {
+		Connection conn = getConnection();
+		
+		int result = new ReviewDao().insertReply(conn, r);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
+	}
+	
+	public Review selectReviewEnroll() {
+		Connection conn = getConnection();
+		
+		Review rv = new ReviewDao().selectReviewEnroll(conn);
+		
+		close(conn);
+		return rv;
+
+	}
+	
+	
 	
 	
 }

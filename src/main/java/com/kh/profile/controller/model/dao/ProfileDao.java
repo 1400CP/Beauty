@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import com.kh.member.model.dao.MemberDao;
 import com.kh.profile.controller.model.vo.Profile;
+import com.kh.profile.controller.model.vo.UserProfileImage;
 
 import static com.kh.common.JDBCTemplate.*;
 
@@ -62,45 +63,6 @@ public class ProfileDao {
 		
 	}
 	
-	public Profile selectProfile(Connection conn, int userNo) {
-		
-		Profile p = null;
-		
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		
-		String sql = prop.getProperty("selectProfile");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setInt(1, userNo);
-			
-			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
-				p = new Profile(rset.getInt("bf_no"),
-								rset.getInt("mem_no"),
-								rset.getString("st_no"),
-								rset.getString("bt_no"),
-								rset.getString("ht_no"),
-								rset.getString("scalp_no"),
-								rset.getString("sim_list"),
-								rset.getString("him_list"),
-								rset.getString("brandlist"),
-								rset.getString("release"),
-								rset.getString("gender"),
-								rset.getString("color"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(pstmt);
-		}
-		return p;
-		
-	}
 	
 	
 	public int updateProfile(Connection conn, Profile p) {
@@ -123,10 +85,31 @@ public class ProfileDao {
 			pstmt.setString(9, p.getColor());
 			pstmt.setInt(10, p.getUserNo());
 			
-			System.out.println(p.getScalpList());
-
 			result = pstmt.executeUpdate();
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public int insertUserImage(Connection conn, UserProfileImage up, int userNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertUserImage");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			pstmt.setString(2, up.getOriginName());
+			pstmt.setString(3, up.getChangename());
+			pstmt.setString(4, up.getFilepath());
+			
+			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

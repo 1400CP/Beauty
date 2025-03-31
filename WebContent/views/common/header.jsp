@@ -1,6 +1,7 @@
 <%@page import="com.kh.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <%
    String contextPath = request.getContextPath();
    Member loginUser = (Member)session.getAttribute("loginUser");
@@ -11,17 +12,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-<!-- Popper JS -->
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<style>
 <style>
 div, input {
 	box-sizing: border-box;
@@ -328,7 +318,7 @@ div, input {
 		<div id="header">
 
 			<div id="header1">
-				<img src="<%= contextPath %>/resources/images/현존최강로고.jpg" alt="로고">
+				<a href="<%= contextPath %>"><img src="<%= contextPath %>/resources/images/현존최강로고.jpg" alt="로고"></a>
 			</div>
 
 			<div id="header2">
@@ -351,7 +341,6 @@ div, input {
 				</div>
 
 
-
 				<% }else { %>
 				<!-- case2. 로그인 후 -->
 				<div id="header3_top">
@@ -360,11 +349,16 @@ div, input {
 						alt="메시지"></a> <a href=""><img
 						src="<%= contextPath %>/resources/images/3.PNG" alt="알림"></a> <a
 						href="<%= contextPath %>/logout.me">로그아웃</a> <span>|</span> <a
-						href="<%= contextPath %>/views/member/myPage.jsp">마이페이지</a>
+						href="<%= contextPath %>/myPage.me">마이페이지</a>
 				</div>
 				<div id="header3_bottom">
 					<span class="username"><b><%= loginUser.getUserName() %></b><b>님</b>,</span>
-					<span>환영합니다!</span> <a href=""><img src="" alt="프로필 사진"></a>
+					<% if(loginUser.getFilePath() != null) { %>
+					<span>환영합니다!</span> <a href=""><img src="<%= contextPath %>/<%= loginUser.getFilePath() %>" alt="프로필 사진"></a>
+					<% } else {%>
+					<span>환영합니다!</span> <a href=""><img src="<%= contextPath %>/resources/images/account_circle_500dp_000000.png" alt="프로필 사진"></a>
+					<% } %>
+					
 				</div>
 				<% } %>
 			</div>

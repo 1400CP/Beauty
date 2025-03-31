@@ -44,7 +44,6 @@ public class MemberUpdateController extends HttpServlet {
 	
 		
 		Member m = new Member(userNo, userId, userPwd, userName, email, nickName, phone);
-		System.out.println(m);
 		Member updateMem = new MemberService().updateMember(m);
 		
 		

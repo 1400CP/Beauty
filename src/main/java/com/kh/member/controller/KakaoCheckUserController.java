@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,6 +15,8 @@ import org.json.simple.parser.ParseException;
 
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.Member;
+import com.kh.profile.controller.model.service.ProfileService;
+import com.kh.profile.controller.model.vo.Profile;
 
 /**
  * Servlet implementation class KakaoCheckUserController
@@ -51,16 +54,17 @@ public class KakaoCheckUserController extends HttpServlet {
             JSONParser parser = new JSONParser();
             JSONObject json = (JSONObject) parser.parse(sb.toString()); 
 
-            String kakaoEmail = (String) json.get("email");
-
+            String kakaoId = (String) json.get("kakaoId");
+            HttpSession session = request.getSession();
+            session.setAttribute("kakaoAccessToken", kakaoId);
             
-            int result = new MemberService().kakaoCheckUser(kakaoEmail);
+            int result = new MemberService().kakaoCheckUser(kakaoId);
             
             boolean userExists = false;
             Member loginUser = null;
             if(result > 0) {
             	userExists = true;
-            	loginUser = new MemberService().kakaoLoginMember(kakaoEmail);
+            	loginUser = new MemberService().kakaoLoginMember(kakaoId);
             }
             
             // JSON 응답
@@ -68,7 +72,9 @@ public class KakaoCheckUserController extends HttpServlet {
             jsonResponse.put("exists", userExists);
             
             request.getSession().setAttribute("loginUser", loginUser);
+            if(userExists) {
 
+            }
             response.getWriter().write(jsonResponse.toJSONString());
 
         } catch (ParseException e) {

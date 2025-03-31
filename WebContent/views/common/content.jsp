@@ -11,15 +11,15 @@
 		<div id="navigator">
 			<a href="#" id="category">☰ 카테고리</a>
 			<ul class="category-menu">
-				<li><a href="skincare.html">스킨케어</a></li>
-				<li><a href="makeup.html">메이크업</a></li>
-				<li><a href="haircare.html">헤어케어</a></li>
+				<li><a href="/beautyTalk/skinlist.pr">스킨케어</a></li>
+				<li><a href="/beautyTalk/makeuplist.pr">메이크업</a></li>
+				<li><a href="/beautyTalk/hairlist.pr">헤어케어</a></li>
 			</ul>
 			<ul id="navi">
 				<li><a href="index.html">HOME</a></li>
 				<li><a href="./review.li?">Reviews</a></li>
 				<li><a href="posts.html">Posts</a></li>
-				<li><a href="people.html">People</a></li>
+				<li><a href="${pageContext.request.contextPath}/selectPeople.pe">People</a></li>
 				<li><a href="ranking.html">상품 랭킹</a></li>
 			</ul>
 		</div>

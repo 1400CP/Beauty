@@ -1,6 +1,7 @@
 package com.kh.member.model.vo;
 
 import java.sql.Date;
+import com.google.gson.annotations.SerializedName;
 
 public class Member {
 
@@ -20,9 +21,55 @@ public class Member {
 	private int follower;
 	private int review;
 	private int post;
+	private String filePath;
+	private int bfNo;
+    private String skinType;
+    private String bodyType;
+    private String scalpType;
+    private String hairType;
+    private String simList;
+    private String himList;
+    private String brandList;
+    private String marketingAgree; // RELEASE 컬럼명 변경
+    private String color;
 	
-	
+
+        
+        
 	public Member () {}
+	
+	
+
+
+
+	public Member(String nickName, String filePath, int userNo) {
+		super();
+		this.userNo = userNo;
+		this.nickName = nickName;
+		this.filePath = filePath;
+	}
+
+
+
+
+
+	public Member(int userNo, String userId, String userPwd, String userName, String email, String nickName,
+			String phone, String gender, int following, int follower, int review, int post, String filePath) {
+		super();
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.email = email;
+		this.nickName = nickName;
+		this.phone = phone;
+		this.gender = gender;
+		this.following = following;
+		this.follower = follower;
+		this.review = review;
+		this.post = post;
+		this.filePath = filePath;
+	}
 
 
 
@@ -53,7 +100,7 @@ public class Member {
 
 
 	public Member(int userNo, String userId, String userPwd, String userName, String email, String nickName,
-			String phone, int following, int follower, int review, int post) {
+			String phone, String gender, int following, int follower, int review, int post) {
 		super();
 		this.userNo = userNo;
 		this.userId = userId;
@@ -62,6 +109,7 @@ public class Member {
 		this.email = email;
 		this.nickName = nickName;
 		this.phone = phone;
+		this.gender = gender;
 		this.following = following;
 		this.follower = follower;
 		this.review = review;
@@ -134,9 +182,6 @@ public class Member {
 	}
 	
 	
-
-
-
 	public Member(int userNo, String userId, String userPwd, String userName, String email, String nickName,
 			String phone) {
 		super();
@@ -148,9 +193,201 @@ public class Member {
 		this.nickName = nickName;
 		this.phone = phone;
 	}
+	
 
 
 
+	public Member(int userNo, String userId, String userPwd, String userName, String email, String nickName,
+			String phone, String gender, String token, int following, int follower, int review, int post,
+			String filePath, int bfNo, String skinType, String bodyType, String scalpType, String hairType, String simList,
+			String himList, String brandList, String marketingAgree, String color) {
+		super();
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.email = email;
+		this.nickName = nickName;
+		this.phone = phone;
+		this.gender = gender;
+		this.token = token;
+		this.following = following;
+		this.follower = follower;
+		this.review = review;
+		this.post = post;
+		this.filePath = filePath;
+		this.bfNo = bfNo;
+		this.skinType = skinType;
+		this.bodyType = bodyType;
+		this.scalpType = scalpType;
+		this.hairType = hairType;
+		this.simList = simList;
+		this.himList = himList;
+		this.brandList = brandList;
+		this.marketingAgree = marketingAgree;
+		this.color = color;
+	}
+	
+	
+
+
+
+	public Member(String nickName, String filePath) {
+		super();
+		this.nickName = nickName;
+		this.filePath = filePath;
+	}
+
+
+
+	public int getBfNo() {
+		return bfNo;
+	}
+
+
+
+	public void setBfNo(int bfNo) {
+		this.bfNo = bfNo;
+	}
+
+
+
+	public String getSkinType() {
+		return skinType;
+	}
+
+
+
+	public void setSkinType(String skinType) {
+		this.skinType = skinType;
+	}
+
+
+
+	public String getBodyType() {
+		return bodyType;
+	}
+
+
+
+	public void setBodyType(String bodyType) {
+		this.bodyType = bodyType;
+	}
+
+
+
+	public String getScalpType() {
+		return scalpType;
+	}
+
+
+
+	public void setScalpType(String scalpType) {
+		this.scalpType = scalpType;
+	}
+
+
+
+	public String getHairType() {
+		return hairType;
+	}
+
+
+
+	public void setHairType(String hairType) {
+		this.hairType = hairType;
+	}
+
+
+
+	public String getSimList() {
+		return simList;
+	}
+
+
+
+	public void setSimList(String simList) {
+		this.simList = simList;
+	}
+
+
+
+	public String getHimList() {
+		return himList;
+	}
+
+
+
+	public void setHimList(String himList) {
+		this.himList = himList;
+	}
+
+
+
+	public String getBrandList() {
+		return brandList;
+	}
+
+
+
+	public void setBrandList(String brandList) {
+		this.brandList = brandList;
+	}
+
+
+
+	public String getMarketingAgree() {
+		return marketingAgree;
+	}
+
+
+
+	public void setMarketingAgree(String marketingAgree) {
+		this.marketingAgree = marketingAgree;
+	}
+
+
+
+	public String getColor() {
+		return color;
+	}
+
+
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+
+	public Member(int userNo, String userId, String userName) {
+			super();
+			this.userNo = userNo;
+			this.userId = userId;
+			this.userName = userName;
+	}
+	
+
+	public Member(int userNo, String userName, int follower) {
+		super();
+		this.userNo = userNo;
+		this.userName = userName;
+		this.follower = follower;
+	}
+
+
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+
+	
 	public int getUserNo() {
 		return userNo;
 	}
@@ -343,13 +580,41 @@ public class Member {
 
 
 
-	@Override
-	public String toString() {
-		return "Member [userNo=" + userNo + ", userId=" + userId + ", userPwd=" + userPwd + ", userName=" + userName
-				+ ", email=" + email + ", nickName=" + nickName + ", phone=" + phone + ", enrollDate=" + enrollDate
-				+ ", status=" + status + ", agreeYN=" + agreeYN + ", gender=" + gender + ", token=" + token
-				+ ", following=" + following + ", follower=" + follower + ", review=" + review + ", post=" + post + "]";
+	public Member(int userNo, String userId, String userPwd, String userName, String email, String nickName,
+			String phone, Date enrollDate, String status, String agreeYN, String gender, String token, int following,
+			int follower, int review, int post, String filePath, int bfNo, String skinType, String bodyType,
+			String scalpType, String hairType, String simList, String himList, String brandList, String marketingAgree,
+			String color) {
+		super();
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.email = email;
+		this.nickName = nickName;
+		this.phone = phone;
+		this.enrollDate = enrollDate;
+		this.status = status;
+		this.agreeYN = agreeYN;
+		this.gender = gender;
+		this.token = token;
+		this.following = following;
+		this.follower = follower;
+		this.review = review;
+		this.post = post;
+		this.filePath = filePath;
+		this.bfNo = bfNo;
+		this.skinType = skinType;
+		this.bodyType = bodyType;
+		this.scalpType = scalpType;
+		this.hairType = hairType;
+		this.simList = simList;
+		this.himList = himList;
+		this.brandList = brandList;
+		this.marketingAgree = marketingAgree;
+		this.color = color;
 	}
+
 
 
 	
