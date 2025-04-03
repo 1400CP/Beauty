@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	String contextPath = request.getContextPath();
 	Member loginUser = (Member)session.getAttribute("loginUser");
 	String alertMsg = (String)session.getAttribute("alertMsg");
 %>
@@ -221,7 +220,7 @@ input[type="checkbox"] {
                 center: 'title',
                 right: 'dayGridMonth,dayGridWeek,dayGridDay'
             },
-            initialDate: '2025-03-11',
+            initialDate: new Date(),
             navLinks: true,
             selectable: true,
             selectMirror: true,
@@ -234,7 +233,7 @@ input[type="checkbox"] {
                     formData.append('startDay', arg.startStr);
                     formData.append('endDay', arg.endStr);
 
-                    fetch('<%=contextPath%>/insertSchedule.ca', {
+                    fetch(contextPath + '/insertSchedule.ca', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
@@ -260,7 +259,7 @@ input[type="checkbox"] {
             eventClick: function(arg) {
                 if (confirm('해당 일정을 삭제하시겠습니까?')) {
                 	$.ajax({
-                        url: '<%=contextPath%>/deleteSchedule.ca',
+                        url: contextPath + '/deleteSchedule.ca',
                         type: 'POST',
                         data: { id: arg.event.id }, // event의 고유 id를 넘겨줘야 서버에서 어떤 일정 삭제할지 알 수 있음
                         success: function(response) {
@@ -279,11 +278,10 @@ input[type="checkbox"] {
             },
             editable: true,
             dayMaxEvents: true,
-            allDayDefault: true,
             dayCellContent: function(info) {
             	return info.date.getDate();
             },
-            events: '<%=contextPath%>/schList.ca'
+            events: contextPath + '/schList.ca'
         });
 
         calendar.render();

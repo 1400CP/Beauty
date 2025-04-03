@@ -84,12 +84,14 @@ public class ProfileInsertController extends HttpServlet {
 		System.out.println("color: " + color);
 
 		int result = new ProfileService().insertProfile(p);
+		System.out.println("성공" + result);
 
 		if(result > 0) {
 			
 			HttpSession session = request.getSession();
 			Member updateMem = new MemberService().selectMember(userNo);
 			Member loginUser = (Member) session.getAttribute("loginUser");
+			System.out.println("기존 정보 : " + loginUser);
 			 if (updateMem != null) {
 			        // **기존 세션 정보 유지하면서 필요한 정보만 업데이트**
 				 	loginUser.setBfNo(updateMem.getBfNo());

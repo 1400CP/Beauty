@@ -46,7 +46,7 @@ public class ReviewListController extends HttpServlet {
 		
 		int listCount;		// 현재 총 게시글 개수
 		
-		int currentPage;	// 현재 페이지 (즉, 사용자가 요청한 페이지)
+//		int currentPage;	// 현재 페이지 (즉, 사용자가 요청한 페이지)
 		int pageLimit;		// 페이지 하단에 보여질 페이징바의 최대 개수(몇개 단위씩 보여질건지)
 		int reviewLimit;	// 한 페이지 내에 보여질 게시글 최대 개수(몇개 단위씩)
 
@@ -57,14 +57,28 @@ public class ReviewListController extends HttpServlet {
 		
 		listCount = new ReviewService().selectReviewList();
 		
-		int cpage = 1;
-		if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
-			currentPage = Integer.parseInt(request.getParameter("cpage"));
-		}else {
-			currentPage = 1;
+//		if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+//			currentPage = Integer.parseInt(request.getParameter("cpage"));
+//		}else {
+//			currentPage = 1;
+//		}
+		
+		String cpageParam = request.getParameter("cpage");
+		int currentPage = 1;
+
+		if(cpageParam != null && !cpageParam.trim().isEmpty()) {
+		    try {
+		        currentPage = Integer.parseInt(cpageParam);
+		    } catch (NumberFormatException e) {
+		        currentPage = 1; // 혹시라도 이상한 값이 들어오면 기본값 유지
+		    }
 		}
 		
-		pageLimit = 5;
+//		System.out.println(currentPage);
+		
+//		currentPage = Integer.parseInt(request.getParameter("cpage"));
+		
+		pageLimit = 10;
 		
 		reviewLimit = 5;
 		
@@ -83,11 +97,11 @@ public class ReviewListController extends HttpServlet {
 		
 		// * 현재 요청한 페이지(c)에 보여질 게시글 리스트 boardLimit 수만큼 조회
 		ArrayList<Review> list = new ReviewService().selectReviewArrayList(pi);
-		ArrayList<Image> list2 = new ReviewService().selectImageArraylist(pi);
 		
+		System.out.println("리뷰 배열 확인 : " + list);
+
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
-		request.setAttribute("list2", list2);
 
 		RequestDispatcher rd = request.getRequestDispatcher("views/review/reviewContentPost.jsp");
 		rd.forward(request, response);

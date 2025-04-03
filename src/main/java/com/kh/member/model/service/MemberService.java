@@ -154,7 +154,31 @@ public ArrayList<Member> followerList(String nickname) {
 		
 }
 
+	public Member findID(Member m) {
+		Connection conn = getConnection();
+		Member findIDResult = new MemberDao().findID(conn, m);
+		close(conn);
+		return findIDResult;
+	}
 
+	public int checkUserExists(String name, String userId, String email) {
+		Connection conn = getConnection();
+		int result = new MemberDao().checkUserExists(conn, name, userId, email);
+		close(conn);
+		return result;
+	}
+	
+	public int updatePassword(String userId, String name, String email, String newPassword) {
+		Connection conn = getConnection();
+		int result = new MemberDao().updatePassword(conn, userId, name, email, newPassword);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		return result;
+	}
 
 
 }

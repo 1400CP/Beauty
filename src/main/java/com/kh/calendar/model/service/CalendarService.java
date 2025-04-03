@@ -18,7 +18,6 @@ public class CalendarService {
 		
 		if(result > 0) {
 			commit(conn);
-			
 		} else {
 			rollback(conn);
 		}

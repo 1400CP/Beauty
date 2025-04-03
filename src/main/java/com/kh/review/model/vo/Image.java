@@ -13,13 +13,12 @@ public class Image {
 	private String fileLevel;
 	private String status;
 	
-	private int reviewMem;
-	private int postMem;
+	private int reviewNo;
 	
 	public Image () {}
 
 	public Image(int imgNo, int refBno, String originName, String changeName, String filePath, Date uploadDate,
-			String fileLevel, String status, int reviewMem, int postMem) {
+			String fileLevel, String status, int reviewNo) {
 		super();
 		this.imgNo = imgNo;
 		this.refBno = refBno;
@@ -29,8 +28,7 @@ public class Image {
 		this.uploadDate = uploadDate;
 		this.fileLevel = fileLevel;
 		this.status = status;
-		this.reviewMem = reviewMem;
-		this.postMem = postMem;
+		this.reviewNo = reviewNo;
 	}
 
 	public int getImgNo() {
@@ -97,28 +95,22 @@ public class Image {
 		this.status = status;
 	}
 
-	public int getReviewMem() {
-		return reviewMem;
+	public int getReviewNo() {
+		return reviewNo;
 	}
 
-	public void setReviewMem(int reviewMem) {
-		this.reviewMem = reviewMem;
-	}
-
-	public int getPostMem() {
-		return postMem;
-	}
-
-	public void setPostMem(int postMem) {
-		this.postMem = postMem;
+	public void setReviewNo(int reviewNo) {
+		this.reviewNo = reviewNo;
 	}
 
 	@Override
 	public String toString() {
 		return "Image [imgNo=" + imgNo + ", refBno=" + refBno + ", originName=" + originName + ", changeName="
 				+ changeName + ", filePath=" + filePath + ", uploadDate=" + uploadDate + ", fileLevel=" + fileLevel
-				+ ", status=" + status + ", reviewMem=" + reviewMem + ", postMem=" + postMem + "]";
+				+ ", status=" + status + ", reviewNo=" + reviewNo + "]";
 	}
+
+
 
 	
 }

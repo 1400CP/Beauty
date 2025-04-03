@@ -14,22 +14,19 @@ import com.kh.common.MyFileRenamePolicy;
 import com.kh.post.model.service.PostService;
 import com.kh.post.model.vo.Image2;
 import com.kh.post.model.vo.Post;
-import com.kh.review.model.service.ReviewService;
-import com.kh.review.model.vo.Image;
-import com.kh.review.model.vo.Review;
 import com.oreilly.servlet.MultipartRequest;
 
 /**
- * Servlet implementation class postInsertController
+ * Servlet implementation class PostInsertController
  */
-@WebServlet("/post.wr")
-public class postInsertController extends HttpServlet {
+@WebServlet("/post2.wr")
+public class PostInsertController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public postInsertController() {
+    public PostInsertController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,7 +35,6 @@ public class postInsertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
 		request.setCharacterEncoding("utf-8");
 		
 		if(ServletFileUpload.isMultipartContent(request)) {
@@ -54,19 +50,21 @@ public class postInsertController extends HttpServlet {
 			String memNo = multiRequest.getParameter("MEM_NO");
 			String reviewTitle = multiRequest.getParameter("TITLE");
 			String content = multiRequest.getParameter("CONTENT");
-			String likePost = multiRequest.getParameter("LIKE_POST");
+//			String likePost = multiRequest.getParameter("LIKE_POST");
+			
+			String refBno = multiRequest.getParameter("POST_NO");
 			
 			Post po = new Post();
 			po.setMemNo(Integer.parseInt(memNo));
 			po.setTitle(reviewTitle);
 			po.setContent(content);
-			po.setLikePost(Integer.parseInt(likePost));
+//			po.setLikePost(Integer.parseInt(likePost));
 
 			Image2 img = null;
 			if(multiRequest.getOriginalFileName("upfile") != null) {
 				// if문을 타면, 넘어온 첨부파일이 있을 경우
 				img = new Image2();
-				img.setRefBno(po.getMemNo());
+				img.setRefBno(Integer.parseInt(refBno));
 				img.setOriginName(multiRequest.getOriginalFileName("upfile"));
 				img.setChangeName(multiRequest.getFilesystemName("upfile"));
 				img.setFilePath("resources/images/"); // /가 있어야 한다.
@@ -92,7 +90,6 @@ public class postInsertController extends HttpServlet {
 			}
 
 		}
-		
 	}
 
 	/**

@@ -221,13 +221,12 @@
                 center: 'title',
                 right: 'dayGridMonth,dayGridWeek,dayGridDay'
             },
-            initialDate: '2025-03-11',
+            initialDate: new Date(),
             navLinks: true,
             selectable: false,
             selectMirror: true,
             editable: false,
             dayMaxEvents: true,
-            allDayDefault: true,
             dayCellContent: function(info) {
             	return info.date.getDate();
             },

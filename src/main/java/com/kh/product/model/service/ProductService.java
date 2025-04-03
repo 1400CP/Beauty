@@ -44,5 +44,28 @@ public class ProductService {
 		close(conn);
 		return list;
 	}
+	
+	public int insertLike(String pcode) {
+		Connection conn = getConnection();
+		int result = new ProductDao().insertLike(conn, pcode);
+		System.out.println("결과가" + result);
+		
+		if(result > 0) {
+			commit(conn);
+			
+		} else {
+			rollback(conn);
+		}
+		return result;
+	}
+	
+	public Product selectLikeCount(String pcode) {
+		
+		Connection conn = getConnection();
+		Product likeCount = new ProductDao().selectLikeCount(conn, pcode);
+		System.out.println("왔냐?" + likeCount);
+		close(conn);
+		return likeCount;
+	}
 
 }

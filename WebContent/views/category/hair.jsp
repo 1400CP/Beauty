@@ -163,7 +163,7 @@
                         <%@ include file="../common/headerNav.jsp" %>
 
                             <div class="title">
-                                <h1 style="margin: 0 auto;">스킨케어</h1>
+                                <h1 style="margin: 0 auto;">헤어케어</h1>
                             </div>
 
                             <div class="filter-container">
@@ -187,7 +187,7 @@
                                     </div>
                                 </div>
                                 <div class="filter-footer">
-                                    <span class="footer-text" style="color: #FF69B4;">스킨케어 카테고리 내 <%= list.size() %>개의 사용이 가능합니다.</span>
+                                    <span class="footer-text" style="color: #FF69B4;">헤어케어 카테고리 내 <%= list.size() %>개의 사용이 가능합니다.</span>
                                 </div>
                             </div>
 

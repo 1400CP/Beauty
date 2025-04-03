@@ -18,8 +18,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
 </script>
@@ -54,7 +61,7 @@
 }
 #Content4{
     width: 1200px;
-		height: auto;
+	height: auto;
     min-height: 1200px;
     overflow: hidden;
     margin: auto;
@@ -63,6 +70,7 @@
 }
 #Content5{
     width: 350px;
+    max-height: 800px;
     border: 1px solid #ddd;
     margin-right: 50px;
     
@@ -700,9 +708,9 @@ color: white;
 
 	<div id="Content1">
 		<div id="Content2">
-			<div id="userImg">
-				<img id="userprofile"
-					src="<%= contextPath %>/resources/userImage/변우석.jpg" alt="유저이미지">
+			<div id="userImg" style="position: relative; display: inline-block; width: 100px; height: 100%;">
+				<img id="userprofile" src="<%= loginUser.getFilePath() %>" alt="유저이미지"
+						style="border-radius: 50%; cursor: pointer;">
 			</div>
 			<div id="userName">
 				<h2><%= loginUser.getUserName() %></h2>
@@ -712,15 +720,15 @@ color: white;
 		<div id="Content3">
 			<table>
 				<tr>
-					<td><a href="" style="font-weight: 800; font-size: larger;">게시글
+					<td><a href="<%= contextPath %>/postMyList.po" style="font-weight: 800; font-size: larger;">게시글
 							<br><%= loginUser.getPost() %></a> <br></td>
-					<td><a href="" style="font-weight: 800; font-size: larger;">리뷰
+					<td><a href="<%= contextPath %>/review.my" style="font-weight: 800; font-size: larger;">리뷰
 							<br><%= loginUser.getReview() %><br>
 					</a></td>
-					<td><a href="" style="font-weight: 800; font-size: larger;">팔로우
+					<td><a href="<%= contextPath %>/views/member/follow.jsp" style="font-weight: 800; font-size: larger;">팔로우
 							<br><%= loginUser.getFollower() %><br>
 					</a></td>
-					<td><a href="" style="font-weight: 800; font-size: larger;">팔로잉
+					<td><a href="<%= contextPath %>/views/member/follow.jsp" style="font-weight: 800; font-size: larger;">팔로잉
 							<br><%= loginUser.getFollowing() %><br>
 					</a></td>
 				</tr>
@@ -825,10 +833,9 @@ color: white;
 <!-- ReviewEnrollForm -->
 	<div id="review_updateouter" class="review_updateouter">
 		<h2 align="center">포스트 수정하기</h2>
-		<form id="review_update" action="<%= contextPath %>/updatePost1.wr" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="MEM_NO" value="<%= loginUser.getUserNo() %>">
+		<form id="review_update" action="<%= contextPath %>/updatePost2.wr" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="bno" value="<%= po1.getPostNo() %>">
-			<table id="review_update_table1" align="center">
+			<table id="review_update_table1">
 				<tr>
 					<th width="75" height="50" align="left" class="review_update_th">
 						제목
@@ -858,7 +865,7 @@ color: white;
 				</tr>
 
 				<tr>
-					<th align="left" class="review_EnrollTh">
+					<th width="75" height="50" align="left" class="review_EnrollTh">
 						내용
 					</th>
 					<!-- 높낮이를 고정시키기 위해서 style 부여 -->
@@ -870,20 +877,57 @@ color: white;
 					<td colspan="3" class="reviewPost_category2">
 					</td>
 					<td>
-						<button type="button" id="review_UpLikebtn" class="review_update_like" name="LIKE_REVIEW" value="<%= po1.getLikePost() %>"> 👍 : <%= po1.getLikePost() %></button>
+						<!-- <button type="button" id="review_UpLikebtn" class="review_update_like" name="LIKE_REVIEW" value="<%= po1.getLikePost() %>">
+						👍 : <%= po1.getLikePost() %>
+						</button>  -->
 					</td>
 				</tr>
 				<tr>
-					<th style="height: 50px;" align="left" class="review_EnrollTh">
+					<th width="75" height="50" align="left" class="review_EnrollTh">
 						첨부파일
 					</th>
 					<td colspan="3" class="review_update_img">
-	                	<% if(img != null) { %>
+	                <!--	<% if(img != null) { %>
+                     case1. 첨부파일이 있는 경우 
+                    
+							<div id="image_container">
+							<label for="review_upload">
+								<span class="material-icons">
+									<svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 0 24 24" width="48px" fill="#E8618C"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"/></svg>
+								</span>
+							</label>
+							</div>
+							
+							<input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
+							
+							<br>
+							
+							<a download="<%= img.getOriginName() %>" href="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>" onchange="setThumbnail(event);"><%= img.getOriginName() %></a>
+					-->		
+					<!--	<% }else { %> 
+                     case2. 첨부파일이 없을 경우
+
+							<div id="image_container">
+							<label for="review_upload">
+								<span class="material-icons">
+									<svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 0 24 24" width="48px" fill="#E8618C"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"/></svg>
+								</span>
+							</label>
+							</div>
+							
+							<input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
+
+							<br>
+	                        	<b>첨부파일이 없습니다</b>
+							<br>
+
+	                	<% } %>
+					 -->
+					 	<% if(img != null) { %>
                     <!-- case1. 첨부파일이 있는 경우 -->
 	                    <input type="hidden" name="originFileNo" value="<%= img.getImgNo() %>">
-	                    	<br>
-							<input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
-							<div id="image_container"></div>
+	                    <input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
+							<div id="image_container">
 							<br>
 							<label for="review_upload">
 								<span class="material-icons">
@@ -891,13 +935,13 @@ color: white;
 								</span>
 							</label>
 							<br>
+							
+							<br>
 							<a download="<%= img.getOriginName() %>" href="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>" onchange="setThumbnail(event);"><%= img.getOriginName() %></a>
-
+							</div>
 						<% }else { %>
                     <!-- case2. 첨부파일이 없을 경우 -->
-							<br>
-	                        	<b>첨부파일이 없습니다</b>
-							<br>
+							<div id="image_container">
 							<input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
 							<div id="image_container"></div>
 							<br>
@@ -906,55 +950,65 @@ color: white;
 									<svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 0 24 24" width="48px" fill="#e8618c"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
 								</span>
 							</label>
+							<br>
+	                        	<b>첨부파일이 없습니다</b>
+							<br>
+							</div>
 	                	<% } %>
-
+					 
 						<br>
 					</td>
 				</tr>
-
 			</table>
+		<br>
 			
-			<script>
-				function setThumbnail(event){
-					const reader = new FileReader();
-					
-					reader.onload = function(event){
-						var img = document.createElement("img");
-						img.setAttribute("src", event.target.result);
-						img.setAttribute("class", "col-lg-6");
-						document.querySelector("div#image_container").appendChild(img);
-					};
-					reader.readAsDataURL(event.target.files[0]);
-				}
-			</script>
-			
-			<br>
+		<div class="reviewEnrollForm_btn" align="center">
+			<button type="button" onclick="location.href='<%= contextPath %>/detail.po?bno=<%= po1.getPostNo() %>'">
+				뒤로가기
+			</button>
+			<button type="submit" class="reviewDetail_btn">
+				수정
+			</button>
+		</div>
 
-			<div class="reviewEnrollForm_btn" align="center">
-				<button type="button" onclick="location.href='<%= contextPath %>/detail.po?bno=<%= po1.getPostNo() %>'">
-					뒤로가기
-				</button>
-				<button type="submit" onclick=update() class="reviewDetail_btn">
-					수정
-				</button>
-
-			</div>
-			
-			<script>
-				function update(){
-					if(!confirm("확인(수정) 또는 취소(수정 안 함).")) {
-						alert("취소합니다.");
-					}else {
-						alert("수정 완료.");
-						return;
-					}
-				}
-			</script>
-			
 		</form>
+		
 		</div>
 		</div>
-	</div>
 
+		<script>
+			function setThumbnail(event){
+				const reader = new FileReader();
+				
+				reader.onload = function(event){
+					var img = document.createElement("img");
+					img.setAttribute("src", event.target.result);
+					img.setAttribute("class", "col-lg-6");
+					document.querySelector("div#image_container").append(img);
+				};
+				reader.readAsDataURL(event.target.files[0]);
+			}
+		</script>
+		
+		<script>
+			$(function(){
+	       		$(".reviewDetail_btn").on("click", function(){
+			        if(!confirm("확인(수정) 또는 취소(수정 안 함).")) {
+				    	alert("취소합니다.");
+			        }else {
+						return true;
+			        }
+	       		})
+	       	})
+		</script>
+		<!-- function update(){
+				if(!confirm("확인(수정) 또는 취소(수정 안 함).")) {
+					alert("취소합니다.");
+				}else {
+					return true;
+				}
+			} -->
+			
+	</div>
 </body>
 </html>

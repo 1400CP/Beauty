@@ -35,7 +35,7 @@ public class postDetailController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String refBno = request.getParameter("bno");
-		System.out.println(refBno);
+
 		PostService rService = new PostService();
 		Post post = rService.selectPostTest(refBno);
 		

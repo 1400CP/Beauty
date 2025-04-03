@@ -81,7 +81,7 @@ public class KakaoCheckUserController extends HttpServlet {
             e.printStackTrace();
             response.getWriter().write("{\"success\": false, \"message\": \"JSON 파싱 실패\"}");
         }
-        
+        response.getWriter().close();
 	}
 
 	/**

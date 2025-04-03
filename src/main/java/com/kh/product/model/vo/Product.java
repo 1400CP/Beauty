@@ -47,6 +47,15 @@ public class Product {
 		this.likeProduct = likeProduct;
 		this.bName = bName;
 	}
+	
+	
+
+
+
+	public Product(int likeProduct) {
+		super();
+		this.likeProduct = likeProduct;
+	}
 
 
 

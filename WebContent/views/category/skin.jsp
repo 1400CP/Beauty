@@ -155,6 +155,13 @@
                                 color: #FF69B4 !important;
                                 /* 채워진 별 핑크 */
                             }
+
+                            #like-icon {
+                                cursor: pointer;
+                                /* 마우스를 올리면 클릭할 수 있다는 느낌을 주기 위해 포인터 커서 추가 */
+                                transition: transform 0.2s ease;
+                                /* 호버 효과에 부드러운 트랜지션 추가 */
+                            }
                         </style>
                     </head>
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -195,7 +202,8 @@
                                     </div>
                                 </div>
                                 <div class="filter-footer">
-                                    <span class="footer-text" style="color: #FF69B4;">스킨케어 카테고리 내 <%= list.size() %>개의 사용이 가능합니다.</span>
+                                    <span class="footer-text" style="color: #FF69B4;">스킨케어 카테고리 내 <%= list.size() %>개의
+                                            사용이 가능합니다.</span>
                                 </div>
                             </div>
 
@@ -231,7 +239,9 @@
                                         <td
                                             style="border-bottom: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; font-size: 20px;">
                                             <%= p.getLikeProduct() %>
-                                                <span  class="material-icons" style="vertical-align: -4px;">favorite_border</span>
+                                                <span class="material-icons" id="like-icon-<%= p.getPcode() %>"
+                                                    data-pcode="<%= p.getPcode() %>"
+                                                    style="vertical-align: -4px; cursor: pointer;">favorite_border</span>
                                         </td>
 
                                         <!-- 평점 -->
@@ -273,6 +283,7 @@
 
                             <script>
                                 $(document).ready(function () {
+                                    // 브랜드 체크박스 이벤트 처리
                                     $(".brand-checkbox input[type='checkbox']").change(function () {
                                         let selectedBrands = $(".brand-checkbox input[type='checkbox']:checked")
                                             .map(function () {
@@ -292,6 +303,25 @@
                                         fetchFilteredProducts(selectedBrands);
                                     });
 
+                                    // 좋아요 아이콘 클릭 이벤트 처리
+                                    $(".material-icons").click(function () {
+                                        const pcode = $(this).data("pcode"); // data-pcode 값 가져오기
+                                        var isLoggedIn = <%= (loginUser == null) ? "false" : "true" %>;
+                                        console.log(isLoggedIn);
+
+                                        // 로그인되지 않은 상태일 경우
+                                        if (!isLoggedIn) {
+                                            alert("로그인 후 이용해 주세요.");
+                                            window.location.href = '/beautyTalk/loginForm.me';  // 로그인 페이지로 리디렉션
+                                        } else {
+                                            // 로그인된 상태에서의 작업
+                                        }
+
+                                        // 좋아요 처리 함수 호출
+                                        toggleLike(pcode);  // 클릭된 상품의 pcode를 이용하여 toggleLike 호출
+                                    });
+
+                                    // fetchFilteredProducts 함수 정의
                                     function fetchFilteredProducts(selectedBrands) {
                                         console.log("AJAX 요청 전", selectedBrands);
 
@@ -315,6 +345,7 @@
                                         });
                                     }
 
+                                    // updateProductTable 함수 정의
                                     function updateProductTable(products) {
                                         if (!Array.isArray(products)) {
                                             console.error("products는 배열이어야 합니다.");
@@ -332,11 +363,7 @@
                                         var contextPath = "<%= request.getContextPath() %>";
 
                                         products.forEach(p => {
-                                            // contextPath와 imagePath 결합
                                             let imagePath = contextPath + p.imagePath;
-                                            console.log(imagePath);
-                                            console.log(p);
-
                                             tableContent +=
                                                 "<tr>" +
                                                 "<td style='border-bottom: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; height: 200px;'>" +
@@ -352,7 +379,7 @@
                                                 p.bName +
                                                 "</td>" +
                                                 "<td style='border-bottom: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; font-size: 20px;'>" +
-                                                p.likeProduct + " <span class='material-icons' style='vertical-align: -4px;';>favorite_border</span>" +
+                                                p.likeProduct + " <span class='material-icons' id='like-icon-" + p.pcode + "' data-pcode='" + p.pcode + "' style='vertical-align: -4px; cursor: pointer;'>favorite_border</span>" +
                                                 "</td>" +
                                                 "<td style='border-bottom: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; font-size: 20px;'>" +
                                                 p.rate +
@@ -377,12 +404,39 @@
                                                 "</tr>";
                                         });
 
-                                        // 테이블 내용 업데이트
                                         $(".product").html(tableContent);
                                         console.log(tableContent);
                                     }
-                                });
 
+                                    // toggleLike 함수 정의 (맨 아래로 위치)
+                                    function toggleLike(pcode) {
+                                        console.log('상품 코드: ' + pcode);  // 클릭된 상품 코드 확인
+
+                                        // AJAX 요청을 보내는 부분
+                                        $.ajax({
+                                            url: 'likeProduct.pr',  // 실제 서버의 URL로 수정
+                                            method: 'GET',
+                                            data: { pcode: pcode },  // 상품 코드 전송
+                                            success: function (response) {
+                                                console.log("응답:", response);
+                                                const likeIcon = $('#like-icon-' + pcode);  // 해당 아이콘 요소 선택
+
+                                                // 예시: 좋아요 상태에 따라 아이콘 변경 (하트 모양 변경)
+                                                if (response.isLiked) {
+                                                    likeIcon.text('favorite');  // 하트 모양으로 변경
+                                                } else {
+                                                    likeIcon.text('favorite_border');  // 빈 하트로 변경
+                                                }
+
+                                                // 좋아요 수 업데이트 (예시: 데이터가 있을 경우 좋아요 수 업데이트)
+                                                likeIcon.prev().text(response.likeCount);  // 응답에서 likeCount를 받아와서 표시
+                                            },
+                                            error: function (xhr, status, error) {
+                                                console.error("AJAX 요청 오류:", error);
+                                            }
+                                        });
+                                    }
+                                });
                             </script>
                     </body>
 

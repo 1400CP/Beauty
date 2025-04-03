@@ -139,6 +139,270 @@
 
 
     <script>
+        function searchfollow() {
+            let nickname = document.getElementById("searchfollow").value.trim();
+            let followerListDiv = document.getElementById("followerList");
+            let loadingDiv = document.getElementById("loading");
+
+            // 로딩 표시 활성화
+            loadingDiv.style.display = "block";
+            followerListDiv.innerHTML = "";  // 이전 검색 결과 초기화
+
+            if (nickname === "") {
+                loadFollowList(); // 팔로워 목록 초기 로드
+                return;
+            }
+
+            $.ajax({
+                url: "<%= contextPath %>/followerlist.me",  // 팔로워 목록을 가져오는 URL
+                type: "POST",
+                data: { nickname: nickname },
+                dataType: "json",
+                success: function (result) {
+                    console.log("서버 응답 (팔로워):", result);  // 응답 확인
+
+                    loadingDiv.style.display = "none"; // 로딩 숨기기
+
+                    // `result`가 배열이 아닐 경우 대비
+                    if (!Array.isArray(result)) {
+                        console.error("🚨 응답 데이터가 배열이 아닙니다!", result);
+                        followerListDiv.innerHTML = "<p>잘못된 데이터 형식입니다.</p>";
+                        return;
+                    }
+
+                    // 배열이 비어 있는지 확인
+                    if (result.length === 0) {
+                        followerListDiv.innerHTML = "<p>팔로워 결과가 없습니다.</p>";
+                        return;
+                    }
+
+                    let htmlContentFollower = "";
+                    for (let i = 0; i < result.length; i++) {
+                        let followBtnClass = "follow-btn"; // 필요시 설정
+                        let followBtnText = "팔로우"; // 필요시 설정
+
+                        htmlContentFollower += `
+                <div class="follow-item" style="margin-bottom: 20px; display: flex; align-items: center; gap: 20px;">
+                    <table style="border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <td style="width: 30px; text-align: center; padding: 0;">
+                                \${result[i].userNo}
+                            </td>
+                            <td style="width: 30px; text-align: center; padding: 0;">
+                                <img src="<%= contextPath %>/\${result[i].userName ? result[i].userName : '/resources/images/account_circle_500dp_000000.png'}" alt="프로필 이미지" style="width: 50px; height: 50px; margin-left: 35px;">
+                            </td>
+                            <td style="width: 130px; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                \${result[i].userId}
+                            </td>
+                            <td style="width: 100px; text-align: center;">
+                                <button class="follow-btn \${followBtnClass}" data-userno="\${result[i].userNo}" style="background-color: #e8618c; color: white; width: 80px; height: 40px; border-radius: 7px; border: none; cursor: pointer; font-size: 13px; font-weight: 600;">
+                                    \${followBtnText}
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>`;
+                    }
+
+                    followerListDiv.innerHTML = htmlContentFollower;
+                },
+                error: function (xhr, status, error) {
+                    loadingDiv.style.display = "none"; // 로딩 숨기기
+                    console.error("AJAX 오류 (팔로워):", status, error);
+                    followerListDiv.innerHTML = "<p>팔로워 목록을 불러오는 데 실패했습니다.</p>";
+                }
+            });
+
+        }
+
+
+        function searchfollower() {
+            let nickname = document.getElementById("searchfollower").value.trim();  // 팔로잉 검색창에 맞게 수정
+            let followListDiv = document.getElementById("followList");  // 팔로잉 목록 div
+            let loadingDiv = document.getElementById("loading");  // 팔로잉 로딩 div
+
+            // 로딩 표시 활성화
+            loadingDiv.style.display = "block";
+            followListDiv.innerHTML = "";  // 이전 검색 결과 초기화
+
+            if (nickname === "") {
+                loadFollowList(); // 팔로잉 목록 초기 로드
+                return;
+            }
+
+            $.ajax({
+                url: "<%= contextPath %>/followlist.me",  // 팔로잉 목록을 가져오는 URL
+                type: "POST",
+                data: { nickname: nickname },
+                dataType: "json",
+                success: function (result) {
+                    console.log("서버 응답 (팔로잉):", result);  // 응답 확인
+
+                    loadingDiv.style.display = "none"; // 로딩 숨기기
+
+                    if (!Array.isArray(result)) {
+                        console.error("🚨 응답 데이터가 배열이 아닙니다!", result);
+                        followListDiv.innerHTML = "<p>잘못된 데이터 형식입니다.</p>";
+                        return;
+                    }
+
+                    if (result.length === 0) {
+                        followListDiv.innerHTML = "<p>팔로잉 결과가 없습니다.</p>";
+                        return;
+                    }
+
+                    let htmlContentFollowing = "";
+                    for (let i = 0; i < result.length; i++) {
+                        let followBtnClass = "follow-btn"; // 팔로우 버튼 클래스
+                        let followBtnText = "✔ 팔로잉";  // 팔로잉 상태일 경우 텍스트
+
+                        // 팔로잉에 맞는 HTML 생성
+                        htmlContentFollowing += `
+                    <div class="follow-item" style="margin-bottom: 20px; display: flex; align-items: center; gap: 20px;">
+                        <table style="border-collapse: collapse; width: 100%;">
+                            <tr>
+                                <td style="width: 30px; text-align: center; padding: 0;">
+                                    \${result[i].userNo}
+                                </td>
+                                <td style="width: 30px; text-align: center; padding: 0;">
+                                    <img src="<%= contextPath %>/\${result[i].userName ? result[i].userName : '/resources/images/account_circle_500dp_000000.png'}" alt="프로필 이미지" style="width: 50px; height: 50px; margin-left: 35px;">
+                                </td>
+                                <td style="width: 130px; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                    \${result[i].userId}
+                                </td>
+                                <td style="width: 100px; text-align: center;">
+                                    <button class="follow-btn \${followBtnClass}" data-userno="\${result[i].userNo}" style="background-color: #e8618c; color: white; width: 80px; height: 40px; border-radius: 7px; border: none; cursor: pointer; font-size: 13px; font-weight: 600;">
+                                        \${followBtnText}
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                `;
+                    }
+
+                    followListDiv.innerHTML = htmlContentFollowing;
+
+                    // 버튼에 클릭 이벤트 리스너 추가
+                    const followBtns = document.querySelectorAll('.follow-btn');
+                    followBtns.forEach(btn => {
+                        btn.addEventListener('click', function () {
+                            const targetUserNo = this.dataset.userno;
+                            const isFollowing = this.classList.contains('following');
+                            const actionUrl = !isFollowing
+                                ? '<%= request.getContextPath() %>/unfollow.pe'  // 언팔로우 URL
+                                : '<%= request.getContextPath() %>/follow.pe';   // 팔로우 URL
+
+                            fetch(actionUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                body: 'loginUserNo=' + <%= loginUser.getUserNo() %> + '&targetUserNo=' + targetUserNo
+                            })
+                                .then(response => response.text())
+                                .then(result => {
+                                    if (result.trim() === 'success') {
+                                        if (isFollowing) {
+                                            // 언팔로우 성공 시 UI 업데이트
+
+                                            
+                                        } else {
+                                            // 팔로우 성공 시 UI 업데이트
+                                            this.classList.remove('following');
+                                            this.classList.add('follow');
+                                            this.textContent = "+ 팔로우";
+                                            
+                                        }
+                                        loadFollowList(); // 목록 새로고침
+                                    } else {
+                                        alert(isFollowing ? '언팔로우 실패' : '팔로우 실패');
+                                    }
+                                })
+                                .catch(error => console.error('오류 발생:', error));
+                        });
+                    });
+
+                },
+                error: function (xhr, status, error) {
+                    loadingDiv.style.display = "none"; // 로딩 숨기기
+                    console.error("AJAX 오류 (팔로잉):", status, error);
+                    followListDiv.innerHTML = "<p>팔로잉 목록을 불러오는 데 실패했습니다.</p>";
+                }
+            });
+        }
+
+
+        window.onload = function () {
+            loadFollowList();  // 페이지 로드 시 팔로우 목록을 불러옵니다.
+        };
+
+        function renderFollowerList(followerList) {
+            let followerListDiv = document.getElementById("followerList");
+
+            // 기존 내용 초기화
+            followerListDiv.innerHTML = "";
+
+            if (followerList.length === 0) {
+                followerListDiv.innerHTML = "<p>팔로워 목록이 비어있습니다.</p>";
+                return;
+            }
+
+            // 팔로워 목록을 반복하여 렌더링
+            followerList.forEach(follower => {
+                // 팔로워 데이터 객체에서 필요한 정보 추출
+                let nickname = follower.nickName;
+                let filePath = follower.filePath;
+                let userNo = follower.userNo;
+
+                // 팔로워 정보를 HTML로 추가
+                let followerItem = document.createElement("div");
+                followerItem.classList.add("follower-item");
+
+                // 이미지와 닉네임을 표시하는 HTML
+                followerItem.innerHTML = `
+            <img src="${filePath}" alt="${nickname}" class="follower-image" />
+            <span class="follower-name">${nickname}</span>
+        `;
+
+                // 팔로워 리스트에 추가
+                followerListDiv.appendChild(followerItem);
+            });
+        }
+
+        // 팔로우 목록 렌더링 함수
+        // 팔로잉 목록 렌더링 함수
+        function renderFollowList(result) {
+            let followListDiv = document.getElementById("followList");
+            let htmlContentFollow = "";
+
+            for (let i = 0; i < result.followList.length; i++) {
+                htmlContentFollow += `
+            <div class="follow-item">
+                <img src="<%= contextPath %>/\${result.followList[i].filePath}" alt="프로필 이미지" style="width: 50px; height: 50px;">
+                <span>\${result.followList[i].nickName}</span>
+            </div>
+        `;
+            }
+
+            followListDiv.innerHTML = htmlContentFollow;
+        }
+
+        // 팔로워 목록 렌더링 함수
+        function renderFollowerList(result) {
+            let followerListDiv = document.getElementById("followerList");
+            let htmlContentFollower = "";
+
+            for (let i = 0; i < result.followerList.length; i++) {
+                htmlContentFollower += `
+            <div class="follow-item">
+                <img src="<%= contextPath %>/\${result.followerList[i].filePath}" alt="프로필 이미지" style="width: 50px; height: 50px;">
+                <span>\${result.followerList[i].nickName}</span>
+            </div>
+        `;
+            }
+
+            followerListDiv.innerHTML = htmlContentFollower;
+        }
+
         function loadFollowList() {
             let followListDiv = document.getElementById("followList");
             let followerListDiv = document.getElementById("followerList");
@@ -175,27 +439,27 @@
                         let followBtnClass = "following";
 
                         htmlContentFollow += `
-                    <div class="follow-item" style="margin-bottom: 20px; display: flex; align-items: center; gap: 20px;">
-                        <table style="border-collapse: collapse; width: 100%;">
-                            <tr>
-                                <td style="width: 30px; text-align: center; padding: 0;">
-                                    \${result.followList[i].userNo}
-                                </td>
-                                <td style="width: 30px; text-align: center; padding: 0;">
-                                    <img src="<%= contextPath %>/\${result.followList[i].userName ? result.followList[i].userName : '/resources/images/account_circle_500dp_000000.png'}" alt="프로필 이미지" style="width: 50px; height: 50px; margin-left: 35px;">
-                                </td>
-                                <td style="width: 130px; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                    \${result.followList[i].userId}
-                                </td>
-                                <td style="width: 100px; text-align: center;">
-                                    <button class="follow-btn \${followBtnClass}" data-userno="\${result.followList[i].userNo}" style="background-color: #e8618c; color: white; width: 80px; height: 40px; border-radius: 7px; border: none; cursor: pointer; font-size: 13px; font-weight: 600;">
-                                        \${followBtnText}
-                                    </button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                `;
+                        <div class="follow-item" style="margin-bottom: 20px; display: flex; align-items: center; gap: 20px;">
+                            <table style="border-collapse: collapse; width: 100%;">
+                                <tr>
+                                    <td style="width: 30px; text-align: center; padding: 0;">
+                                        \${result.followList[i].userNo}
+                                    </td>
+                                    <td style="width: 30px; text-align: center; padding: 0;">
+                                        <img src="<%= contextPath %>/\${result.followList[i].userName ? result.followList[i].userName : '/resources/images/account_circle_500dp_000000.png'}" alt="프로필 이미지" style="width: 50px; height: 50px; margin-left: 35px;">
+                                    </td>
+                                    <td style="width: 130px; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                        \${result.followList[i].userId}
+                                    </td>
+                                    <td style="width: 100px; text-align: center;">
+                                        <button class="follow-btn \${followBtnClass}" data-userno="\${result.followList[i].userNo}" style="background-color: #e8618c; color: white; width: 80px; height: 40px; border-radius: 7px; border: none; cursor: pointer; font-size: 13px; font-weight: 600;">
+                                            \${followBtnText}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    `;
                     }
 
                     // 팔로워 목록 처리 (팔로잉 상태인 유저의 버튼만 숨기기)
@@ -203,32 +467,30 @@
                         let followBtnText = "+ 팔로우";
                         let followBtnClass = "follow";
 
-                        // 팔로잉 상태인 유저는 버튼을 숨깁니다.
                         let isFollowing = followingUserNos.includes(result.followerList[i].userNo);
 
                         htmlContentFollower += `
-                    <div class="follow-item" style="margin-bottom: 20px; display: flex; align-items: center; gap: 20px;">
-                        <table style="border-collapse: collapse; width: 100%;">
-                            <tr>
-                                <td style="width: 30px; text-align: center; padding: 0;">
-                                    \${result.followerList[i].userNo}
-                                </td>
-                                <td style="width: 30px; text-align: center; padding: 0;">
-                                    <img src="<%= contextPath %>/\${result.followerList[i].userName ? result.followerList[i].userName : '/resources/images/account_circle_500dp_000000.png'}" alt="프로필 이미지" style="width: 50px; height: 50px; margin-left: 35px;">
-                                </td>
-                                <td style="width: 130px; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                    \${result.followerList[i].userId}
-                                </td>
-                                <td style="width: 100px; text-align: center;">
-                                    <!-- 팔로잉 상태인 유저는 버튼을 숨깁니다. -->
-                                    <button class="follow-btn \${followBtnClass}" data-userno="\${result.followerList[i].userNo}" style="background-color: \${isFollowing ? 'transparent' : '#e8618c'}; color: \${isFollowing ? 'transparent' : 'white'}; width: 80px; height: 40px; border-radius: 7px; border: none; cursor: \${isFollowing ? 'default' : 'pointer'}; font-size: 13px; font-weight: 600; display: \${isFollowing ? 'none' : 'inline-block'};">
-                                        \${followBtnText}
-                                    </button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                `;
+                        <div class="follow-item" style="margin-bottom: 20px; display: flex; align-items: center; gap: 20px;">
+                            <table style="border-collapse: collapse; width: 100%;">
+                                <tr>
+                                    <td style="width: 30px; text-align: center; padding: 0;">
+                                        \${result.followerList[i].userNo}
+                                    </td>
+                                    <td style="width: 30px; text-align: center; padding: 0;">
+                                        <img src="<%= contextPath %>/\${result.followerList[i].userName ? result.followerList[i].userName : '/resources/images/account_circle_500dp_000000.png'}" alt="프로필 이미지" style="width: 50px; height: 50px; margin-left: 35px;">
+                                    </td>
+                                    <td style="width: 130px; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                        \${result.followerList[i].userId}
+                                    </td>
+                                    <td style="width: 100px; text-align: center;">
+                                        <button class="follow-btn \${followBtnClass}" data-userno="\${result.followerList[i].userNo}" style="background-color: \${isFollowing ? 'transparent' : '#e8618c'}; color: \${isFollowing ? 'transparent' : 'white'}; width: 80px; height: 40px; border-radius: 7px; border: none; cursor: \${isFollowing ? 'default' : 'pointer'}; font-size: 13px; font-weight: 600; display: \${isFollowing ? 'none' : 'inline-block'};">
+                                            \${followBtnText}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    `;
                     }
 
                     // 팔로우 목록을 div에 추가
@@ -277,15 +539,6 @@
                 }
             });
         }
-
-        window.onload = function () {
-            loadFollowList();  // 페이지 로드 시 팔로우 목록을 불러옵니다.
-        };
-
-
-
-
-
 
     </script>
 

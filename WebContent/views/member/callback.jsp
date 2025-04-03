@@ -24,7 +24,7 @@
     // ✅ 네이버 API 요청 정보 설정
     String clientId = "6VzT269VW306H2aC74fu";  
     String clientSecret = "sBziVAj0Of";  
-    String redirectURI = URLEncoder.encode("http://localhost:8123/beautyTalk/views/member/callback.jsp", "UTF-8");
+    String redirectURI = URLEncoder.encode("http://192.168.20.44:8123/beautyTalk/views/member/callback.jsp", "UTF-8");
 
     // ✅ 1. Access Token 요청
     String tokenUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code"

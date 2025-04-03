@@ -50,6 +50,18 @@ public class Member {
 	}
 
 
+	
+
+
+	public Member(int userNo, String userName, int follower, String filePath) {
+		super();
+		this.userNo = userNo;
+		this.userName = userName;
+		this.follower = follower;
+		this.filePath = filePath;
+	}
+
+
 
 
 
@@ -229,6 +241,18 @@ public class Member {
 	}
 	
 	
+	
+
+
+	public Member(int userNo, String userId, String userName, String filePath) {
+		super();
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userName = userName;
+		this.filePath = filePath;
+	}
+
+
 
 
 

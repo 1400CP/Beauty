@@ -57,6 +57,21 @@ WHERE
 	
 	</entry>
 	
+	<entry key="insertLike">
+	
+UPDATE PRODUCT
+SET LIKE_PRODUCT = LIKE_PRODUCT + 1
+WHERE PCODE = ?
+	
+	</entry>
+	
+	<entry key="SelectLikeCount">
+	
+		SELECT LIKE_PRODUCT
+		FROM PRODUCT
+		WHERE PCODE = ?
+	
+	</entry>
 
 
 </properties>

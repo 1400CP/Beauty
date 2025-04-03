@@ -35,12 +35,13 @@ public class UnfollowController extends HttpServlet {
 		int result = new PeopleService().deleteUnfollow(loginUserNo, targetUserNo);
 		
 		response.setContentType("text/html; charset=UTF-8");
-		
+		System.out.println("성공확인 : " + result);
 		if(result > 0) {
 			response.getWriter().print("success");
         } else {
         	response.getWriter().print("fail");
         }
+		response.getWriter().close();
 	}
 
 	/**

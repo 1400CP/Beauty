@@ -1,6 +1,9 @@
 package com.kh.post.model.vo;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import com.kh.review.model.vo.Image;
 
 public class Post {
 	
@@ -12,9 +15,12 @@ public class Post {
 	private int likePost;
 	private String status;
 	
+	private ArrayList<Image2> images;
+	
 	public Post() {}
 
-	public Post(int postNo, int memNo, String title, String content, Date createDate, int likePost, String status) {
+	public Post(int postNo, int memNo, String title, String content, Date createDate, int likePost, String status,
+			ArrayList<Image2> images) {
 		super();
 		this.postNo = postNo;
 		this.memNo = memNo;
@@ -23,6 +29,7 @@ public class Post {
 		this.createDate = createDate;
 		this.likePost = likePost;
 		this.status = status;
+		this.images = images;
 	}
 
 	public int getPostNo() {
@@ -81,10 +88,19 @@ public class Post {
 		this.status = status;
 	}
 
+	public ArrayList<Image2> getImages() {
+		return images;
+	}
+
+	public void setImages(ArrayList<Image2> images) {
+		this.images = images;
+	}
+
 	@Override
 	public String toString() {
 		return "Post [postNo=" + postNo + ", memNo=" + memNo + ", title=" + title + ", content=" + content
-				+ ", createDate=" + createDate + ", likePost=" + likePost + ", status=" + status + "]";
+				+ ", createDate=" + createDate + ", likePost=" + likePost + ", status=" + status + ", images=" + images
+				+ "]";
 	}
-
+	
 }

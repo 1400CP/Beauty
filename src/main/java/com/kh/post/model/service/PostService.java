@@ -28,6 +28,13 @@ public class PostService {
 		
 		ArrayList<Post> list = new PostDao().selectPostArrayList(conn, pi);
 		
+//	    for (Post po : list) {
+//	        ArrayList<Image2> images = new PostDao().selectImagesForPost(conn, po.getPostNo());
+//	        // 각 리뷰에 해당하는 이미지 리스트를 조회
+//	        po.setImages(images);
+//	        // Review 객체에 이미지 목록 추가
+//	    }
+		
 		close(conn);
 		return list;
 		
@@ -132,16 +139,20 @@ public class PostService {
 		Connection conn = getConnection();
 		
 		int result1 = new PostDao().updatePost(conn, rv);
-		int result2 = 1;
-	System.out.println("포스트 업뎃 서비스 result 1 : " + result1);
-		if(img != null) { // 이미지가 있으면
-			if(img.getImgNo() != 0) { // 있으면
-				result2 = new PostDao().updateImage2(conn, img);
-			}else { // 없으면
+		int result2;
+System.out.println("포스트 Service 글 result1 : " + result1);
+
+		if(img != null) { // 기존 이미지가 있으면
+			if(img.getImgNo() == 0) { // 기존이미지, 기존 이미지가 없으면
 				result2 = new PostDao().newInsertImage2(conn, img);
+			}else { // 기존 이미지, 이미지가 있으면
+				result2 = new PostDao().updateImage2(conn, img);
 			}
+		}else { // 이미지가 없으면 게시글 update
+			result2 = 1;
 		}
 		
+System.out.println("포스트 Service 이미지 result2 : " + result2);		
 		if(result1 > 0 && result2 > 0) {
 			commit(conn);
 		}else {

@@ -21,7 +21,6 @@ public class Todo {
 		this.checkDate = checkDate;
 	}
 	
-	
 
 	public Todo(int checkNo, String checkTitle, String checkYN) {
 		super();

@@ -42,6 +42,7 @@ public class TodoAllDeleteController extends HttpServlet {
 	      response.setContentType("text/plain; charset=UTF-8");
 	      response.getWriter().print("fail");
 	    }
+	    response.getWriter().close();
 		
 	}
 

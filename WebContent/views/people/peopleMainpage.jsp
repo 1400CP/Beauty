@@ -126,7 +126,11 @@
       <div class="user-row">
         <div class="user-left">
           <div class="rank-num"><%= rank %></div>
-          <img class="profile-img" src="profile1.jpg" alt="프로필">
+          	<% if(m.getFilePath() == null) { %>
+          		<img class="profile-img" src="<%= contextPath %>/resources/images/account_circle_500dp_000000.png" alt="프로필 이미지">
+          	<% }else { %>
+            	<img class="profile-img" src="<%= contextPath + "/" + m.getFilePath() %>" alt="프로필 이미지">
+          	<% } %>
           <div class="user-info">
             <div class="user-name"><%= m.getUserName() %></div>
             <div class="user-follow">팔로워 <%= m.getFollower() %></div>

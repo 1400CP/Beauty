@@ -354,7 +354,11 @@
 	                 <% for(Member m : list) { %>
 	                 <a href="<%= contextPath %>/followingCalendarMainpage.ca?userId=<%= m.getUserId() %>" class="following-item">
 		              <div class="profile-img">
-		                <img src="" alt="프로필 이미지">
+		                <% if(m.getFilePath() == null) { %>
+		              		<img src="<%= contextPath %>/resources/images/account_circle_500dp_000000.png" alt="프로필 이미지">
+		              	<% }else { %>
+		                	<img src="<%= contextPath + "/" + m.getFilePath() %>" alt="프로필 이미지">
+		              	<% } %>
 		              </div>
 		              <div class="profile-info">
 		                <p class="following-name"><%= m.getUserName() %></p>

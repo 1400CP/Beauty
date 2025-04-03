@@ -42,7 +42,8 @@ public class PeopleDao {
 			while(rset.next()) {
 				peopleList.add(new Member(rset.getInt("MEM_NO"),
 										  rset.getString("MEM_NAME"), 
-										  rset.getInt("FOLLOWER_CNT")));
+										  rset.getInt("FOLLOWER_CNT"),
+										  rset.getString("FILEPATH")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

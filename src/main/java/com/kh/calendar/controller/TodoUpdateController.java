@@ -36,7 +36,7 @@ public class TodoUpdateController extends HttpServlet {
 
 	    response.setContentType("text/plain; charset=UTF-8");
 	    response.getWriter().print(result > 0 ? "success" : "fail");
-		
+	    response.getWriter().close();
 	}
 
 	/**

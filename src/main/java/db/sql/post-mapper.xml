@@ -32,6 +32,43 @@
 
 	</entry>
 	
+	<entry key="selectImagesForPost">
+	SELECT *
+		FROM(
+		    SELECT
+		        ROWNUM RNUM, A.*
+		    FROM
+		        (
+				SELECT
+					IMG.IMAGE_NO
+					, IMG.REF_BNO
+				    , IMG.ORIGIN_NAME
+				    , IMG.CHANGE_NAME
+				    , IMG.FILE_PATH
+					, IMG.UPLOAD_DATE
+					, IMG.FILE_LEVEL
+				FROM IMAGE IMG
+				JOIN POST PO ON (PO.STATUS = IMG.STATUS)
+				WHERE IMG.STATUS = 'Y'
+				AND PO.POST_NO = ?
+                AND IMG.UPLOAD_DATE = PO.CREATE_DATE
+				AND IMG.IMAGE_NO >= PO.POST_NO
+				AND IMG.FILE_LEVEL = 'P'
+				AND IMG.REF_BNO = PO.MEM_NO
+				OR IMG.REF_BNO = 0
+		        AND IMG.UPLOAD_DATE >= PO.CREATE_DATE
+				AND IMG.IMAGE_NO >= PO.POST_NO
+				AND IMG.FILE_LEVEL = 'P'
+				AND IMG.REF_BNO = PO.MEM_NO
+                ORDER
+                    BY IMG.IMAGE_NO
+		            ) A
+		        )
+		WHERE RNUM BETWEEN 1 AND 1
+	
+	</entry>
+	
+	
 	<entry key="selectImage2Arraylist">
 		SELECT *
 		FROM (
@@ -63,7 +100,7 @@
 		
 	</entry>
 	
-		<entry key="insertPost">
+	<entry key="insertPost">
 	INSERT
     	INTO
     	POST
@@ -111,7 +148,7 @@
 	    , ?
 	    , ?
 	    , SYSDATE
-	    , 'P'
+	    , 'PO'
 	    , 'Y'
 	    )
 	
@@ -141,29 +178,26 @@
 	
 	<entry key="selectImage">
 		SELECT *
-		FROM(
-		    SELECT
-		        ROWNUM RNUM, A.*
-		    FROM
-		        (
-				SELECT
-                     PO.POST_NO   
-                    , IMG.IMAGE_NO
-				    , IMG.ORIGIN_NAME
-				    , IMG.CHANGE_NAME
-				    , IMG.FILE_PATH
-				FROM IMAGE IMG
-				JOIN POST PO ON (PO.MEM_NO = IMG.REF_BNO)
-				WHERE PO.POST_NO = ?
-				AND IMG.REF_BNO = PO.MEM_NO
-                AND IMG.UPLOAD_DATE = PO.CREATE_DATE
-                AND IMG.STATUS = 'Y'
-				AND IMG.FILE_LEVEL = 'P'
-                ORDER
-                    BY IMG.IMAGE_NO DESC
-		            ) A
-		        )
-		WHERE RNUM BETWEEN 1 AND 1
+			FROM(
+			    SELECT
+			        ROWNUM RNUM, A.*
+			    FROM
+			        (
+					SELECT
+						IMG.IMAGE_NO
+					    , IMG.ORIGIN_NAME
+					    , IMG.CHANGE_NAME
+					    , IMG.FILE_PATH
+					FROM IMAGE IMG
+					JOIN POST PO ON (PO.POST_NO = IMG.REF_BNO)
+					WHERE PO.POST_NO = ?
+	                AND IMG.STATUS = 'Y'
+					AND IMG.FILE_LEVEL = 'PO'
+	                ORDER
+	                    BY IMG.IMAGE_NO DESC
+			            ) A
+			        )
+			WHERE RNUM BETWEEN 1 AND 1
 	
 	</entry>
 	
@@ -225,11 +259,15 @@
 		UPDATE
 	       	IMAGE IMG
 		SET
-	        ORIGIN_NAME = ?
-	        , CHANGE_NAME = ?
-	        , FILE_PATH = ?
-		WHERE IMAGE_NO in ?
+	        IMG.ORIGIN_NAME = ?
+	        , IMG.CHANGE_NAME = ?
+	        , IMG.FILE_PATH = ?
+		WHERE IMG.IMAGE_NO = ?
         AND IMG.REF_BNO in
+						(SELECT
+                               PO.POST_NO
+                           FROM POST PO
+                           WHERE PO.POST_NO = IMG.REF_BNO
 
 	</entry>
 	
@@ -254,8 +292,8 @@
 	    , ?
 	    , ?
 	    , ?
-	    , SYSDATE
-	    , 'P'
+	    , default
+	    , 'PO'
 	    , 'Y'
 	    )
 	

@@ -37,7 +37,7 @@ public class CalendarMainpageFormController extends HttpServlet {
 		int userNo = loginUser.getUserNo();
 		
 		ArrayList<Member> list = new CalendarService().selectFollowList(userNo);
-		
+
 		request.setAttribute("list", list);
 		
 		RequestDispatcher view = request.getRequestDispatcher("views/calendar/calendarMainpage.jsp");

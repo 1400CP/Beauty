@@ -37,10 +37,10 @@ public class FollowList extends HttpServlet {
 		 
 		 // 🔥 클라이언트에서 보낸 검색어(query) 가져오기
 	     String nickname = request.getParameter("nickname");  // ✅ 닉네임 검색
-	     ArrayList<Member> list = new MemberService().followList(nickname);
+	     ArrayList<Member> followerList = new MemberService().followList(nickname);
 	       
 	     response.setContentType("application/json; charset=utf-8");
-	     new Gson().toJson(list, response.getWriter());
+	     new Gson().toJson(followerList, response.getWriter());
 	}
 
 	/**

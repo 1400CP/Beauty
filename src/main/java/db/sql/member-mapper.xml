@@ -208,30 +208,7 @@ AND M.STATUS = 'Y'
    </entry>
    
    <entry key="selectMember">
-			SELECT
-						 MEM_NO
-					 , MEM_ID
-					 , MEM_PWD
-					 , MEM_NAME
-					 , EMAIL
-					 , NICKNAME
-					 , PHONE
-					 , ENROLL_DATE
-					 , STATUS
-					 , AGREE_YN
-					 , GENDER
-					 , TOKEN
-				FROM MEMBER
-		 	 WHERE MEM_NO = ?
-		 	   AND STATUS = 'Y'
-   </entry>
-   <entry key="idCheck">
-	   	SELECT count(*) "COUNT"
-	      FROM MEMBER
-	      WHERE MEM_ID = ?
-   </entry>
-	 <entry key="selectMember">
-SELECT 
+       SELECT 
     M.MEM_NO,
     M.MEM_ID,
     M.MEM_PWD,
@@ -256,15 +233,21 @@ SELECT
     BP.BRANDLIST,
     BP.RELEASE AS MARKETING_AGREE,
     BP.COLOR AS PERSONAL_COLOR
+
 FROM MEMBER M
+
 LEFT JOIN (SELECT FOLLOWING, COUNT(*) AS FOLLOWING_CNT FROM FOLLOW GROUP BY FOLLOWING) F1 
     ON M.MEM_NO = F1.FOLLOWING
+
 LEFT JOIN (SELECT FOLLOWER, COUNT(*) AS FOLLOWER_CNT FROM FOLLOW GROUP BY FOLLOWER) F2
     ON M.MEM_NO = F2.FOLLOWER
+
 LEFT JOIN (SELECT MEM_NO, COUNT(*) AS REVIEW_CNT FROM REVIEW GROUP BY MEM_NO) R
     ON M.MEM_NO = R.MEM_NO
+
 LEFT JOIN (SELECT MEM_NO, COUNT(*) AS POST_CNT FROM POST GROUP BY MEM_NO) P
     ON M.MEM_NO = P.MEM_NO
+
 LEFT JOIN (
     SELECT * FROM (
         SELECT IMG.*, ROW_NUMBER() OVER (PARTITION BY REF_BNO ORDER BY UPLOAD_DATE DESC) AS RN
@@ -272,14 +255,25 @@ LEFT JOIN (
         WHERE IMG.FILE_LEVEL = 'P' AND IMG.STATUS = 'Y'
     ) WHERE RN = 1
 ) IMG ON TO_CHAR(M.MEM_NO) = IMG.REF_BNO 
+
 LEFT JOIN BEAUTY_PROFILE BP 
-    ON M.MEM_NO = BP.MEM_NO
-WHERE F1.FOLLOWING = ?
+    ON M.MEM_NO = BP.MEM_NO 
+
+WHERE M.MEM_NO = ?  
 AND M.STATUS = 'Y'
-	 </entry>
+   </entry>
+   
+   <entry key="idCheck">
+	   	SELECT count(*) "COUNT"
+	      FROM MEMBER
+	      WHERE MEM_ID = ?
+   </entry>
+   
+
 	 
 <entry key="followList">
 SELECT 
+		M.MEM_NO,
     M.NICKNAME, 
     I.FILE_PATH || I.CHANGE_NAME AS FILEPATH
 FROM 
@@ -298,10 +292,13 @@ AND
 
 <entry key="followerList">
 SELECT 
+		M.MEM_NO,
     M.NICKNAME, 
     I.FILE_PATH || I.CHANGE_NAME AS FILEPATH
 FROM 
     MEMBER M
+JOIN 
+    FOLLOW F ON M.MEM_NO = F.FOLLOWING
 JOIN 
     IMAGE I ON M.MEM_NO = I.REF_BNO
 WHERE 
@@ -315,24 +312,24 @@ AND
 </entry>
 
 <entry key="selectListFollowing">
-SELECT 
-    M.NICKNAME, M.MEM_NO,
+SELECT
+    M.MEM_NO,
+    M.NICKNAME,
     I.FILE_PATH || I.CHANGE_NAME AS FILEPATH
-FROM 
+FROM
     MEMBER M
-JOIN 
-    IMAGE I ON M.MEM_NO = I.REF_BNO
-JOIN 
+JOIN
     FOLLOW F ON M.MEM_NO = F.FOLLOWING
-WHERE 
+LEFT JOIN
+    IMAGE I ON M.MEM_NO = I.REF_BNO
+WHERE
     F.FOLLOWER = ?
-AND 
-    I.IMAGE_NO = (
-        SELECT MAX(IMAGE_NO) 
-        FROM IMAGE 
+    AND (I.IMAGE_NO = (
+        SELECT MAX(IMAGE_NO)
+        FROM IMAGE
         WHERE REF_BNO = M.MEM_NO
-    )
-ORDER BY 
+    ) OR I.IMAGE_NO IS NULL)
+ORDER BY
     M.MEM_NO
 </entry>
 
@@ -357,6 +354,32 @@ AND
     )    
 ORDER BY 
     M.MEM_NO
+</entry>
+
+<entry key="findID">
+	SELECT
+	       MEM_ID
+	     , MEM_NAME
+	  FROM MEMBER
+	 WHERE MEM_NAME = ?
+	   AND EMAIL = ?
+	   AND PHONE = ?
+</entry>
+
+<entry key="checkUserExists">
+	SELECT COUNT(*) "COUNT"
+	  FROM MEMBER
+	 WHERE MEM_NAME = ?
+	   AND MEM_ID = ?
+	   AND EMAIL = ?
+</entry>
+
+<entry key="updatePassword">
+	UPDATE MEMBER
+	   SET MEM_PWD = ?
+	 WHERE MEM_ID = ?
+	   AND MEM_NAME = ?
+	   AND EMAIL = ?
 </entry>
 
 

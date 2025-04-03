@@ -4,7 +4,7 @@
 
 	<entry key="selectReviewList">
 		SELECT
-		COUNT(*) count
+			COUNT(*) count
 		FROM REVIEW RV
 		WHERE STATUS = 'Y'
 	</entry>
@@ -16,16 +16,18 @@
 				FROM (
 						SELECT
 							REVIEW_NO
-							, MEM_NO
 							, CREATE_DATE
 							, TITLE
 							, CONTENT
 							, PR_RATING
 							, P_RATING
 							, R_RATING
-							, LIKE_Review
+							, LIKE_REVIEW
+                            , FILE_PATH || CHANGE_NAME "IMG_PATH"
 						FROM REVIEW RV
-						WHERE STATUS = 'Y'
+                        JOIN IMAGE ON (REVIEW_NO = REF_BNO)
+						WHERE RV.STATUS = 'Y'
+                        AND FILE_LEVEL = 'R'
 						ORDER
 						BY CREATE_DATE DESC
 						, REVIEW_NO DESC
@@ -35,7 +37,42 @@
 
 	</entry>
 	
-	<entry key="selectImageArraylist">
+	<entry key="selectImagesForReview">
+		SELECT *
+		FROM(
+		    SELECT
+		        ROWNUM RNUM, A.*
+		    FROM
+		        (
+				SELECT
+					IMG.IMAGE_NO
+					, IMG.REF_BNO
+				    , IMG.ORIGIN_NAME
+				    , IMG.CHANGE_NAME
+				    , IMG.FILE_PATH
+					, IMG.UPLOAD_DATE
+					, IMG.FILE_LEVEL
+				FROM IMAGE IMG
+				JOIN REVIEW RV ON (RV.STATUS = IMG.STATUS)
+				WHERE IMG.STATUS = 'Y'
+                AND RV.REVIEW_NO = ?
+                AND IMG.UPLOAD_DATE = RV.CREATE_DATE
+                AND IMG.IMAGE_NO >= RV.REVIEW_NO
+				AND IMG.FILE_LEVEL = 'R'
+                AND IMG.REF_BNO = RV.MEM_NO
+                OR IMG.REF_BNO = 0
+                AND IMG.STATUS = 'Y'
+                AND IMG.UPLOAD_DATE >= RV.CREATE_DATE
+                AND IMG.IMAGE_NO >= RV.REVIEW_NO
+				AND IMG.FILE_LEVEL = 'R'
+                AND IMG.REF_BNO = RV.MEM_NO
+		            ) A
+		        )
+		WHERE RNUM BETWEEN 1 AND 1
+	
+	</entry>
+	
+	<entry key="selectImageArrayList">
 		SELECT *
 		FROM (
 				SELECT ROWNUM RNUM, A.*
@@ -116,7 +153,7 @@
     VALUES
 	    (
 	      SEQ_I_NO.NEXTVAL
-	    , ?
+	    , SEQ_REVIEW.CURRVAL
 	    , ?
 	    , ?
 	    , ?
@@ -161,20 +198,18 @@
 		    FROM
 		        (
 				SELECT
-                   IMG.IMAGE_NO
+					IMG.IMAGE_NO
 				    , IMG.ORIGIN_NAME
 				    , IMG.CHANGE_NAME
 				    , IMG.FILE_PATH
 				FROM IMAGE IMG
-				JOIN REVIEW RV ON (RV.MEM_NO = IMG.REF_BNO)
-				WHERE IMG.STATUS = 'Y'
-                AND RV.REVIEW_NO = ?
-                AND RV.CREATE_DATE >= IMG.UPLOAD_DATE
-                AND RV.MEM_NO = IMG.REF_BNO
-                AND IMG.IMAGE_NO >= RV.REVIEW_NO
-				AND IMG.FILE_LEVEL = 'R'
+				JOIN REVIEW RV ON (RV.REVIEW_NO = IMG.REF_BNO)
+				WHERE RV.REVIEW_NO = ?
+                AND IMG.STATUS = 'Y'
+                AND IMG.FILE_LEVEL = 'R'
+                AND IMG.UPLOAD_DATE >= RV.CREATE_DATE
                 ORDER
-                    BY IMG.IMAGE_NO DESC
+                    BY IMAGE_NO DESC
 		            ) A
 		        )
 		WHERE RNUM BETWEEN 1 AND 1
@@ -231,7 +266,7 @@
 	
 	<entry key="updateReview">
 		UPDATE
-	        REVIEW
+	        REVIEW RV
 		SET
 	          TITLE = ?
 	        , CONTENT = ?
@@ -246,43 +281,38 @@
 		UPDATE
 	       	IMAGE IMG
 		SET
-	        ORIGIN_NAME = ?
-	        , CHANGE_NAME = ?
-	        , FILE_PATH = ?
-		WHERE IMAGE_NO in ?
-        AND IMG.REF_BNO in
-                           (SELECT
-                               RV.MEM_NO
-                           FROM REVIEW RV
-                           WHERE RV.MEM_NO = IMG.REF_BNO)
+	        IMG.ORIGIN_NAME = ?
+	        , IMG.CHANGE_NAME = ?
+	        , IMG.FILE_PATH = ?
+		WHERE IMG.IMAGE_NO = ?
 	
 	</entry>
 	
 	<entry key="newInsertImage">
-	INSERT
-	    INTO
-	    IMAGE IMG
-	    (
-	      IMAGE_NO
-	    , REF_BNO
-	    , ORIGIN_NAME
-	    , CHANGE_NAME
-	    , FILE_PATH
-	    , UPLOAD_DATE
-	    , FILE_LEVEL
-	    , STATUS
-	    )
-    VALUES
-	    (
-	      SEQ_I_NO.NEXTVAL
-	    , ?
-	    , ?
-	    , ?
-	    , ?
-	    , SYSDATE
-	    , 'R'
-	    , 'Y'
-	    )
+		INSERT
+		    INTO
+		    IMAGE IMG
+		    (
+		      IMAGE_NO
+		    , REF_BNO
+		    , ORIGIN_NAME
+		    , CHANGE_NAME
+		    , FILE_PATH
+		    , UPLOAD_DATE
+		    , FILE_LEVEL
+		    , STATUS
+		    )
+	    VALUES
+		    (
+		      SEQ_I_NO.NEXTVAL
+		    , ?
+		    , ?
+		    , ?
+		    , ?
+		    , SYSDATE
+		    , 'R'
+		    , 'Y'
+		    )
 	
 	</entry>
 	
@@ -347,6 +377,5 @@
 	</entry>
 	
 	
-	
-	
+
 </properties>

@@ -68,7 +68,16 @@ public class profileImage extends HttpServlet {
 			HttpSession session = request.getSession();
 			if(result > 0) {
 				request.getSession().setAttribute("alertMsg", "프로필 이미지 등록 성공");
-				session.setAttribute("loginUser", updateMem);
+				Member loginUser = (Member) session.getAttribute("loginUser");
+				if (loginUser != null) { 
+				    // 기존 객체에서 filePath만 변경
+				    loginUser.setFilePath(updateMem.getFilePath());
+
+				    // 변경된 객체를 다시 세션에 저장
+				    session.setAttribute("loginUser", loginUser);
+				}
+				
+//				session.setAttribute("loginUser", updateMem);
 				
 				response.sendRedirect(request.getContextPath() + "/myPage.me");
 			} else {

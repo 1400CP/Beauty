@@ -44,10 +44,13 @@ public class MemberInsertController extends HttpServlet {
 		String gender = request.getParameter("gender");
 		String agreeYN = request.getParameter("agree");
 		String Token = null;
-		if(request.getParameter("kakaoAccessToken") != null) {
-			Token = request.getParameter("kakaoAccessToken");
-		}else {
+		if(request.getParameter("Token") != null) {
 			Token = request.getParameter("Token");
+			System.out.println(Token);
+		}else {
+			Token = request.getParameter("kakaoAccessToken");
+			System.out.println(Token);
+			
 		}
 
 		// Member 객체 생성

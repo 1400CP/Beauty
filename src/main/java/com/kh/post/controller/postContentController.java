@@ -57,7 +57,7 @@ public class postContentController extends HttpServlet {
 			currentPage = 1;
 		}
 		
-		pageLimit = 5;
+		pageLimit = 10;
 		
 		reviewLimit = 5;
 		

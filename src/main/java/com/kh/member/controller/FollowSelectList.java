@@ -41,7 +41,6 @@ public class FollowSelectList extends HttpServlet {
 		ArrayList<Member> followList = new MemberService().selectListFollow(userNo);
 		ArrayList<Member> followerList = new MemberService().selectListFollower(userNo);
 		response.setContentType("application/json; charset=utf-8");
-		response.setContentType("application/json; charset=utf-8");
 		Gson gson = new Gson();
 
 		// JsonObject 생성 후 리스트 추가

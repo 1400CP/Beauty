@@ -50,6 +50,8 @@ public class ScheduleInsertController extends HttpServlet {
         } else {
             response.getWriter().print("fail");
         }
+        
+        response.getWriter().close();
 	}
 
 	/**

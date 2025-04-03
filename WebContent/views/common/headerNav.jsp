@@ -359,7 +359,7 @@ div, input {
 				</div>
 				<div id="header3_bottom">
 					<span class="username"><b><%= loginUser.getUserName() %></b><b>님</b></span>
-					<% if(loginUser.getFilePath() != null) { %>
+					<% if(loginUser.getFilePath() != null && !loginUser.getFilePath().isEmpty()) { %>
 					<span>환영합니다!</span><img src="<%= loginUser.getFilePath() %>" alt="프로필 사진">
 					<% } else {%>
 					<span>환영합니다!</span><img src="<%= contextPath %>/resources/images/account_circle_500dp_000000.png" alt="프로필 사진">
@@ -383,8 +383,8 @@ div, input {
 			</ul>
 			<ul id="navi">
 				<li><a href="<%= contextPath %>">HOME</a></li>
-				<li><a href="./review.li?">Reviews</a></li>
-				<li><a href="posts.html">Posts</a></li>
+				<li><a href="./review.li?">리뷰</a></li>
+				<li><a href="./post.list">게시글</a></li>
 				<li><a href="${pageContext.request.contextPath}/selectPeople.pe">People</a></li>
 				<li><a href="ranking.html">상품 랭킹</a></li>
 			</ul>

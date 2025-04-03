@@ -38,7 +38,6 @@ public class postListController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		ArrayList<SubCategory2> list = new PostService().selectSubCategory2List();
-
 		Post po = new PostService().selectPostEnroll();
 		
 		request.setAttribute("list", list);

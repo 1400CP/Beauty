@@ -63,7 +63,7 @@ public class postUpdateFormController extends HttpServlet {
 			currentPage = 1;
 		}
 		
-		pageLimit = 5;
+		pageLimit = 10;
 		
 		reviewLimit = 5;
 		
@@ -82,17 +82,23 @@ public class postUpdateFormController extends HttpServlet {
 		ArrayList<Post> list = new PostService().selectPostArrayList(pi);
 		ArrayList<SubCategory2> list1 = new PostService().selectSubCategory2List();
 		
-		Post po1 = rService.selectPost(refBno);
-		Image2 img = rService.selectImage2(refBno);
-		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
 		request.setAttribute("list1", list1);
-		request.setAttribute("po1", po1);
-		request.setAttribute("img", img);
 		
-		request.getRequestDispatcher("views/post/postUpdateForm.jsp").forward(request, response);
-		
+		if(po != null) {
+			Post po1 = rService.selectPost(refBno);
+			Image2 img = rService.selectImage2(refBno);
+			
+			request.setAttribute("po1", po1);
+			request.setAttribute("img", img);
+			
+			request.getRequestDispatcher("views/post/postUpdateForm.jsp").forward(request, response);
+		}else {
+			response.sendRedirect(request.getContextPath() + "/post.list?");
+			request.getSession().setAttribute("alertMsg", "게시글 조회 오류");
+		}
+
 	}
 
 	/**

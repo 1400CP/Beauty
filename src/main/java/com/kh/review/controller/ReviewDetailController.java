@@ -36,7 +36,6 @@ public class ReviewDetailController extends HttpServlet {
 		String refBno = request.getParameter("bno");
 		
 		ReviewService rService = new ReviewService();
-		
 		Review rv = rService.selectReviewTest(refBno);
 		
 		if(rv != null) { // 유효한 게시글 => 게시글, 첨부파일 DB로부터 조회 

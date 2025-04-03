@@ -41,6 +41,7 @@ public class FollowController extends HttpServlet {
         } else {
         	response.getWriter().print("fail");
         }
+		response.getWriter().close();
 	}
 
 	/**

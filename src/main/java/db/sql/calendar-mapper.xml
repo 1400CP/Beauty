@@ -40,13 +40,24 @@
 	
 	<entry key="selectFollowList">
 		SELECT 
-			   FOLLOWING
-			 , MEM_ID
-			 , MEM_NAME
-		  FROM FOLLOW
-		  JOIN MEMBER ON (FOLLOWING = MEM_NO)
-		 WHERE FOLLOWER = ?
-		   AND STATUS = 'Y'
+		       F.FOLLOWING,
+		       M.MEM_ID,
+		       M.MEM_NAME,
+		       I.FILE_PATH || I.CHANGE_NAME AS FILEPATH
+		  FROM FOLLOW F
+		  JOIN MEMBER M ON F.FOLLOWING = M.MEM_NO
+		  LEFT JOIN (
+		      SELECT *
+		        FROM IMAGE
+		       WHERE (IMAGE_NO, REF_BNO) IN (
+		         SELECT MAX(IMAGE_NO), REF_BNO
+		           FROM IMAGE
+		          GROUP BY REF_BNO
+		       )
+		  ) I ON M.MEM_NO = I.REF_BNO
+		 WHERE F.FOLLOWER = ?
+		   AND M.STATUS = 'Y'
+		
 	</entry>
 
 	<entry key="selectFollowUserName">

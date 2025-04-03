@@ -38,6 +38,7 @@ public class AjaxIdCheckController extends HttpServlet {
 		} else {
 			response.getWriter().print("NNNNY");
 		}
+		response.getWriter().close();
 	}
 
 	/**

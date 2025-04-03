@@ -82,10 +82,12 @@ public class ProfileUpdateController extends HttpServlet {
 		System.out.println("color: " + color);
 		
 		int result = new ProfileService().updateProfile(p);
+		System.out.println(" 성공 : " + result);
 		
 		if(result > 0) {
 			HttpSession session = request.getSession();
 			Member updateMem = new MemberService().selectMember(userNo);
+			System.out.println("다시 조회 : " + updateMem);
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			 if (updateMem != null) {
 			        // **기존 세션 정보 유지하면서 필요한 정보만 업데이트**

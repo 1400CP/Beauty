@@ -38,6 +38,8 @@ public class ScheduleDeleteController extends HttpServlet {
 	    } else {
 	        response.getWriter().print("error");
 	    }
+	    
+	    response.getWriter().close();
 	}
 
 	/**

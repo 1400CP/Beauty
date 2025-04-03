@@ -55,6 +55,7 @@ public class FollowingScheduleListController extends HttpServlet {
 		
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().print(jsonArray);
+		response.getWriter().close();
 	}
 
 	/**

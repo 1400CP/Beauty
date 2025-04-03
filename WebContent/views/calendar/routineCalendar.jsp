@@ -267,7 +267,7 @@ body { font-family: 'Poppins', sans-serif; margin: 0; padding: 20px; color: #333
         <input type="date" id="repeat_startdate" name="repeat_startdate" required> ~ <input type="date" id="repeat_enddate" name="repeat_enddate">
       </div>
   	  <br>
-      <label>요일 (선택사항)</label>
+      <label>요일</label>
       <div class="weekdays">
         <div class="week-btn">월</div>
         <div class="week-btn">화</div>

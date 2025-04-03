@@ -353,7 +353,7 @@ div, input {
 				</div>
 				<div id="header3_bottom">
 					<span class="username"><b><%= loginUser.getUserName() %></b><b>님</b>,</span>
-					<% if(loginUser.getFilePath() != null) { %>
+					<% if(loginUser.getFilePath() != null && !loginUser.getFilePath().isEmpty()) { %>
 					<span>환영합니다!</span> <a href=""><img src="<%= contextPath %>/<%= loginUser.getFilePath() %>" alt="프로필 사진"></a>
 					<% } else {%>
 					<span>환영합니다!</span> <a href=""><img src="<%= contextPath %>/resources/images/account_circle_500dp_000000.png" alt="프로필 사진"></a>

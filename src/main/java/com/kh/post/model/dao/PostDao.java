@@ -17,6 +17,7 @@ import com.kh.common.model.vo.Reply;
 import com.kh.member.model.vo.Member;
 import com.kh.post.model.vo.Image2;
 import com.kh.post.model.vo.SubCategory2;
+import com.kh.review.model.vo.Image;
 
 public class PostDao {
 	
@@ -63,7 +64,7 @@ public class PostDao {
 	
 	public ArrayList<Post> selectPostArrayList(Connection conn, PageInfo pi){
 		// select 조회해야 하니까 ResultSet, 다행렬 조회
-		ArrayList<Post> list = new ArrayList<Post>(); // 초기화
+		ArrayList<Post> list = new ArrayList<>(); // 초기화
 		
 		PreparedStatement pstmt = null; // 초기화
 		ResultSet rset = null;
@@ -109,6 +110,45 @@ public class PostDao {
 			close(pstmt);
 		}
 		return list;
+
+	}
+	
+	public ArrayList<Image2> selectImagesForPost(Connection conn, int postNo) {
+	    ArrayList<Image2> list1 = new ArrayList<Image2>();
+	    
+	    PreparedStatement pstmt = null;
+	    ResultSet rset = null;
+	    
+	    String sql = prop.getProperty("selectImagesForPost");
+	    
+	    try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, postNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Image2 img = new Image2();
+	            img.setImgNo(rset.getInt("IMAGE_NO"));
+	            img.setRefBno(rset.getInt("REF_BNO"));
+	            img.setOriginName(rset.getString("ORIGIN_NAME"));
+	            img.setChangeName(rset.getString("CHANGE_NAME"));
+	            img.setFilePath(rset.getString("FILE_PATH"));
+	            img.setUploadDate(rset.getDate("UPLOAD_DATE"));
+	            img.setFileLevel(rset.getString("FILE_LEVEL"));
+	            
+	            list1.add(img);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+	        close(rset);
+	        close(pstmt);
+		}
+	    return list1;
 
 	}
 	
@@ -232,7 +272,7 @@ public class PostDao {
 			pstmt.setString(2, img.getOriginName());
 			pstmt.setString(3, img.getChangeName());
 			pstmt.setString(4, img.getFilePath());
-			// 리뷰는 Level R로
+			// 리뷰는 Level P로
 			
 			result = pstmt.executeUpdate();
 			
@@ -332,8 +372,6 @@ public class PostDao {
 			
 			if(rset.next()) {
 				img = new Image2();
-				po = new Post();
-				po.setPostNo(rset.getInt("POST_NO"));
 				img.setImgNo(rset.getInt("IMAGE_NO"));
 				img.setOriginName(rset.getString("ORIGIN_NAME"));
 				img.setChangeName(rset.getString("CHANGE_NAME"));
@@ -474,6 +512,7 @@ public class PostDao {
 		} finally {
 			close(pstmt);
 		}
+		System.out.println("updatePost Dao result : " + result);
 		return result;
 
 	}
@@ -500,6 +539,7 @@ public class PostDao {
 		} finally {
 			close(pstmt);
 		}
+		System.out.println("update이미지2 Dao result : " + result);
 		return result;
 
 	}
@@ -526,6 +566,7 @@ public class PostDao {
 		} finally {
 			close(pstmt);
 		}
+		System.out.println("NewInsert이미지 Dao result : " + result);
 		return result;
 
 	}

@@ -8,10 +8,6 @@
 <%@page import="java.awt.font.ImageGraphicAttribute"%>
 
 <%
-	String contextPath = request.getContextPath();
-	Member loginUser = (Member)session.getAttribute("loginUser");
-	String alertMsg = (String)session.getAttribute("alertMsg");
-
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	ArrayList<Post> list = (ArrayList<Post>)request.getAttribute("list");
 	ArrayList<Image2> list1 = (ArrayList<Image2>)request.getAttribute("list1");
@@ -29,8 +25,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
 </script>
@@ -329,21 +334,36 @@ img {
 }
 
 <!-- postContentPost -->
-#reviewForm_CP1 * {
-	border: 5px solid black;
+#reviewForm_CP1 {
 	margin: auto;
-	margin-top: 10px;
 }
 
-#reviewTable_CP1 {
-	margin: auto;
-	margin-top: 10px;
+/* #reviewTable_CP1 *{
+	border: 5px solid black;
+} */
+
+.reviewTable_CP1 td{
+	border: 0.5px solid lightgrey; opacity: 0.5;
 }
 
 .reviewMP_td1 {
+	margin: auto;
+	margin-top: 50px;
+	margin-right: 400px;
 	color: palevioletred;
 	font-size: 25px;
 	font-weight: 900;
+}
+
+.crossLine{
+	text-align: center;
+	color: lightgray;
+}
+
+.reviewContent_div_btn{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 550px;
 }
 
 .review_rating {
@@ -363,335 +383,176 @@ img {
 	-webkit-text-stroke: 0.2px black;
 }
 
-.reviewContent_btn {
+.reviewContent_btn{
 	border: none;
 	border-radius: 20px;
 	background-color: palevioletred;
 	padding: 10px;
-	cursor: pointer;
+	cursor : pointer;
 	color: white;
 	font-size: 14px;
 	font-weight: 700;
 	width: 120px;
 }
 
-.reviewContent_btn2 {
+.reviewContent_btn2{
 	border: none;
 	border-radius: 20px;
 	background-color: palevioletred;
 	padding: 10px;
-	cursor: pointer;
+	cursor : pointer;
 	font-size: 14px;
 	font-weight: 700;
-	color: lightgray;
+	color:lightgray;
 	width: 120px;
 }
 
-.review_img2 {
-	width: 250px;
+.review_CreateDate, .review_title1, .review_title2{
+	font: normal;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.reviewTr_img1 td, .reviewTr_img2 td, .reviewTr_img3 td{
+	height: 30px;
+}
+
+.reviewTr_img3 textarea{
+	font: message-box;
+	font-size: 22px;
+	font-weight: bold;
+	padding : 20px;
+}
+
+.paging-area{
+	margin-top: 20px;
+}
+
+.reviewTr_img1, .reviewTr_img2{
+	cursor:pointer;
+}
+
+.reviewTr_img1 img{
+	width: 280px;
 	height: 250px;
 	box-sizing: border-box;
+	cursor:pointer;
 }
 
-.reviewTr_img1, .reviewTr_img2, .reviewTr_img3 {
-	cursor: pointer;
-}
-
-.review_CreateDate {
-	font-size: 14px;
-	font-weight: 700;
-}
-
-.review_title1, .review_title2 {
-	font-size: 14px;
-	font-weight: 700;
-}
 </style>
 </head>
 <body>
 
-	<% if(alertMsg != null) { %>
-	<script>
-            alert("<%= alertMsg %>")			
-        </script>
-	<% session.removeAttribute("alertMsg"); %>
-	<% } %>
-
-	<div class="wrap">
-
-		<div id="header">
-
-			<div id="header1">
-				<img src="resources/images/현존최강로고.jpg" alt="로고">
-			</div>
-
-			<div id="header2">
-				<form action="" id="search_form">
-					<div id="search_text">
-						<input type="text" name="keyword" placeholder="검색 키워드를 입력하세요.">
-					</div>
-					<div id="search_btn">
-						<input type="submit" value="Search">
-					</div>
-				</form>
-			</div>
-
-			<div id="header3">
-				<% if(loginUser == null) { %>
-				<!-- case1. 로그인 전-->
-				<div id="header3_top">
-					<a href="<%= contextPath %>/loginForm.me">로그인</a> <span>|</span> <a
-						href="enrollForm.me">회원가입</a>
-				</div>
-
-
-
-				<% }else { %>
-				<!-- case2. 로그인 후 -->
-				<div id="header3_top">
-
-					<a href=""><img src="resources/images/2.PNG" alt="메시지"></a> <a
-						href=""><img src="resources/images/3.PNG" alt="알림"></a> <a
-						href="">로그아웃</a> <span>|</span> <a
-						href="<%= contextPath %>/views/member/memberEnrollForm.jsp">마이페이지</a>
-				</div>
-				<div id="header3_bottom">
-					<span class="username"><b><%= loginUser.getUserName() %></b><b>님</b>,</span>
-					<span>환영합니다!</span> <a href=""><img src="" alt="프로필 사진"></a>
-				</div>
-				<% } %>
-			</div>
-
-
-		</div>
-
-	</div>
-
-	<div id="bnavigator">
-		<div id="navigator">
-			<a href="#" id="category">☰ 카테고리</a>
-			<ul class="category-menu">
-				<li><a href="skincare.html">스킨케어</a></li>
-				<li><a href="makeup.html">메이크업</a></li>
-				<li><a href="haircare.html">헤어케어</a></li>
-			</ul>
-			<ul id="navi">
-				<li><a href="index.html">HOME</a></li>
-				<li><a href="<%= contextPath %>/review.li?">Reviews</a></li>
-				<li><a href="<%= contextPath %>/post.list">Posts</a></li>
-				<li><a href="people.html">People</a></li>
-				<li><a href="ranking.html">상품 랭킹</a></li>
-			</ul>
-		</div>
-	</div>
-
-
-	<script>
-        document.addEventListener("DOMContentLoaded", function () {
-        const categoryBtn = document.querySelector("#category");
-        const categoryMenu = document.querySelector(".category-menu");
-        
-        categoryBtn.addEventListener("click", function (event) {
-            event.preventDefault();
-            categoryMenu.style.display = categoryMenu.style.display === "block" ? "none" : "block";
-        });
-        
-        document.addEventListener("click", function (event) {
-            if (!categoryBtn.contains(event.target) && !categoryMenu.contains(event.target)) {
-            categoryMenu.style.display = "none";
-            }
-        });
-        });
-    </script>
-
 <!-- 포스트 콘텐츠 -->
-	<form action="" id="reviewForm_CP1" method="get">
-		<table id="reviewTable_CP1">
-			<tr>
-				<td height="50"></td>
-				<td colspan="11"class="reviewMP_td1">Post 게시글</td>
+<%@ include file="../common/headerNav.jsp" %>
 
-			</tr>
-			<tr>
-				<td colspan="12" style="color: lightgray;" height="0">
-					————————————————————————————————————————————————————————————</td>
-			</tr>
-
-			<tr>
-				<td colspan="11"></td>
-				<td>
+<form action="" id="reviewForm_CP1" method="get" align="center">			
+		<div class="reviewMP_td1">post 게시글</div>
+			<div class="crossLine">──────────────────────────────────────────────────────────────────────</div>
+				<div class="reviewContent_div_btn">
 					<% if(loginUser != null) { %>
-						<button type="button" class="reviewContent_btn" onclick="location.href='<%= contextPath %>/postList.wr'">
-							+포스트 작성
-						</button>
+					<button type="button" class="reviewContent_btn" onclick="location.href='<%= contextPath %>/postList.wr'">
+						+ 포스트 작성
+					</button>
 					<% }else { %>
 						<button type="button" class="reviewContent_btn2" onclick="location.href='<%= contextPath %>/loginForm.me'">
 							+ 포스트 작성
 						</button>
 					<% } %>
-				</td>
-			</tr>
-			
+				</div>
+				
+				<table id="reviewTable_CP1" align="center">
+				<!-- 게시글이 없는 경우 -->
+				<% if(list.isEmpty()) { %>
+				
+					<tr>
+						<td colspan="6" rowspan="4">
+							<p>조회된 게시글이 없습니다.</p>
+						</td>
+					</tr>
+
+			<!-- 게시글이 있는 경우 -->
+				<% }else { %>
+					<% for(Post po : list) { %>
+					<tr class="reviewTr_img1">
+						
+						<td class="review_CreateDate" colspan="3" align="left" style="margin-left: 10px;"><%= po.getCreateDate() %></td>
+						<td><input type="hidden" name="POST_NO" value="<%= po.getPostNo() %>"></td>
+					</tr>
+					
+					<tr class="reviewTr_img2">
+						
+						<td class="review_title1" align="left" style="margin-left: 10px;"><%= po.getPostNo() %></td>
+						<td class="review_title2" colspan="2" align="left" style="margin-left: 10px;"><%= po.getTitle() %></td>
+						<td></td>
+					</tr>
+
+					<tr class="reviewTr_img3">
+
+						<td colspan="4"><textarea cols="60" rows="10" style="resize: none; border-color: white;" disabled><%= po.getContent() %></textarea></td>
+					</tr>
+					
+					<tr>
+					
+						<td colspan="4" style="height: 50px"></td>
+					<tr>
+					<% } %>
+				<% } %>
+				
+				</table>
+
+		
 			<script>
 				$(function(){
-				    $(".reviewContent_btn2").on("click", function(){
-				    	alert("로그인을 해주세요.");
-			    	})
+					$(".reviewContent_btn2").on("click", function(){
+						alert("로그인을 해주세요.");
+					})
+				})
+				
+				$(function(){
+					$(".reviewTr_img1").on("click", function(){
+						location.href = '<%= contextPath %>/detail.po?bno=' + $(this).children().eq(1).children().val();
+					})
+				})
+			
+				$(function(){
+					$(".reviewTr_img2").on("click", function(){
+						location.href = '<%= contextPath %>/detail.po?bno=' + $(this).children().eq(0).text();
+					})
 				})
 			</script>
-			
-			<!-- 게시글이 없는 경우 -->
-			<% if(list.isEmpty()) { %>
 
-			<tr>
-				<td rowspan="6" colspan="6">
-					<p>조회된 게시글이 없습니다.</p>
-				</td>
-			</tr>
-			
-			<!-- 게시글이 있는 경우  -->
-			<% }else { %>
-			
-			<% for(Post po : list) { %>
-			<tr class="reviewPostNo_img">
-				<td class="reviewTr_img1" colspan="3" rowspan="5" align="center" style="width: 250px; height: 250px;" onclick="location.href='<%= contextPath %>/detail.po?bno='">
-					<% for(Image2 img:list1) { %>
-						<% if(po.getMemNo() == (img.getPostMem()) && po.getCreateDate() == img.getUploadDate()) { %>
-						<img src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
-						<% } %>
+			<div class="paging-area" align="center">
+				<% if(currentPage != 1) { %>
+				<!-- 이전버튼 -->
+					<button type="button" onclick="location.href='<%= contextPath %>/post.list?cpage=<%= currentPage -1 %>'">
+						&lt;
+					</button>
+				<% } %>
+							
+				<% for(int i=startPage; i<=endPage; i++) { %>
+					<% if(i != currentPage) { %>
+						<button type="button" onclick="location.href='<%= contextPath %>/post.list?cpage=<%= i %>'">
+							<%= i %>
+						</button>
+					<% }else { %>
+						<button type="button" disabled>
+							<%= i %>
+						</button>
 					<% } %>
-				</td>
-				<td></td>
-				
-				<td class="reviewTr_img2" colspan="3" rowspan="5" align="center" style="width: 250px; height: 250px;" onclick="location.href='<%= contextPath %>/detail.po?bno='">
-					<% for(Image2 img:list1) { %>
-						<% if(po.getCreateDate() == img.getUploadDate()) { %>
-						<img src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
-						<% } %>
-					<% } %>
-				</td>
-				<td></td>
-				
-				<td class="reviewTr_img3" colspan="3" rowspan="5" align="center" style="width: 250px; height: 250px;" onclick="location/href='<%= contextPath %>/detail.po?bno='">
-					<% for(Image2 img:list1) { %>
-						<% if(po.getMemNo() == (img.getPostMem()) && po.getCreateDate() == img.getUploadDate()) { %>
-						<img src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
-						<% } %>
-					<% } %>
-				</td>
-				<td></td>
-				
-			</tr>
-
-			
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			
- 			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			
-			<tr>
-				<td colspan="3"><%= po.getCreateDate() %></td>
-				<td></td>
-				<td colspan="3"><%= po.getCreateDate() %></td>
-				<td></td>
-				<td colspan="3"><%= po.getCreateDate() %></td>
-				<td></td>
-			</tr>
-			
-			<tr class="review_image_tr">
-				<td class="reviewTD_img1"><%= po.getPostNo() %></td>
-				<td><%= po.getTitle() %></td>
-				<td><%= po.getLikePost() %></td>
-				<td></td>
-
-				<td class="reviewTD_img2"><%= po.getPostNo() %></td>
-				<td><%= po.getTitle() %></td>
-				<td><%= po.getLikePost() %></td>
-				<td></td>
-
-				<td class="reviewTD_img3"><%= po.getPostNo() %></td>
-				<td><%= po.getTitle() %></td>
-				<td><%= po.getLikePost() %></td>
-				<td></td>
-			</tr>
-			
-			<tr>
-				<td colspan="12" style="color: lightgray;">————————————————————————————————————————————————————————————</td>
-			</tr>
-			<% } %>
-		<% } %>
-
-		</table>
-		<script>
-			$(function(){
-				$("#review_content_thumnail").on("click", function(){
-					location.href='<%= contextPath %>/detail.im'
-				})
-			})
-			
-			$(function(){
-			    $(".reviewTr_img1").on("click", function(){
-					location.href = '<%= contextPath %>/detail.po?bno=' + $(".review_image_tr").children().eq(0).text();
-		    	})
-			})
-		</script>
-
-		<div class="paging-area" align="center">
-			<% if(currentPage == 1) { %>
-			<!-- 이전버튼 -->
-				<button type="button" onclick="location.href='<%= contextPath %>/post.list?cpage=1'">
-            		&lt;
-           	 	</button>
-            <% }else if(currentPage > 1){ %>
-           	 	<button type="button" onclick="location.href='<%= contextPath %>/post.list?cpage=<%= currentPage - 1 %>'">
-            		&lt;
-           	 	</button>
-            <% } %>
-            
-			<% for(int i=startPage; i<=endPage; i++) { %>
-            	<% if(i == currentPage) { %>
-            		<button type="button" disabled>
-            			<%= i %>
-           			</button>
-           		<% }else { %>
-         			 <button type="button" onclick="location.href='<%= contextPath %>/post.list?cpage=<%= i %>'">
-           				<%= i %>
-           			</button>
-           		<% } %>
-            <% } %>
-            
-            <% if(currentPage == maxPage) { %>
-            <!-- 다음버튼 -->
-            	<button type="button" onclick="location.href='<%= contextPath %>/post.list?cpage=<%= maxPage %>'">
-            		&gt;
-           	 	</button>
-			<% }else if(currentPage > 0){ %>
-				<button type="button" onclick="location.href='<%= contextPath %>/post.list?cpage=<%= currentPage + 1 %>'">
-            		&gt;
-           	 	</button> 
-           	<% } %>
-		</div>
-
-	</form>
-
+				<% } %>
+							
+				<% if(list.isEmpty()) { %>
+					<button type="button" disabled>
+						&gt;
+					</button>
+				<!-- 다음버튼 -->
+				<% }else if(currentPage != maxPage) { %>
+					<button type="button" onclick="location.href='<%= contextPath %>/post.list?cpage=<%= currentPage +1 %>'">
+						&gt;
+					</button>
+				<% } %>
+			</div>
+</form>
 </body>
 </html>

@@ -42,8 +42,8 @@ public class ReviewInsertController extends HttpServlet {
 		// enctype이 multipart/form-data로 잘 전송되었을 경우
 		// 전반적인 내용들이 수행되도록 if문 수행해보자.
 		if(ServletFileUpload.isMultipartContent(request)) {
-			// 파일 업로드를 위한 라이브러리 : cos.jar(com.oreilly.servlet의 약자)
-			// http://www.servlet.com에서 다운로드
+		// 파일 업로드를 위한 라이브러리 : cos.jar(com.oreilly.servlet의 약자)
+		// http://www.servlet.com에서 다운로드
 
 			int maxSize = 10*1024*1024;
 			
@@ -74,12 +74,11 @@ public class ReviewInsertController extends HttpServlet {
 			if(multiRequest.getOriginalFileName("upfile") != null) {
 				// if문을 타면, 넘어온 첨부파일이 있을 경우
 				img = new Image();
-				img.setRefBno(Integer.parseInt(memNo));
+//				img.setRefBno(refBno);
 				img.setOriginName(multiRequest.getOriginalFileName("upfile"));
 				img.setChangeName(multiRequest.getFilesystemName("upfile"));
 				img.setFilePath("resources/images/"); // /가 있어야 한다.
 			}
-	System.out.println("리뷰 이미지 확인 : " + multiRequest.getOriginalFileName("upfile"));
 			// 4. Service 요청 (요청처리)
 			int result = new ReviewService().insertReview(rv, img);
 			
@@ -88,7 +87,7 @@ public class ReviewInsertController extends HttpServlet {
 
 			if(result > 0) {
 				response.sendRedirect(request.getContextPath() + "/review.li?cpage=1");
-				request.getSession().setAttribute("alertMsg", "일반게시판등록!");
+				request.getSession().setAttribute("alertMsg", "리뷰등록!");
 			}else {
 				// 실패 => 첨부파일 있었다면 업로드 된 파일 찾아서 삭제 시킨 후 에러페이지로
 				if(img != null) { // 첨부파일이 있었다면

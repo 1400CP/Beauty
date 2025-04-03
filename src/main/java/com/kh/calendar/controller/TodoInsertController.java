@@ -45,7 +45,7 @@ public class TodoInsertController extends HttpServlet {
 
 	    response.setContentType("text/plain; charset=UTF-8");
 	    response.getWriter().write(result > 0 ? "success" : "fail");
-		
+	    response.getWriter().close();
 	}
 
 	/**

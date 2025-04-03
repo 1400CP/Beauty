@@ -35,12 +35,15 @@ public class NaverCheckUserController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		String Token = (String) session.getAttribute("naverId"); 
+		System.out.println("왔냐" + Token);
 		
 		
 		int result = new MemberService().NaverCheckUser(Token);
+		System.out.println("왔냐" + result);
 		
 		Member loginUser = null;
 		if(result > 0) {
+			System.out.println(result);
 			loginUser = new MemberService().NaverLoginMember(Token);
 			session.setAttribute("loginUser", loginUser);
 			response.sendRedirect(request.getContextPath());

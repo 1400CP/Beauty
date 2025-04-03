@@ -28,19 +28,27 @@ public class ReviewService {
 		Connection conn = getConnection();
 		
 		ArrayList<Review> list = new ReviewDao().selectReviewArrayList(conn, pi);
+		// 각 리뷰에 대해 이미지 목록을 추가
+//	    for (Review rv : list) {
+//	        ArrayList<Image> images = new ReviewDao().selectImagesForReview(conn, rv.getReviewNo());
+//	        
+//	        // 각 리뷰에 해당하는 이미지 리스트를 조회
+//	        rv.setImages(images);
+//	        // Review 객체에 이미지 목록 추가
+//	    }
 		
 		close(conn);
 		return list;
 		
 	}
 	
-	public ArrayList<Image> selectImageArraylist(PageInfo pi){
+	public ArrayList<Image> selectImageArrayList(PageInfo pi){
 		Connection conn = getConnection();
 		
-		ArrayList<Image> list2 = new ReviewDao().selectImageArraylist(conn, pi);
+		ArrayList<Image> list1 = new ReviewDao().selectImageArrayList(conn, pi);
 		
 		close(conn);
-		return list2;
+		return list1;
 	}
 	
 	
@@ -129,7 +137,40 @@ public class ReviewService {
 		return img;
 	}
 	
-	public int updateReview(Review rv, Image img) {
+	public int updateReview2(Review rv) {
+		Connection conn = getConnection();
+				
+		int result2 = new ReviewDao().updateReview2(conn, rv);
+		
+		if (result2 > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		return result2;
+	}
+	
+	public int updateReview1(Review rv, Image img) {
+//		Connection conn = getConnection();
+//		
+//		int result1 = new ReviewDao().updateReview2(conn, rv);
+//		int result2;
+//		
+//		if(img != null) { // 이미지가 있으면
+//			result2 = new ReviewDao().updateImage(conn, img);
+//		}else {
+//			result2 = 1;
+//		}
+//		
+//		
+//		if(result1 > 0 && result2 > 0) {
+//			commit(conn);
+//		}else {
+//			rollback(conn);
+//		}
+//		close(conn);
+//		return result1 * result2;
+		
 		Connection conn = getConnection();
 		
 		int result1 = new ReviewDao().updateReview2(conn, rv);
@@ -142,15 +183,16 @@ public class ReviewService {
 				result2 = new ReviewDao().newInsertImage(conn, img);
 			}
 		}
-		
+
 		if(result1 > 0 && result2 > 0) {
 			commit(conn);
 		}else {
 			rollback(conn);
 		}
+		System.out.println("글 업뎃 Service: " + result1);
+		System.out.println("이미지 업뎃 Service: " + result2);
 		close(conn);
 		return result1 * result2;
-		
 	}
 	
 	public int deleteNewReview(Review rv) {

@@ -1,16 +1,17 @@
-<%@page import="com.kh.review.model.vo.Image"%>
+<%@page import="com.kh.review.model.vo.SubCategory"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="com.kh.review.model.vo.Review"%>
-<%@page import="com.kh.review.model.vo.SubCategory"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="com.kh.common.model.vo.PageInfo"%>
+<%@page import="com.kh.review.model.vo.Image"%>
+<%@page import="com.kh.review.model.vo.Review"%>
 <%@page import="com.kh.member.model.vo.Member"%>
 <%
-	ArrayList<Review> rv = (ArrayList<Review>)request.getAttribute("rv");
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	ArrayList<Review> list = (ArrayList<Review>)request.getAttribute("list");
 	ArrayList<SubCategory> list1 = (ArrayList<SubCategory>)request.getAttribute("list1");
 	Review rv1 = (Review)request.getAttribute("rv1");
 	Image img = (Image)request.getAttribute("img");
-	SubCategory sc = (SubCategory)request.getAttribute("sc");
 %>
 <!DOCTYPE html>
 <html>
@@ -62,6 +63,7 @@
 }
 #Content5{
     width: 350px;
+    max-height: 800px;
     border: 1px solid #ddd;
     margin-right: 50px;
     
@@ -687,6 +689,11 @@ color: white;
 		margin: auto;
 		margin-top: 20px;
 	}
+	
+	.image_container label{
+		margin: auto;
+		align-items: center;
+	}
 
 </style>
 
@@ -699,9 +706,9 @@ color: white;
 
 	<div id="Content1">
 		<div id="Content2">
-			<div id="userImg">
-				<img id="userprofile"
-					src="<%= contextPath %>/resources/userImage/변우석.jpg" alt="유저이미지">
+			<div id="userImg" style="position: relative; display: inline-block; width: 100px; height: 100%;">
+				<img id="userprofile" src="<%= loginUser.getFilePath() %>" alt="유저이미지"
+						style="border-radius: 50%; cursor: pointer;">
 			</div>
 			<div id="userName">
 				<h2><%= loginUser.getUserName() %></h2>
@@ -711,15 +718,15 @@ color: white;
 		<div id="Content3">
 			<table>
 				<tr>
-					<td><a href="" style="font-weight: 800; font-size: larger;">게시글
+					<td><a href="<%= contextPath %>/postMyList.po" style="font-weight: 800; font-size: larger;">게시글
 							<br><%= loginUser.getPost() %></a> <br></td>
-					<td><a href="" style="font-weight: 800; font-size: larger;">리뷰
+					<td><a href="<%= contextPath %>/review.my" style="font-weight: 800; font-size: larger;">리뷰
 							<br><%= loginUser.getReview() %><br>
 					</a></td>
-					<td><a href="" style="font-weight: 800; font-size: larger;">팔로우
+					<td><a href="<%= contextPath %>/views/member/follow.jsp" style="font-weight: 800; font-size: larger;">팔로우
 							<br><%= loginUser.getFollower() %><br>
 					</a></td>
-					<td><a href="" style="font-weight: 800; font-size: larger;">팔로잉
+					<td><a href="<%= contextPath %>/views/member/follow.jsp" style="font-weight: 800; font-size: larger;">팔로잉
 							<br><%= loginUser.getFollowing() %><br>
 					</a></td>
 				</tr>
@@ -825,12 +832,12 @@ color: white;
 
 	<div id="review_updateouter" class="review_updateouter">
 		<h2 align="center">리뷰 수정하기</h2>
-		<form id="review_update" action="<%= contextPath %>/updateReview.up" method="post" enctype="multipart/form-data">
+		<form id="review_update" action="<%= contextPath %>/updateReview2.up" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="MEM_NO" value="<%= rv1.getMemNo() %>">
 			<input type="hidden" name="bno" value="<%= rv1.getReviewNo() %>">
-			<table id="review_update_table1" align="center">
+			<table id="review_update_table1">
 				<tr>
-					<th width="75" height="50" align="left" class="review_update_th">
+					<th width="75" height="50" class="review_update_th">
 						제목
 					</th>
 					<td width="350">
@@ -844,7 +851,7 @@ color: white;
                             <% for(SubCategory cate : list1) { %>
                             	<option class="review_update_option1" value="<%= cate.getScId() %>"><%= cate.getScName() %></option>
                             <% } %>
-                        </select>  -->
+                        </select>  
                         <script>
                         	$(function(){
                         		$("#review_update review_update_option1").each(function(){
@@ -853,7 +860,7 @@ color: white;
                         			}
                         		})
                         	})
-                        </script>
+                        </script> -->
 					</td>
 				</tr>
 
@@ -888,28 +895,9 @@ color: white;
 								<option class="review_update_option4"><%= i %></option>
 							<% } %>
 						</select>
-                        <script>
-                        	$(function(){
-                        		$("#review_update review_update_option2").each(function(){
-                        			if($(this).text() == "<%= rv1.getPrRating()%>"){
-                        				$(this).attr("selected", true);
-                        			}
-                        		})
-                        		$("#review_update review_update_option3").each(function(){
-                        			if($(this).text() == "<%= rv1.getpRating() %>"){
-                        				$(this).attr("selected", true);
-                        			}
-                        		})
-                  		        $("#review_update review_update_option4").each(function(){
-                        			if($(this).text() == "<%= rv1.getrRating() %>"){
-                        				$(this).attr("selected", true);
-                        			}
-                        		})
-                        	})
-                        </script>
 					</td>
 					<td>
-						<button type="button" id="review_UpLikebtn" class="review_update_like" name="LIKE_REVIEW" value="<%= rv1.getLikeReview() %>"> 👍 : <%= rv1.getLikeReview() %></button>
+						<!-- <button type="button" id="review_UpLikebtn" class="review_update_like" name="LIKE_REVIEW" value="<%= rv1.getLikeReview() %>"> 👍 : <%= rv1.getLikeReview() %></button>  -->
 					</td>
 				</tr>
 				<tr>
@@ -917,83 +905,120 @@ color: white;
 						첨부파일
 					</th>
 					<td colspan="3" class="review_update_img">
+					<input type="hidden" name="IMG_PATH" value="<%= rv1.getImagePath() %>">
 	                	<% if(img != null) { %>
                     <!-- case1. 첨부파일이 있는 경우 -->
 	                    <input type="hidden" name="originFileNo" value="<%= img.getImgNo() %>">
-	                    	<br>
-							<input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
-							<div id="image_container"></div>
-							<br>
+
+							<div id="image_container">
 							<label for="review_upload">
 								<span class="material-icons">
-									<svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 0 24 24" width="48px" fill="#e8618c"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+									<svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 0 24 24" width="48px" fill="#E8618C"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"/></svg>
 								</span>
 							</label>
+							</div>
+							
+							<input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
+							
 							<br>
+							
 							<a download="<%= img.getOriginName() %>" href="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>" onchange="setThumbnail(event);"><%= img.getOriginName() %></a>
-
+							
 						<% }else { %>
                     <!-- case2. 첨부파일이 없을 경우 -->
+
+							<input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);" >
+							
+							<br>
+							<div id="image_container">
+							<label for="review_upload">
+								<span class="material-icons">
+									<svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 0 24 24" width="48px" fill="#E8618C"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"/></svg>
+								</span>
+							</label>
+							</div>
+							
 							<br>
 	                        	<b>첨부파일이 없습니다</b>
 							<br>
-							<input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
-							<div id="image_container"></div>
-							<br>
-							<label for="review_upload" style="center";>
-								<span class="material-icons">
-									<svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 0 24 24" width="48px" fill="#e8618c"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
-								</span>
-							</label>
-	                	<% } %>
+							
+	          			<% } %>
 
 						<br>
 					</td>
 				</tr>
+			</table>	
+		<br>
 
-			</table>
-			
-			<script>
-				function setThumbnail(event){
-					const reader = new FileReader();
-					
-					reader.onload = function(event){
-						var img = document.createElement("img");
-						img.setAttribute("src", event.target.result);
-						img.setAttribute("class", "col-lg-6");
-						document.querySelector("div#image_container").appendChild(img);
-					};
-					reader.readAsDataURL(event.target.files[0]);
-				}
-			</script>
-			
-			<br>
+		<div class="reviewEnrollForm_btn" align="center">
+			<button type="button" onclick="location.href='<%= contextPath %>/detail.re?bno=<%= rv1.getReviewNo() %>'">
+				뒤로가기
+			</button>
+			<button type="submit" class="reviewDetail_btn">
+				수정
+			</button>
+		</div>
 
-			<div class="reviewEnrollForm_btn" align="center">
-				<button type="button" onclick="location.href='<%= contextPath %>/detail.re?bno=<%= rv1.getReviewNo() %>'">
-					뒤로가기
-				</button>
-				<button type="submit" onclick=update() class="reviewDetail_btn">
-					수정
-				</button>
-
-			</div>
+		</form>
+		
+		</div>
+		</div>
 			
-			<script>
-				function update(){
+        <!-- <script>
+	       	$(function(){
+	       		$("#review_update review_update_option2").each(function(){
+	       			if($(this).text() == "<%= rv1.getPrRating()%>"){
+	       				$(this).attr("selected", true);
+	       			}
+	       		})
+	       		$("#review_update review_update_option3").each(function(){
+	       			if($(this).text() == "<%= rv1.getpRating() %>"){
+	       				$(this).attr("selected", true);
+	       			}
+	       		})
+	 		        $("#review_update review_update_option4").each(function(){
+	       			if($(this).text() == "<%= rv1.getrRating() %>"){
+	       				$(this).attr("selected", true);
+	       			}
+	       		})
+	       	})
+         </script> -->
+        
+		<script>
+			function setThumbnail(event){
+				const reader = new FileReader();
+				
+				reader.onload = function(event){
+					var img = document.createElement("img");
+					img.setAttribute("src", event.target.result);
+					img.setAttribute("class", "col-lg-6");
+					document.querySelector("div#image_container").appendChild(img);
+				};
+				reader.readAsDataURL(event.target.files[0]);
+			}
+		</script>
+		
+		<script>
+			$(function(){
+	       		$(".reviewDetail_btn").on("click", function(){
 			        if(!confirm("확인(수정) 또는 취소(수정 안 함).")) {
 				    	alert("취소합니다.");
 			        }else {
-			        	alert("수정 완료.");
-			        	return;
+						return true;
 			        }
-				}
-			</script>
-			
-		</form>
-		</div>
-		</div>
-	</div>
+	       		})
+	       	})
+		</script>
+		<!-- 
+			function update(){
 
+		        if(!confirm("확인(수정) 또는 취소(수정 안 함).")) {
+			    	alert("취소합니다.");
+		        }else {
+					return true;
+		        }
+			}
+		 -->
+</div>
 </body>
 </html>

@@ -2,14 +2,14 @@
 <%@page import="com.kh.review.model.vo.Review"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.kh.common.model.vo.PageInfo"%>
-<%@page import="com.kh.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	ArrayList<Review> list = (ArrayList<Review>)request.getAttribute("list");
 	ArrayList<Image> list1 = (ArrayList<Image>)request.getAttribute("list1");
-
+	
+	int reviewLimit = pi.getreviewLimit();
 	int currentPage = pi.getCurrentPage();
 	int startPage = pi.getStartPage();
 	int endPage = pi.getEndPage();
@@ -22,584 +22,608 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
 </script>
 <style>
 #Content1{
-    height: auto;
-    width: 100%;
-    min-width: 1200px;
-    margin: auto;
-    margin-top: 50px;
+	height: auto;
+	width: 100%;
+	min-width: 1200px;
+	margin: auto;
+	margin-top: 50px;
 }
 #Content2{
-    width: 1200px;
-    height: 100px;
-    overflow: hidden;
-    margin: 0 auto;
-
+	width: 1200px;
+	height: 100px;
+	overflow: hidden;
+	margin: 0 auto;
 }
 #Content3{
-    width: 1200px;
-    overflow: hidden;
-    margin: auto;
+	width: 1200px;
+	overflow: hidden;
+	margin: auto;
 }
 #Content3 table{
-    height: auto;
-    width: 350px;
-    margin-bottom: 50px;
+	height: auto;
+	width: 350px;
+	margin-bottom: 50px;
 }
 #Content3 div{
-    float: left;
-    text-align: center;
+	float: left;
+	text-align: center;
 }
 #Content4{
-    width: 1200px;
-		height: auto;
-    min-height: 1200px;
-    overflow: hidden;
-    margin: auto;
-    display: flex;
-
+	width:1200px;
+	height: auto;
+	min-height: 1200px;
+	overflow: hidden;
+	margin: auto;
+	display: flex;
+	box-sizing: border-box;
 }
 #Content5{
-    width: 350px;
-    border: 1px solid #ddd;
-    margin-right: 50px;
-    
+	width: 350px;
+	max-height: 800px;
+	border: 1px solid #ddd;
+	margin-right: 50px;
 }
 #Content6{
-    width: 800px;
+	width: 800px;
 }
 #userImg{
-    height: 70px;
-    width: 70px
-    
+	height: 70px;
+	width: 70px
 }
 #userprofile{
-    border-radius: 50%;  /* 원형 이미지 */
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
+	border-radius: 50%;  /* 원형 이미지 */
+	object-fit: cover;
+	height: 100%;
+	width: 100%;
 }
 
 #Content2 div{
-    float: left;
-    margin: auto;
+	float: left;
+	margin: auto;
     
 }
 #userName *{
-    margin: 0;
-    margin-top: 20px;
+	margin: 0;
+	margin-top: 20px;
 }
 table td{
-    text-align: center;
+	text-align: center;
 
 }
 a{
-    text-decoration: none;
-    color: black;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 600;
+	text-decoration: none;
+	color: black;
+	text-decoration: none;
+	font-size: 15px;
+	font-weight: 600;
 }
 a:hover{
-    color: #e8618c;
+	color: #e8618c;
 }
 
 #userInfo tr{
     float: left;
 }
 #userBoard {
-    display: flex;
-    text-align: left;
-    gap: 33px;
-    position: relative;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 5px;
-    margin-left: 20px;
-    margin-bottom: 30px;
+	display: flex;
+	text-align: left;
+	gap: 33px;
+	position: relative;
+	border-bottom: 2px solid #ddd;
+	padding-bottom: 5px;
+	margin-left: 20px;
+	margin-bottom: 30px;
 }
 
 #myPageTitle{
-    margin-left: 20px;
+	margin-left: 20px;
 }
 #Title{
-    color: #e8618c;
-    font-size: x-large;
-    margin: 0;
+	color: #e8618c;
+	font-size: x-large;
+	margin: 0;
 }
 
 .tab {
-    font-size: 16px;
-    font-weight: bold;
-    color: #5e5858;
-    padding: 10px;
-    cursor: pointer;
-    position: relative;
-    transition: color 0.3s ease-in-out;
+	font-size: 16px;
+	font-weight: bold;
+	color: #5e5858;
+	padding: 10px;
+	cursor: pointer;
+	position: relative;
+	transition: color 0.3s ease-in-out;
 }
 .tab.active {
-    color: #e8618c;
+	color: #e8618c;
 }
 .underline{
-    position: absolute;
-    bottom: -2px;
-    height: 3px;
-    background-color: #e8618c;
-    transition: all 0.3s ease-in-out;
+	position: absolute;
+	bottom: -2px;
+	height: 3px;
+	background-color: #e8618c;
+	transition: all 0.3s ease-in-out;
     
 }
 .material-icons{
-    display: inline;
-    display: flex;
-    align-items: center;
-    font-weight: 600;
+	display: inline;
+	display: flex;
+	align-items: center;
+	font-weight: 600;
 }
 pre{
-    text-decoration: underline;
-    color: #e8618c;
-    text-decoration-thickness: 3px;
-    font-size: xx-small;
+	text-decoration: underline;
+	color: #e8618c;
+	text-decoration-thickness: 3px;
+	font-size: xx-small;
 }
 
 
 input[type="text"], input[type="password"] {
-    width: 480px;
-    padding: 12px;
-    margin: 0;
-    border: 1px solid #ddd;
-    border-radius: 7px;
-    font-size: 13px;
-    box-sizing: border-box;
+	width: 480px;
+	padding: 12px;
+	margin: 0;
+	border: 1px solid #ddd;
+	border-radius: 7px;
+	font-size: 13px;
+	box-sizing: border-box;
 }
 .check {
-background-color: #e8618c;
-color: white;
-width: 80px;
-height: 40px;
-border-radius: 7px;
-border: none;
-cursor: pointer; /* 🔥 마우스 커서를 손가락 모양으로 변경 */
-pointer-events: auto;
-font-size: 13px;
-font-weight: 600;
-transition: all 0.2s ease-in-out;
-box-shadow: 3px 3px 5px #e8618c(0, 0, 0, 0.2);
+	background-color: #e8618c;
+	color: white;
+	width: 80px;
+	height: 40px;
+	border-radius: 7px;
+	border: none;
+	cursor: pointer; /* 🔥 마우스 커서를 손가락 모양으로 변경 */
+	pointer-events: auto;
+	font-size: 13px;
+	font-weight: 600;
+	transition: all 0.2s ease-in-out;
+	box-shadow: 3px 3px 5px #e8618c(0, 0, 0, 0.2);
 }
 .check:hover {
-background-color: #d9507a;
-box-shadow: 3px 3px 5px #e8618c(0, 0, 0, 0.2);
+	background-color: #d9507a;
+	box-shadow: 3px 3px 5px #e8618c(0, 0, 0, 0.2);
 }
 
 /* 클릭 시 버튼이 살짝 눌리는 효과 */
 .check:active {
-    transform: scale(0.95);
-    box-shadow: 1px 1px 3px #e8618c(0, 0, 0, 0.2);
+	transform: scale(0.95);
+	box-shadow: 1px 1px 3px #e8618c(0, 0, 0, 0.2);
 }
 .btn-insta-insert {
-background-color: #e8618c;
-color: white;
-width: 150px;
-height: 40px;
-margin-top: 20px;
-border-radius: 7px;
-border: none;
-cursor: pointer; /* 🔥 마우스 커서를 손가락 모양으로 변경 */
-pointer-events: auto;
-font-size: 13px;
-font-weight: 600;
-transition: all 0.2s ease-in-out;
-box-shadow: 3px 3px 5px #e8618c(0, 0, 0, 0.2);
+	background-color: #e8618c;
+	color: white;
+	width: 150px;
+	height: 40px;
+	margin-top: 20px;
+	border-radius: 7px;
+	border: none;
+	cursor: pointer; /* 🔥 마우스 커서를 손가락 모양으로 변경 */
+	pointer-events: auto;
+	font-size: 13px;
+	font-weight: 600;
+	transition: all 0.2s ease-in-out;
+	box-shadow: 3px 3px 5px #e8618c(0, 0, 0, 0.2);
 }
 
 /* 호버 시 */
 .btn-insta-insert:hover {
-    background-color: #d9507a;
-    box-shadow: 3px 3px 5px #e8618c(0, 0, 0, 0.2);
+	background-color: #d9507a;
+	box-shadow: 3px 3px 5px #e8618c(0, 0, 0, 0.2);
 }
 
 /* 클릭 시 */
 .btn-insta-insert:active {
-    transform: scale(0.95);
-    box-shadow: 1px 1px 3px #e8618c(0, 0, 0, 0.2);
+	transform: scale(0.95);
+	box-shadow: 1px 1px 3px #e8618c(0, 0, 0, 0.2);
 }
 
 .btn img {
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
+	width: 18px;
+	height: 18px;
+	margin-right: 10px;
 }
 
 .error-message {
-    color: red;
-    font-size: 12px;
-    display: none;
+	color: red;
+	font-size: 12px;
+	display: none;
 }
 
 #insert-form :nth-child(4){
-    margin-top: 20px;
+	margin-top: 20px;
 }
 
 #insert-form :nth-child(7){
-    margin-top: 20px;
+	margin-top: 20px;
 }
 
 #Content5>*{
-    margin: 7px;
+	margin: 7px;
 }
 #update{
-    align-content: center;
+	align-content: center;
 }
 #update2{
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 }
 #openModal {
-display: inline-block;
-text-decoration: none;
-color: black;
-text-decoration: none;
-font-size: 15px;
-font-weight: 600;
-text-decoration: none;
-cursor: pointer;
+	display: inline-block;
+	text-decoration: none;
+	color: black;
+	text-decoration: none;
+	font-size: 15px;
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
 }
 #openModal:hover{
-    color: #e8618c;
+	color: #e8618c;
 }
 
 
 .modal {
-display: none;
-position: fixed;
-z-index: 1000;
-left: 0;
-top: 0;
-width: 100%;
-height: 100%;
-background-color: rgba(0, 0, 0, 0.5);
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* 모달 박스 */
 .modal-content {
-background: white;
-padding: 90px; /* 좌우 여백을 충분히 줌 */
-box-sizing: border-box; /* padding 포함한 크기 유지 */
-height: 600px;
-padding: 20px;
-border-radius: 10px;
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-border: 4px solid #5aa1f2; /* 파란색 테두리 추가 */
+	background: white;
+	padding: 90px; /* 좌우 여백을 충분히 줌 */
+	box-sizing: border-box; /* padding 포함한 크기 유지 */
+	height: 600px;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: 4px solid #5aa1f2; /* 파란색 테두리 추가 */
 }
 
 /* 입력 폼 스타일 */
 .modal-content input[id="password"] {
-width: 100%;
-padding: 12px;
-border: 1px solid #ccc;
-border-radius: 5px;
-font-size: 16px;
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
 }
 .modal-content input[id="userPwd"] {
-width: 100%;
-padding: 12px;
-border: 1px solid #ccc;
-border-radius: 5px;
-font-size: 16px;
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
 }
 
 /* 버튼 스타일 */
 .modal-content .delete-btn {
-background: #ff5f98;
-color: white;
-border: none;
-padding: 12px 20px;
-border-radius: 5px;
-font-weight: bold;
-cursor: pointer;
-display: block;
-margin: 20px auto 0;
-text-align: center;
-width: 200px;
+	background: #ff5f98;
+	color: white;
+	border: none;
+	padding: 12px 20px;
+	border-radius: 5px;
+	font-weight: bold;
+	cursor: pointer;
+	display: block;
+	margin: 20px auto 0;
+	text-align: center;
+	width: 200px;
 }
 
 .modal-content .delete-btn:hover {
-background: #e8618c;
-background: #ff5f98;
-color: white;
-border: none;
-padding: 12px 20px;
-border-radius: 5px;
-font-weight: bold;
-cursor: pointer;
-display: block;
-margin: 20px auto 0;
-text-align: center;
-width: 200px;
+	background: #e8618c;
+	background: #ff5f98;
+	color: white;
+	border: none;
+	padding: 12px 20px;
+	border-radius: 5px;
+	font-weight: bold;
+	cursor: pointer;
+	display: block;
+	margin: 20px auto 0;
+	text-align: center;
+	width: 200px;
 }
 
 /* 닫기 버튼 (X) */
 .close-btn {
-position: absolute;
-top: 15px;
-right: 20px;
-font-size: 25px;
-font-weight: bold;
-cursor: pointer;
+	position: absolute;
+	top: 15px;
+	right: 20px;
+	font-size: 25px;
+	font-weight: bold;
+	cursor: pointer;
 }
 .close-btn:hover {
-color: red;
+	color: red;
 }
 .password-container {
-display: flex;
-align-items: center; /* 세로 정렬 */
-gap: 10px; /* 라벨과 입력 필드 사이 간격 */
+	display: flex;
+	align-items: center; /* 세로 정렬 */
+	gap: 10px; /* 라벨과 입력 필드 사이 간격 */
 }
 .userId-container {
-display: flex;
-align-items: center; /* 세로 정렬 */
-gap: 26px; /* 라벨과 입력 필드 사이 간격 */
+	display: flex;
+	align-items: center; /* 세로 정렬 */
+	gap: 26px; /* 라벨과 입력 필드 사이 간격 */
 }
 
 .password-container label {
-white-space: nowrap; /* 라벨 줄바꿈 방지 */
+	white-space: nowrap; /* 라벨 줄바꿈 방지 */
 }
 
 .password-container input {
-flex: 1; /* 입력 필드가 남은 공간을 차지 */
-max-width: 500px; /* 원하는 너비 설정 */
+	flex: 1; /* 입력 필드가 남은 공간을 차지 */
+	max-width: 500px; /* 원하는 너비 설정 */
 }
 .userId-container label {
-white-space: nowrap; /* 라벨 줄바꿈 방지 */
+	white-space: nowrap; /* 라벨 줄바꿈 방지 */
 }
 
 .userId-container input {
-flex: 1; /* 입력 필드가 남은 공간을 차지 */
-max-width: 500px; /* 원하는 너비 설정 */
+	flex: 1; /* 입력 필드가 남은 공간을 차지 */
+	max-width: 500px; /* 원하는 너비 설정 */
 }
 table {
-table-layout: fixed; /* 테이블 셀 너비를 균등하게 */
+	table-layout: fixed; /* 테이블 셀 너비를 균등하게 */
 }
 
 button {
-border-style: none;
+	border-style: none;
 }
 #gender{
-    width: 100%;
-    height: 20px;
-    margin-top: 10px;
+	width: 100%;
+	height: 20px;
+	margin-top: 10px;
     
 }
 #improvement input{
-margin-left: 30px;
+	margin-left: 30px;
 }
 #update2 input[type="checkbox"]{
-margin-left: 30px;
-appearance: none;
-width: 15px;
-vertical-align: middle;
-height: 12px;
-border: 1px solid rgb(118, 118, 118);
-border-radius: 50%; /* 원형 */
-position: relative;
-cursor: pointer;
+	margin-left: 30px;
+	appearance: none;
+	width: 15px;
+	vertical-align: middle;
+	height: 12px;
+	border: 1px solid rgb(118, 118, 118);
+	border-radius: 50%; /* 원형 */
+	position: relative;
+	cursor: pointer;
 }
 #update2 input[type="radio"]{
-margin: 10px;
+	margin: 10px;
 }
 .color-box {
-display: flex;
+	display: flex;
 }
 
 .color-label {
-display: flex;
-align-items: center;
-justify-content: center;
-width: 121px; /* 버튼 크기 */
-height: 45px;
-border: 2px solid #ddd;
-cursor: pointer;
-font-size: 14px;
-font-weight: bold;
-color: #333;
-background-color: #fff;
-transition: all 0.3s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 121px; /* 버튼 크기 */
+	height: 45px;
+	border: 2px solid #ddd;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333;
+	background-color: #fff;
+	transition: all 0.3s;
 }
 
 /* 라디오 버튼 숨기기 */
 .color-input {
-display: none;
+	display: none;
 }
 
 /* 선택된 상태 스타일 */
 .color-input:checked + .color-label {
-background-color: #e8618c;
-border-color: #e8618c;
-color: white;
+	background-color: #e8618c;
+	border-color: #e8618c;
+	color: white;
 }
 /* 처음 버튼 (왼쪽만 둥글게) */
 .color-label:first-of-type {
-border-radius: 10px 0 0 10px;
+	border-radius: 10px 0 0 10px;
 }
 
 /* 마지막 버튼 (오른쪽만 둥글게) */
 .color-label:last-of-type {
-border-radius: 0 10px 10px 0;
+	border-radius: 0 10px 10px 0;
 }
+
 #userImg {
-position: relative;
-display: inline-block;
+	position: relative;
+	display: inline-block;
 }
 
 
 .edit-icon {
-position: absolute;
-bottom: 5px; /* 이미지 아래쪽 여백 */
-right: 5px;  /* 이미지 오른쪽 여백 */
-background-color: white; /* 아이콘 배경 */
-color: black;
-border-radius: 50%;
-padding: 5px;
-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-font-size: 18px;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-width: 14px;
-height: 14px;
+	position: absolute;
+	bottom: 5px; /* 이미지 아래쪽 여백 */
+	right: 5px;  /* 이미지 오른쪽 여백 */
+	background-color: white; /* 아이콘 배경 */
+	color: black;
+	border-radius: 50%;
+	padding: 5px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	font-size: 18px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 14px;
+	height: 14px;
 }
 .profile-modal {
-display: none;
-position: fixed;
-z-index: 1000;
-left: 50%;
-top: 50%;
-transform: translate(-50%, -50%);
-width: 500px; /* 기본 크기 */
-height: 500px;
-min-width: 300px;  /* 최소 너비 */
-min-height: 200px; /* 최소 높이 */
-max-width: 600px;  /* 최대 너비 */
-max-height: 500px; /* 최대 높이 */
-background: white;
-padding: 20px;
-border-radius: 10px;
-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-overflow: hidden;
-resize: both;  /* 크기 조절 가능하도록 설정 */
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 500px; /* 기본 크기 */
+	height: 500px;
+	min-width: 300px;  /* 최소 너비 */
+	min-height: 200px; /* 최소 높이 */
+	max-width: 600px;  /* 최대 너비 */
+	max-height: 500px; /* 최대 높이 */
+	background: white;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+	overflow: hidden;
+	resize: both;  /* 크기 조절 가능하도록 설정 */
 }
 
 /* 내부 컨텐츠 */
 .profile-modal-content {
-text-align: center;
-width: 100%;
-height: 100%;
-overflow: auto; /* 내용이 넘칠 경우 스크롤 가능 */
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	overflow: auto; /* 내용이 넘칠 경우 스크롤 가능 */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 /* 버튼을 감싸는 부모 컨테이너 추가 */
 .profile-button-container {
-display: flex;
-flex-direction: row;  /* 버튼을 가로로 정렬 */
-justify-content: center; /* 중앙 정렬 */
-align-items: center; /* 세로 중앙 정렬 */
-gap: 15px; /* 버튼 간격 */
-margin-top: 15px; /* 위쪽 여백 */
-width: 100%; /* 부모 요소가 가득 차도록 설정 */
+	display: flex;
+	flex-direction: row;  /* 버튼을 가로로 정렬 */
+	justify-content: center; /* 중앙 정렬 */
+	align-items: center; /* 세로 중앙 정렬 */
+	gap: 15px; /* 버튼 간격 */
+	margin-top: 15px; /* 위쪽 여백 */
+	width: 100%; /* 부모 요소가 가득 차도록 설정 */
 }
 
 .profile-modal-content img {
-width: 200px;
-height: 200px;
-margin-left: 125px;
-border-radius: 50%;
-margin-bottom: 20px; /* 간격 조정 */
+	width: 200px;
+	height: 200px;
+	margin-left: 125px;
+	border-radius: 50%;
+	margin-bottom: 20px; /* 간격 조정 */
 }
 
 .profile-button-container {
-display: flex;
-
-gap: 10px; /* 버튼 간격 조정 */
-align-items: center;
+	display: flex;
+	gap: 10px; /* 버튼 간격 조정 */
+	align-items: center;
 }
 
 .custom-file-upload, 
-#saveProfile {
-width: 120px; /* 버튼 크기 조정 */
-text-align: center;
+	#saveProfile {
+	width: 120px; /* 버튼 크기 조정 */
+	text-align: center;
 }
 
 /* 닫기 버튼 */
 .close-profile {
-position: absolute;
-top: 10px;
-right: 15px;
-font-size: 20px;
-cursor: pointer;
-}
-input[type="file"] {
-display: none;
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	font-size: 20px;
+	cursor: pointer;
+	}
+	input[type="file"] {
+	display: none;
 }
 
 .custom-file-upload {
-display: inline-block;
-padding: 10px 20px;
-background-color: #f8d7da;
-color: #e8618c;
-border-radius: 5px;
-cursor: pointer;
-font-weight: bold;
-border: 1px solid #e8618c;
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #f8d7da;
+	color: #e8618c;
+	border-radius: 5px;
+	cursor: pointer;
+	font-weight: bold;
+	border: 1px solid #e8618c;
 }
 
 .custom-file-upload:hover {
-background-color: #e8618c;
-color: white;
+	background-color: #e8618c;
+	color: white;
 }
 
 #saveProfile {
-display: inline-block;
-padding: 10px 20px;
-background-color: #f8d7da;
-color: #e8618c;
-border-radius: 5px;
-cursor: pointer;
-font-weight: bold;
-border: 1px solid #e8618c;
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #f8d7da;
+	color: #e8618c;
+	border-radius: 5px;
+	cursor: pointer;
+	font-weight: bold;
+	border: 1px solid #e8618c;
 }
 
 #saveProfile:hover {
-background-color: #e8618c;
-color: white;
+	background-color: #e8618c;
+	color: white;
 }
 
 <!-- reviewMyPost -->
 #reviewForm_CP1 {
-	width : 600px;
-	margin: auto;
-	margin-top: 10px;
+	width:auto;
+	max-width: 800px;
+	box-sizing: border-box;
 }
 
+/* #reviewTable_CP1 *{
+	border: 5px solid black;
+} */
+
 .reviewMP_td1 {
+	margin: auto;
+	margin-top: 50px;
+	margin-right: 400px;
 	color: palevioletred;
 	font-size: 25px;
 	font-weight: 900;
 }
 
+.crossLine{
+	text-align: center;
+	color: lightgray;
+}
+
+.reviewContent_div_btn{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 550px;
+}
+
 .review_rating {
+	
 	color: palevioletred;
 	font-size: 15px;
 	font-weight: 900;
@@ -640,22 +664,45 @@ color: white;
 	width: 120px;
 }
 
-.review_img1{
-	width: 250px;
+.review_CreateDate, .review_title1, .review_title2{
+	font: normal;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.paging-area{
+	margin-top: 20px;
+}
+
+.reviewTr_img1{
+	cursor:pointer;
+}
+
+.reviewTr_img1 td{
+	font: normal;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.reviewTr_img3 textarea{
+	font: message-box;
+	font-size: 22px;
+	font-weight: bold;
+	padding : 20px;
+}
+
+.reviewTd_img1{
+	cursor: pointer;
+	width: 280px;
 	height: 250px;
 	box-sizing: border-box;
 }
 
-.reviewTr_img2 {
+.reviewTr_img1 img{
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
 	cursor:pointer;
-}
-.review_CreateDate{
-	font-size: 14px;
-	font-weight: 700;
-}
-.review_title1, .review_title2{
-	font-size: 14px;
-	font-weight: 700;
 }
 </style>
 </head>
@@ -663,136 +710,12 @@ color: white;
 <!-- 대기중 -->
 <%@ include file="../common/header.jsp"%> 
 <br>
-<% if(loginUser == null) { %>
+
 	<div id="Content1">
 		<div id="Content2">
-			<div id="userImg">
-				<img id="userprofile"
-					src="<%= contextPath %>/resources/userImage/변우석.jpg" alt="유저이미지">
-			</div>
-			<div id="userName">
-				<h2>비회원</h2>
-				<span style="font-size: x-small;">비회원</span>
-			</div>
-		</div>
-		<div id="Content3">
-			<table>
-				<tr>
-					<td><a href="" style="font-weight: 800; font-size: larger;">게시글
-							<br>0 <br></td>
-					<td><a href="" style="font-weight: 800; font-size: larger;">리뷰
-							<br>0<br>
-					</a></td>
-					<td><a href="" style="font-weight: 800; font-size: larger;">팔로우
-							<br>0<br>
-					</a></td>
-					<td><a href="" style="font-weight: 800; font-size: larger;">팔로잉
-							<br>0<br>
-					</a></td>
-				</tr>
-			</table>
-			<div id="userBoard">
-				<div class="tab">post</div>
-				<div class="tab">
-					<a href="<%= contextPath %>/review.li">Review</a>
-				</div>
-				<div class="tab">Beauty Profile</div>
-				<div class="underline"></div>
-			</div>
-
-		</div>
-		<div id="Content4">
-			<div id="Content5">
-				<div>
-					<span class="material-icons" style="font-size: 30px;">person<a
-						href="<%= contextPath %>/myPage.me" style="font-size: 25px;">마이페이지</a></span>
-				</div>
-
-				<div></div>
-				<div>
-					<h2>내정보</h2>
-				</div>
-				<div>
-					<a href="">회원정보 수정</a>
-				</div>
-				<div>
-					<a href="#" id="openModal">회원탈퇴</a>
-				</div>
-				<div>
-					<a href="">왓츠인 마이백</a>
-				</div>
-				<div>
-					<a href="<%= contextPath %>/calendarMainpage.ca">뷰티캘린더</a>
-				</div>
-				<div>
-					<a href="">알림내역</a>
-				</div>
-				<div>
-					<a href=" "></a>
-				</div>
-				<br>
-				<div>
-					<h2>문의 / 공지사항</h2>
-				</div>
-				<div>
-					<a href="">문의 내역</a>
-				</div>
-				<div>
-					<a href="">1:1 문의하기</a>
-				</div>
-				<div>
-					<a href="">공지사항</a>
-				</div>
-				<br>
-				<div>
-					<h2>댓글</h2>
-				</div>
-				<div>
-					<a href="">댓글 내역</a>
-				</div>
-				<br>
-				<div>
-					<h2>신고내역</h2>
-				</div>
-				<div>
-					<a href="">신고내역</a>
-				</div>
-			</div>
-
-	<br>
-	<br>
-
-	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-				const tabs = document.querySelectorAll(".tab");
-				const underline = document.querySelector(".underline");
-
-				function moveUnderline(element) {
-						underline.style.width = element.offsetWidth + "px";
-						underline.style.left = element.offsetLeft + "px";
-				}
-
-				tabs.forEach(tab => {
-						tab.addEventListener("click", function () {
-								tabs.forEach(t => t.classList.remove("active"));
-								this.classList.add("active");
-
-								moveUnderline(this);
-
-						});
-				});
-
-				// 페이지 로드 시 첫 번째 탭에 언더라인 설정
-				moveUnderline(tabs[0]);
-				tabs[0].classList.add("active");
-		});
-	</script>
-<% }else { %>
-	<div id="Content1">
-		<div id="Content2">
-			<div id="userImg">
-				<img id="userprofile"
-					src="<%= contextPath %>/resources/userImage/변우석.jpg" alt="유저이미지">
+			<div id="userImg" style="position: relative; display: inline-block; width: 100px; height: 100%;">
+			<img id="userprofile" src="<%= loginUser.getFilePath() %>" alt="유저이미지"
+					style="border-radius: 50%; cursor: pointer;">
 			</div>
 			<div id="userName">
 				<h2><%= loginUser.getUserName() %></h2>
@@ -911,236 +834,127 @@ color: white;
 				tabs[0].classList.add("active");
 		});
 	</script>
-<% } %>
 
 <!-- reviewMyPost2 -->
-
-	<form action="" id="reviewForm_CP1" method="get">
-	<table id="reviewTable_CP1">
-		<tr>
-			<td height="50"></td>
-			<td colspan="11"class="reviewMP_td1">My Post 게시글</td>
-
-		</tr>
-		<tr>
-			<td colspan="12" style="color: lightgray;" height="0">
-				————————————————————————————————————————————————————————————</td>
-		</tr>
-
-		<tr>
-			<td colspan="11"></td>
-			<td>
-				<% if(loginUser != null) { %>
+<form action="" id="reviewForm_CP1" method="get" align="center">			
+		<div class="reviewMP_td1">Review 리뷰</div>
+			<div class="crossLine">──────────────────────────────────────────────────────────────────────</div>
+				<div class="reviewContent_div_btn">
 					<button type="button" class="reviewContent_btn" onclick="location.href='<%= contextPath %>/review.wr'">
-						+리뷰 작성
-					</button>
-				<% }else { %>
-					<button type="button" class="reviewContent_btn2" onclick="location.href='<%= contextPath %>/loginForm.me'">
 						+ 리뷰 작성
 					</button>
-				<% } %>
-			</td>
-		</tr>
-		
-		<script>
-			$(function(){
-					$(".reviewContent_btn2").on("click", function(){
-						alert("로그인을 해주세요.");
-					})
-			})
-		</script>
-		
-		<!-- 게시글이 없는 경우 -->
-				<tr>
-			<td colspan="2"><input type="text"
-				style="width: 280px; border-radius: 15px;"
-				placeholder="키워드를 입력하세요."></td>
-
-			<td style="width: 50px;"></td>
-			<td style="width: 100px;">정렬: <select>
-					<option>추천순</option>
-					<option>최신순</option>
-					<option>제목순</option>
-			</select>
-			</td>
-			<td align="right" style="width: 100px;">
-			</td>
-			<td></td>
-
-		</tr>
-		<tr>
-			<td colspan="6"></td>
-
-
-
-
-
-
-
-		</tr>
-		
-		<% if(list.isEmpty()) { %>
-		<tr>
-			<td rowspan="6" colspan="6">
-				<p>조회된 게시글이 없습니다.</p>
-			</td>
-		</tr>
-		
-		<!-- 게시글이 있는 경우  -->
-		<% }else { %>
-			<% for(Review rv1 : list) { %>
-			
-				<% if(rv1.getMemNo() != loginUser.getUserNo()) { %>
-					<p>조회된 게시글이 없습니다.</p>
+				</div>
+				
+				<table id="reviewTable_CP1" align="center">
+				<!-- 게시글이 없는 경우 -->
+				<% if(list.isEmpty()) { %>
+					<tr>
+						<td colspan="6" rowspan="4">
+							<p>조회된 게시글이 없습니다.</p>
+						</td>
+					</tr>
 				<% }else { %>
-			<tr class="reviewTr_img1">
-			
-				<input type="hidden" name="MEM_NO" value="<%= rv1.getReviewNo() %>">
-			
-				<td rowspan="6" align="center" style="width: 250px; height: 250px;">
-					<div id="review_content_thumnail">
-						<% for(Image img: list1) { %>
-						
-							<% if(rv1.getCreateDate() == img.getUploadDate()) { %>
-								<img src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>" class="review_img1">
+				<!-- 게시글이 있는 경우 -->
+					<% for(Review rv : list) { %>
+					<% if(rv.getMemNo() != loginUser.getUserNo()) { %>
+					<% }else { %>
+					<tr class="reviewTr_img1">
+						<td class="reviewTd_img1" rowspan="4">
+							<input type="hidden" name="REVIEW_NO" value="<%= rv.getReviewNo() %>">
+							<% if(rv.getImagePath() != null) { %>
+							<img src="<%= contextPath %>/<%= rv.getImagePath() %>" alt="리뷰이미지">
 							<% }else { %>
-								<img src="<%= contextPath %>/resources/images/현존최강로고1.jpg" class="review_img1">
+							<img src="<%= contextPath %>/resources/images/LOGO.jpg %>" alt="기본이미지">
 							<% } %>
-							
-						<% } %>
-					</div>
-				</td>
-				<td colspan="3" class="review_CreateDate"><%= rv1.getCreateDate() %></td>
+						</td>
+						<td class="review_CreateDate" colspan="3" align="left" style="margin-left: 10px;"><%= rv.getCreateDate() %></td>
 
-				
-				<td></td>
-				<td></td>
+						<td></td>
+					</tr>
+					<tr class="reviewTr_img2">
 
+						<td class="review_title1" align="left" style="margin-left: 10px;"><%= rv.getReviewNo() %></td>
+						<td class="review_title2" colspan="2"><%= rv.getTitle() %></td>
 
-			</tr>
-			
-			<tr class="reviewTr_img2">
-				<td class="review_title1"><%= rv1.getReviewNo() %></td>
-				<td class="review_title2"><%= rv1.getTitle() %></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			
-			<tr>
+						<td></td>
+					</tr>
 
-				<td colspan="4" style="color: gray;">
-					———————————————————————————————————</td>
+					<tr class="reviewTr_img3">
 
+						<td colspan="4"><textarea cols="60" rows="10" style="resize: none; border-color: white;" disabled><%= rv.getContent() %></textarea></td>
 
-				
-				<td></td>
-			</tr>
-			
-			<tr>
+					</tr>
+					<tr>
 
-				<td colspan="4"><textarea cols="80" rows="10" style="resize: none; border-color: white;" disabled><%= rv1.getContent() %></textarea>
-				</td>
+						<td class="review_rating" style="width: 100px;"
+						data-content="">가격 : <%= rv.getPrRating() %></td>
+						<td class="review_rating" style="width: 100px;"
+						data-content="">성분 : <%= rv.getpRating() %></td>
+						<td class="review_rating" style="width: 100px;"
+						data-content="">재구매 : <%= rv.getrRating() %></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan="4" style="height: 20px"></tr>
+					<tr>
+					<% } %>
+					<% } %>
+				<% } %>
+				</table>
 
-
-
-				<td></td>
-			</tr>
-			
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			
-			<tr>
-				<td style="width: 50px;"></td>
-				<td class="review_rating" style="width: 100px;"
-					data-content="가격 : <%= rv1.getPrRating() %>">가격 : <%= rv1.getPrRating() %>
-				</td>
-				<td class="review_rating" style="width: 100px;"
-					data-content="성분 : <%= rv1.getpRating() %>">성분 : <%= rv1.getpRating() %>
-				</td>
-				<td class="review_rating" style="width: 100px;"
-					data-content="재구매 : <%= rv1.getrRating() %>">재구매 : <%= rv1.getrRating() %>
-				</td>
-				<td class="review_rating" style="width: 60px;"
-					data-content="👍 : <%= rv1.getLikeReview() %>">👍 : <%= rv1.getLikeReview() %>
-				</td>
-			</tr>
-			
-			<tr>
-				<td colspan="6" style="color: lightgray;">
-					————————————————————————————————————————————————————————————</td>
-
-
-
-
-
-			</tr>
-			<% } %>
-			<% } %>
-		<% } %>
-
-		</table>
 		
-		<script>
-			$(function(){
-				$("#review_content_thumnail").on("click", function(){
-					location.href='<%= contextPath %>/detail.im'
-				})
-			})
+			<script>
+					$(function(){
+						$(".reviewContent_btn2").on("click", function(){
+							alert("로그인을 해주세요.");
+						})
+					})
+			</script>
 			
-			$(function(){
+			<script>
+				$(function(){
+					$(".reviewTr_img1").on("click", function(){
+						location.href = '<%= contextPath %>/detail.re?bno=' + $(this).children().children().eq(0).val();
+					})
+				})
+			
+				$(function(){
 					$(".reviewTr_img2").on("click", function(){
 						location.href = '<%= contextPath %>/detail.re?bno=' + $(this).children().eq(0).text();
 					})
-			})
-		</script>
+				})
+			</script>
 
-		<div class="paging-area" align="center">
-		<!-- 이전버튼 -->
-			<% if(currentPage == 1) { %>
-				<button type="button" onclick="location.href='<%= contextPath %>/review.li?cpage=1'">
-								&lt;
-				</button>
-			<% }else if(currentPage > 1){ %>
-				<button type="button" onclick="location.href='<%= contextPath %>/review.li?cpage=<%= currentPage - 1 %>'">
-				&lt;
-				</button>
+			<div class="paging-area" align="center">
+				<% if(currentPage != 1) { %>
+				<!-- 이전버튼 -->
+					<button type="button" onclick="location.href='<%= contextPath %>/postMyList.po?cpage=<%= currentPage -1 %>'">
+						&lt;
+					</button>
 				<% } %>
-						
-			<% for(int i=startPage; i<=endPage; i++) { %>
-				<% if(i == currentPage) { %>
-					<button type="button" disabled>
-						<%= i %>
-				 	</button>
-				 <% }else { %>
-					<button type="button" onclick="location.href='<%= contextPath %>/review.li?cpage=<%= i %>'">
-						 <%= i %>
-				 	</button>
-				 <% } %>
-			<% } %>
-			
-			<!-- 다음버튼 -->
-			<% if(currentPage == maxPage) { %>
-			
-				<button type="button" onclick="location.href='<%= contextPath %>/review.li?cpage=<%= maxPage %>'">
-					&gt;
-				</button>
-			<% }else if(currentPage > 0){ %>
-			<button type="button" onclick="location.href='<%= contextPath %>/review.li?cpage=<%= currentPage + 1 %>'">
-					&gt;
-			</button> 
-			<% } %>
-			
+							
+				<% for(int i=startPage; i<=endPage; i++) { %>
+            		<% if(i == currentPage) { %>
+						<button type="button" disabled>
+							<%= i %>
+						</button>
+
+					<% }else { %>
+						<button type="button" onclick="location.href='<%= contextPath %>/postMyList.po?cpage=<%= i %>'">
+							<%= i %>
+						</button>
+					<% } %>
+				<% } %>
+							
+				<!-- 다음버튼 -->
+				<% if(currentPage != maxPage) { %>
+					<button type="button" onclick="location.href='<%= contextPath %>/postMyList.po?cpage=<%= currentPage +1 %>'">
+						&gt;
+					</button>
+				<% } %>
+			</div>
+		</form>
 		</div>
-
-	</form>
-	
-
+	</div>
 </body>
-
 </html>

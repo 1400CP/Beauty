@@ -15,15 +15,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
 <!-- Popper JS -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script
@@ -31,9 +29,10 @@
 </script>
 <style>
 #Content1{
-	height: auto;
 	width: 100%;
-	min-width: 1200px;
+	min-width: 1600px;
+	height: auto;
+	min-height: 2000px;
 	margin: auto;
 	margin-top: 50px;
 }
@@ -68,6 +67,7 @@
 }
 #Content5{
 	width: 350px;
+	max-height: 800px;
 	border: 1px solid #ddd;
 	margin-right: 50px;
     
@@ -166,7 +166,6 @@ pre{
 	text-decoration-thickness: 3px;
 	font-size: xx-small;
 }
-
 
 input[type="text"], input[type="password"] {
 	width: 480px;
@@ -588,145 +587,153 @@ button {
 }
 
 <!-- reviewEnrollForm -->
-	#review_detailouter{}
+#review_detailouter{}
 	
-	#review_detailouter h2{
-		color: palevioletred;
-		font-size: 30px;
-		font-weight: 900;
-	}
-	
-	#review_detailouter th{
-		color: palevioletred;
-		font-size: 20px;
-		font-weight: 700;
-	}
-	
-	#reviewDetail_table1 {
-		width: 700px;
-		min-width: 500px;
-		min-height: 500px;
-		margin: 0% auto;
-	}
-	
-	#reviewDetail_table1 input, #reviewDetail_table1 textarea {
-		width: 100%;
-		height: 100%;
-		border: 0.1px solid lightgrey;
-		border-radius: 20px;
-		box-sizing: border-box;
-		padding: 20px;
-	}
-	
-	#reviewPost_textarea1 {
-		font-size: medium;
-		font-weight: bold;
-	}
-	
-	.review_EnrollTh2 {
-		padding: 20px;
-	}
-	
-	#review_upload{
-		display: none;
-		cursor: pointer;
-	}
-	
-	.reviewEnrollForm_btn button{
-		margin-left: 20px;
-		border-radius: 20px;
-		padding: 10px 20px;
-		background-color: palevioletred;
-		color: white;
-		font-size: 15px;
-		font-weight: 900;
-		cursor: pointer;
-	}
+#review_detailouter h2{
+	color: palevioletred;
+	font-size: 30px;
+	font-weight: 900;
+}
 
-	.reviewDetail_btn{
-		margin-left: 20px;
-		border-radius: 20px;
-		padding: 10px 20px;
-		background-color: palevioletred;
-		color: white;
-		font-size: 15px;
-		font-weight: 900;
-		cursor: pointer;
-	}
-	
-	.reviewPost_category2{
-		color: palevioletred;
-		font-size: 16px;
-		font-weight: 900;
-		margin-top: 20px;
-	}
-	
-	.reviewPost_category2 span{
-		margin-left: 5px;
-		margin-right: 30px;
-	}
-	
-	#image_container img{
-		width: 100%;
-		height: 100%;
-		box-sizing: border-box;
-		margin: auto;
-	}
-	
-	#review_DetailLikebtn{
-		background-color:none;
-		border:none;
-		border-radius:20px;
-		font: 16px;
-		font-weight:900;
-	}
+#review_detailouter th{
+	color: palevioletred;
+	font-size: 20px;
+	font-weight: 700;
+}
 
-	.review_DetailImg{
-		margin-top: 20px;
-	}
-	
-	.review_DetailImg img{
-		width: 100%;
-		height: 100%;
-		box-sizing: border-box;
-		margin: auto;
-	}
-	
-	#reply-area{
-		width:100%;
-		height:100%;
-		margin:auto;
-		margin-top:20px;
-		margin-bottom:40px;
-		box-sizing:border-box;
-	}
-	
-	#reply-area>table {
-		height:25%;
-		padding:20px;
-		box-sizing: border-box;
-	}
-	
-	#reply-area>table>tbody>tr>td{
-		width: 20%;
-	}
-	
-	#reply-area>table textarea{
-		resize: none;
-		border-radius: 20px;
-		padding: 10px;
-		box-sizing: border-box;
-	}
+#reviewDetail_table1 {
+	width: 700px;
+	min-width: 500px;
+	min-height: 500px;
+	margin: 0% auto;
+}
 
-	.review_detail_title{
-		width: 100%;
-		height: 100%;
-		border: 0.1px solid lightgrey;
-		border-radius: 20px;
-		box-sizing: border-box;
-		padding: 20px;
-		text-align: left;
-	}
+#reviewDetail_table1 input, #reviewDetail_table1 textarea {
+	width: 100%;
+	height: 100%;
+	border: 0.1px solid lightgrey;
+	border-radius: 20px;
+	box-sizing: border-box;
+	padding: 20px;
+}
+
+#reviewPost_textarea1 {
+	font-size: medium;
+	font-weight: bold;
+}
+
+#review_upload{
+	display: none;
+	cursor: pointer;
+}
+
+.reviewEnrollForm_btn button{
+	margin-left: 20px;
+	border-radius: 20px;
+	padding: 10px 20px;
+	background-color: palevioletred;
+	color: white;
+	font-size: 15px;
+	font-weight: 900;
+	cursor: pointer;
+}
+
+.reviewDetail_btn{
+	margin-left: 20px;
+	border-radius: 20px;
+	padding: 10px 20px;
+	background-color: palevioletred;
+	color: white;
+	font-size: 15px;
+	font-weight: 900;
+	cursor: pointer;
+}
+
+.reviewDetail_btn1{
+	width: 100px;
+	margin-left: 20px;
+	border-radius: 20px;
+	padding: 10px 20px;
+	background-color: palevioletred;
+	color: white;
+	font-size: 15px;
+	font-weight: 900;
+	cursor: pointer;
+}
+
+.reviewPost_category2{
+	color: palevioletred;
+	font-size: 16px;
+	font-weight: 900;
+	margin-top: 20px;
+}
+
+.reviewPost_category2 span{
+	margin-left: 5px;
+	margin-right: 30px;
+}
+
+#image_container img{
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	margin: auto;
+}
+
+#review_DetailLikebtn{
+	background-color:none;
+	border:none;
+	border-radius:20px;
+	font: 16px;
+	font-weight:900;
+}
+
+.review_DetailImg{
+	margin-top: 20px;
+}
+
+.review_DetailImg img{
+	width: 50%;
+	height: 50%;
+	box-sizing: border-box;
+	margin: auto;
+}
+
+#reply-area{
+	width:100%;
+	height:100%;
+	margin:auto;
+	margin-top:20px;
+	margin-bottom:40px;
+	box-sizing:border-box;
+}
+
+#reply-area>table {
+	height:25%;
+	padding:20px;
+	box-sizing: border-box;
+}
+
+#reply-area>table>tbody>tr>td{
+	width: 20%;
+}
+
+#reply-area>table textarea{
+	resize: none;
+	border-radius: 20px;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.review_detail_title{
+	width: 100%;
+	height: 100%;
+	border: 0.1px solid lightgrey;
+	border-radius: 20px;
+	box-sizing: border-box;
+	padding: 20px;
+	text-align: left;
+}
 	
 </style>
 
@@ -739,9 +746,8 @@ button {
 	<% if(loginUser == null) { %>
 		<div id="Content1">
 			<div id="Content2">
-				<div id="userImg">
-					<img id="userprofile"
-						src="<%= contextPath %>/resources/userImage/변우석.jpg" alt="유저이미지">
+				<div id="userImg" style="position: relative; display: inline-block; width: 100px; height: 100%;">
+					<img id="userprofile" src="<%= contextPath %>/resources/images/account_circle_500dp_000000.png" alt="프로필 사진" alt="유저이미지" style="border-radius: 50%; cursor: pointer;">
 				</div>
 				<div id="userName">
 					<h2>비회원</h2>
@@ -751,15 +757,16 @@ button {
 			<div id="Content3">
 				<table>
 					<tr>
-						<td><a href="" style="font-weight: 800; font-size: larger;">게시글
-								<br>0 <br></td>
-						<td><a href="" style="font-weight: 800; font-size: larger;">리뷰
+						<td><a href="<%= contextPath %>/postMyList.po" style="font-weight: 800; font-size: larger;">게시글
+							<br>0 <br>
+						</a></td>
+						<td><a href="<%= contextPath %>/review.my" style="font-weight: 800; font-size: larger;">리뷰
 								<br>0<br>
 						</a></td>
-						<td><a href="" style="font-weight: 800; font-size: larger;">팔로우
+						<td><a href="<%= contextPath %>/views/member/follow.jsp" style="font-weight: 800; font-size: larger;">팔로우
 								<br>0<br>
 						</a></td>
-						<td><a href="" style="font-weight: 800; font-size: larger;">팔로잉
+						<td><a href="<%= contextPath %>/views/member/follow.jsp" style="font-weight: 800; font-size: larger;">팔로잉
 								<br>0<br>
 						</a></td>
 					</tr>
@@ -777,8 +784,7 @@ button {
 			<div id="Content4">
 				<div id="Content5">
 					<div>
-						<span class="material-icons" style="font-size: 30px;">person<a
-							href="<%= contextPath %>/myPage.me" style="font-size: 25px;">마이페이지</a></span>
+						<span class="material-icons" style="font-size: 30px;">person<a href="<%= contextPath %>/myPage.me" style="font-size:25px;">마이페이지</a></span>
 					</div>
 	
 					<div></div>
@@ -831,7 +837,7 @@ button {
 						<a href="">신고내역</a>
 					</div>
 				</div>
-	
+			
 		<br>
 		<br>
 	
@@ -875,15 +881,15 @@ button {
 			<div id="Content3">
 				<table>
 					<tr>
-						<td><a href="" style="font-weight: 800; font-size: larger;">게시글
+						<td><a href="<%= contextPath %>/postMyList.po" style="font-weight: 800; font-size: larger;">게시글
 								<br><%= loginUser.getPost() %></a> <br></td>
-						<td><a href="" style="font-weight: 800; font-size: larger;">리뷰
+						<td><a href="<%= contextPath %>/review.my" style="font-weight: 800; font-size: larger;">리뷰
 								<br><%= loginUser.getReview() %><br>
 						</a></td>
-						<td><a href="" style="font-weight: 800; font-size: larger;">팔로우
+						<td><a href="<%= contextPath %>/views/member/follow.jsp" style="font-weight: 800; font-size: larger;">팔로우
 								<br><%= loginUser.getFollower() %><br>
 						</a></td>
-						<td><a href="" style="font-weight: 800; font-size: larger;">팔로잉
+						<td><a href="<%= contextPath %>/views/member/follow.jsp" style="font-weight: 800; font-size: larger;">팔로잉
 								<br><%= loginUser.getFollowing() %><br>
 						</a></td>
 					</tr>
@@ -955,7 +961,7 @@ button {
 						<a href="">신고내역</a>
 					</div>
 				</div>
-	
+			
 		<br>
 		<br>
 	
@@ -985,197 +991,203 @@ button {
 			});
 		</script>
 	<% } %>
-
+	
+	
 <!-- ReviewEnrollForm -->
-	<div id="review_detailouter" class="review_detailouter">
-		<h2 align="center">리뷰 상세보기</h2>
-			<input type="hidden" name="MEM_NO" value="<%= rv1.getMemNo() %>">
-			<table id="reviewDetail_table1">
-				<tr>
-					<th width="75" height="50" align="left" class="review_Detailth">
-						제목
-					</th>
-					<td>
-						<div class="review_detail_title"><%= rv1.getTitle() %>
-						</div>
-					</td>
-					<th width="75" class="review_Detailth2">
-					<!-- 카테고리 -->
-					</th>
-					<td width="100">
-					<!-- <%= rv1.getPcode() %>  -->
-					</td>
-				</tr>
+<div id="review_detailouter" class="review_detailouter">
+	<h2 align="center">리뷰 상세보기</h2>
+		<input type="hidden" name="REVIEW_NO" value="<%= rv1.getReviewNo() %>">
+		<input type="hidden" name="MEM_NO" value="<%= rv1.getMemNo() %>">
+		<table id="reviewDetail_table1">
+			<tr>
+				<th width="75" height="50" align="left" class="review_Detailth">
+					제목
+				</th>
+				<td>
+					<div class="review_detail_title"><%= rv1.getTitle() %>
+					</div>
+				</td>
+				<th width="75" class="review_Detailth2">
+				<!-- 카테고리 -->
+				</th>
+				<td width="100">
+				<!-- <%= rv1.getPcode() %>  -->
+				</td>
+			</tr>
 
-				<tr>
-					<th align="left" class="review_EnrollTh">
-						내용
-					</th>
-					<!-- 높낮이를 고정시키기 위해서 style 부여 -->
-					<td colspan="3" style="height: 200px;"><textarea
-							id="reviewPost_textarea1" name="CONTENT" style="resize: none;" readonly><%= rv1.getContent() %></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3" class="reviewPost_category2">
-						<span>가격 : <%= rv1.getPrRating() %></span>
-						<span>성분 : <%= rv1.getpRating() %></span>
-						<span>재구매 : <%= rv1.getrRating() %></span>
-					</td>
-					<td>
-						<button type="button" id="review_DetailLikebtn" class="review_detail_like" name="LIKE_REVIEW" value="<%= rv1.getLikeReview() %>"> 👍 : <%= rv1.getLikeReview() %></button>
-					</td>
-				</tr>
-				<tr>
-					<th style="height: 50px;" align="left" class="review_EnrollTh">
-						첨부 파일
-					</th>
-					<td colspan="3" class="review_DetailImg">
-	                	<% if(img == null) { %>
-	                	<!-- case1. 첨부파일이 없을 경우 -->
-	                		<br>
-	                        	<b>첨부파일이 없습니다</b>
-		                    <br>
-							
-	                	<% }else { %>
-						<!-- case2. 첨부파일이 있는 경우 -->
-       						<br>
-         					<img src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
-							<a download="<%= img.getOriginName() %>" href="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>"><%= img.getOriginName() %></a>
-							<br>
+			<tr>
+				<th align="left" class="review_EnrollTh">
+					내용
+				</th>
+				<!-- 높낮이를 고정시키기 위해서 style 부여 -->
+				<td colspan="3" style="height: 200px;"><textarea
+						id="reviewPost_textarea1" name="CONTENT" style="resize: none;" readonly><%= rv1.getContent() %></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" class="reviewPost_category2">
+					<span>가격 : <%= rv1.getPrRating() %></span>
+					<span>성분 : <%= rv1.getpRating() %></span>
+					<span>재구매 : <%= rv1.getrRating() %></span>
+				</td>
+				<td>
+					<button type="button" id="review_DetailLikebtn" class="review_detail_like" name="LIKE_REVIEW" value="<%= rv1.getLikeReview() %>"> 👍 : <%= rv1.getLikeReview() %></button>
+				</td>
+			</tr>
+			<tr>
+				<th style="height: 50px;" align="left" class="review_EnrollTh">
+					첨부<br>
+					파일
+				</th>
+				<td colspan="3" class="review_DetailImg">
+									<% if(img == null) { %>
+									<!-- case1. 첨부파일이 없을 경우 -->
+										<br>
+													<b>첨부파일이 없습니다</b>
+											<br>
+						
+									<% }else { %>
+					<!-- case2. 첨부파일이 있는 경우 -->
+								 <br>
+								 <img src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
+						<a download="<%= img.getOriginName() %>" href="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>"><%= img.getOriginName() %></a>
+						<br>
 
-	                	<% } %>
-					</td>
-				</tr>
+									<% } %>
+				</td>
+			</tr>
 
-			</table>
-		
-			<br>
+		</table>
 
-			<div class="reviewEnrollForm_btn" align="center">
-				<button type="button" onclick="location.href='<%= contextPath %>/review.li?'">
-					목록
+		<br>
+
+		<div class="reviewEnrollForm_btn" align="center">
+			<button type="button" onclick="location.href='<%= contextPath %>/review.li?'">
+				목록
+			</button>
+			<% if(loginUser != null && loginUser.getUserNo() == rv1.getMemNo()) { %>
+				<button type="button" onclick="location.href='<%= contextPath %>/updateReview.wr?bno=<%= rv1.getReviewNo() %>'" class="reviewDetail_btn">
+					수정
 				</button>
-				<% if(loginUser != null && loginUser.getUserNo() == rv1.getMemNo()) { %>
-					<button type="button" onclick="location.href='<%= contextPath %>/updateReview.wr?bno=<%= rv1.getReviewNo() %>'" class="reviewDetail_btn">
-						수정
-					</button>
-					<button type="button" onclick=test() class="review_detail_delete">
-						삭제
-					</button>
-				<% } %>
-			</div>
-			
-			<script>
-				$(function(){
-				    $(".review_detail_delete").on("click", function(){
-				        if(!confirm("삭제(확인) 또는 취소.")) {
-				        	alert("삭제 안 함.");
-				        }else {
-				        	location.href="<%= contextPath %>/review.de?bno=<%= rv1.getReviewNo() %>" 
-				        }
-			    	})
-				})
-			</script>
+				<button type="button" onclick=test() class="review_detail_delete">
+					삭제
+				</button>
+			<% } %>
+		</div>
 		
+		<script>
+			$(function(){
+					$(".review_detail_delete").on("click", function(){
+							if(!confirm("삭제(확인) 또는 취소.")) {
+								alert("삭제 안 함.");
+							}else {
+								location.href="<%= contextPath %>/review.de?bno=<%= rv1.getReviewNo() %>" 
+							}
+					})
+			})
+		</script>
+	
 <!-- 나머지 댓글 작성용 -->
 
-		<br><br>
+	<br><br>
 
-		<div id="reply-area">
-			<table align="center" style="color: black;">
-                <thead>
-                    <tr>
-                        <th style="text-align: right; padding: 0px 120px;">댓글</th>
-                        <% if(loginUser != null) { // 로그인이 되어 있을 경우 %>
-                        <td>
-                            <textarea id="replyContent" rows="5" cols="50" required></textarea>
-                        </td>
-                        <td>
-                            <button type="button" onclick="insertReply()" class="reviewDetail_btn">댓글 등록</button>
-                        </td>
-                        <% }else { %>
-                        <td>
-                            <textarea rows="5" cols="50" readonly>로그인 후 이용 가능한 서비스입니다.</textarea>
-                        </td>
-                        <td>
-                            <button class="reviewDetail_btn" disabled>댓글 등록</button>
-                        </td>
-                        <% } %>
-                    </tr>
-                    
-                </thead>
-                
-                <tbody>
-                   
-                </tbody>
+	<div id="reply-area">
+		<table align="center" style="color: black;">
+							<thead>
+									<tr>
+											<th style="text-align: right; padding: 0px 120px;">댓글</th>
+											<% if(loginUser != null) { // 로그인이 되어 있을 경우 %>
+											<td>
+													<textarea id="replyContent" rows="5" cols="50" required></textarea>
+											</td>
+											<td>
+													<button type="button" onclick="insertReply()" class="reviewDetail_btn1">댓글 등록</button>
+											</td>
+											<% }else { %>
+											<td>
+													<textarea rows="5" cols="50" readonly>로그인 후 이용 가능한 서비스입니다.</textarea>
+											</td>
+											<td>
+													<button class="reviewDetail_btn1" disabled>댓글 등록</button>
+											</td>
+											<% } %>
+									</tr>
+									
+							</thead>
+							
+							<tbody>
+								 
+							</tbody>
 
-            </table>		
-		</div>
-		
-           	<script>
-              	$(function(){
-              		// 댓글조회
-  					selectReplyList();
-              		
-              		// setInterval(주기적으로 실행할함수이름, ms시간); 
-              		setInterval(selectReplyList, 30000);
-              	})
-
-            	// ajax으로 댓글 작성용 함수
-            	function insertReply(){
-            		$.ajax({
-            			url:"rinsert.re",
-            			data:{ // 모르겠으면 쿼리를 먼저 짜보라!
-            				bno:<%= rv1.getReviewNo() %>,
-            				content:$("#replyContent").val(),
-            				userNo:<%= rv1.getMemNo() %>
-            			},
-            			type:"post",
-            			success:function(result){
-            				if(result > 0){ // 댓글 작성 성공 == 갱신된 댓글 리스트 조회 + 댓글칸 초기화
-            					selectReplyList();
-            					$("#replyContent").val(""); // textarea 초기화
-            				}
-            			},
-            			error:function(){
-            				console.log("ajax 댓글 실패")
-            			},
-            		})
-            	}
-              	
-            	// ajax으로 해당 게시글에 딸린 댓글 목록 조회용 함수
-            	function selectReplyList(){
-            		$.ajax({
-            			url:"rlist.re",
-            			data:{
-            				bno: <%= rv1.getReviewNo() %>
-            			},
-            			success:function(list){
-            				console.log(list);
-            				
-        					let value = "";
-        					for(let i=0; i<list.length; i++){
-        						value += "<tr>"
-        									+"<td>" + list[i].userId + "</td>"
-        									+"<td>" + list[i].replyContent + "</td>"
-        									+"<td>" + list[i].createDate + "</td>"
-        								+"</tr>"
-        					}
-        					$("#reply-area>table>tbody").html(value);
-            				
-            			},
-            			error:function(){
-            				console.log("ajax 댓글 실패")
-            			},
-            		})
-            		
-            	}
-
-            </script>
-			
-		</div>
+					</table>
+						
 	</div>
-</div>
+	
+	</div>	
+	</div>
+	</div>
+	
+					 <script>
+							$(function(){
+								// 댓글조회
+					selectReplyList();
+								
+								// setInterval(주기적으로 실행할함수이름, ms시간); 
+								setInterval(selectReplyList, 30000);
+							})
+
+						// ajax으로 댓글 작성용 함수
+						function insertReply(){
+							$.ajax({
+								url:"rinsert.re",
+								data:{ // 모르겠으면 쿼리를 먼저 짜보라!
+									bno:<%= rv1.getReviewNo() %>,
+									content:$("#replyContent").val(),
+									userNo:<%= rv1.getMemNo() %>
+								},
+								type:"post",
+								success:function(result){
+									if(result > 0){ // 댓글 작성 성공 == 갱신된 댓글 리스트 조회 + 댓글칸 초기화
+										selectReplyList();
+										$("#replyContent").val(""); // textarea 초기화
+									}
+								},
+								error:function(){
+									console.log("ajax 댓글 실패")
+								},
+							})
+						}
+							
+						// ajax으로 해당 게시글에 딸린 댓글 목록 조회용 함수
+						function selectReplyList(){
+							$.ajax({
+								url:"rlist.re",
+								data:{
+									bno: <%= rv1.getReviewNo() %>
+								},
+								success:function(list){
+									console.log(list);
+									
+								let value = "";
+								for(let i=0; i<list.length; i++){
+									value += "<tr>"
+												+"<td>" + list[i].userId + "</td>"
+												+"<td>" + list[i].replyContent + "</td>"
+												+"<td>" + list[i].createDate + "</td>"
+											+"</tr>"
+								}
+								$("#reply-area>table>tbody").html(value);
+									
+								},
+								error:function(){
+									console.log("ajax 댓글 실패")
+								},
+							})
+							
+						}
+
+					</script>
+	</div>
+	</div>
 </body>
 </html>

@@ -1,9 +1,14 @@
 package com.kh.review.model.vo;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.kh.member.model.vo.Member;
 
+/**
+ * @author HPVICTUS16
+ *
+ */
 public class Review {
 	
 	private String reviewNo;
@@ -17,11 +22,15 @@ public class Review {
 	private int prRating;
 	private int likeReview;
 	private String status;
+	private String imagePath;
+	
+	private ArrayList<Image> images;
+	private int imgNo;
+	
+	public Review() {}
 
-	public Review () {}
-
-	public Review(String reviewNo, String pcode, int memNo, String title, String content, Date createDate,
-			int pRating, int rRating, int prRating, int likeReview, String status) {
+	public Review(String reviewNo, String pcode, int memNo, String title, String content, Date createDate, int pRating,
+			int rRating, int prRating, int likeReview, String status, ArrayList<Image> images, int imgNo) {
 		super();
 		this.reviewNo = reviewNo;
 		this.pcode = pcode;
@@ -34,6 +43,8 @@ public class Review {
 		this.prRating = prRating;
 		this.likeReview = likeReview;
 		this.status = status;
+		this.images = images;
+		this.imgNo = imgNo;
 	}
 
 	public String getReviewNo() {
@@ -124,11 +135,40 @@ public class Review {
 		this.status = status;
 	}
 
+	public ArrayList<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(ArrayList<Image> images) {
+		this.images = images;
+	}
+
+	public int getImgNo() {
+		return imgNo;
+	}
+
+	public void setImgNo(int imgNo) {
+		this.imgNo = imgNo;
+	}
+	
+	
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
 	@Override
 	public String toString() {
 		return "Review [reviewNo=" + reviewNo + ", pcode=" + pcode + ", memNo=" + memNo + ", title=" + title
 				+ ", content=" + content + ", createDate=" + createDate + ", pRating=" + pRating + ", rRating="
-				+ rRating + ", prRating=" + prRating + ", likeReview=" + likeReview + ", status=" + status + "]";
+				+ rRating + ", prRating=" + prRating + ", likeReview=" + likeReview + ", status=" + status
+				+ ", imagePath=" + imagePath + ", images=" + images + ", imgNo=" + imgNo + "]";
 	}
+
+	
 
 }

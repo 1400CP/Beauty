@@ -5,21 +5,32 @@
 	<entry key="selectPeopleList">
 	<![CDATA[
       SELECT *
-      FROM (
-              SELECT M.MEM_NO,
-                     M.MEM_NAME,
-                     NVL(F.CNT, 0) AS FOLLOWER_CNT
-              FROM   MEMBER M
-              LEFT JOIN (
-                          SELECT FOLLOWING,
-                                 COUNT(*) AS CNT
-                          FROM   FOLLOW
-                          GROUP BY FOLLOWING
-                        ) F
-              ON     M.MEM_NO = F.FOLLOWING
-              ORDER BY FOLLOWER_CNT DESC
-          )
-      WHERE ROWNUM <= 10
+	  FROM (
+	        SELECT M.MEM_NO,
+	               M.MEM_NAME,
+	               NVL(F.CNT, 0) AS FOLLOWER_CNT,
+	               I.FILE_PATH || I.CHANGE_NAME AS FILEPATH
+	          FROM MEMBER M
+	          LEFT JOIN (
+	                      SELECT FOLLOWING,
+	                             COUNT(*) AS CNT
+	                        FROM FOLLOW
+	                       GROUP BY FOLLOWING
+	                    ) F
+	            ON M.MEM_NO = F.FOLLOWING
+	          LEFT JOIN (
+	                      SELECT *
+	                        FROM IMAGE
+	                       WHERE (IMAGE_NO, REF_BNO) IN (
+	                             SELECT MAX(IMAGE_NO), REF_BNO
+	                               FROM IMAGE
+	                              GROUP BY REF_BNO
+	                           )
+	                    ) I
+	            ON M.MEM_NO = I.REF_BNO
+	         ORDER BY FOLLOWER_CNT DESC
+	       )
+	 WHERE ROWNUM <= 10
     ]]>
 	</entry>
 	

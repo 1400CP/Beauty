@@ -41,10 +41,10 @@ public class postDeleteController extends HttpServlet {
 		
 		if(result > 0) {
 			request.getSession().setAttribute("alertMsg", "삭제되었습니다.");
-			response.sendRedirect(request.getContextPath() + "/review.li?cpage=1");
+			response.sendRedirect(request.getContextPath() + "/post.list?");
 		}else {
 			request.getSession().setAttribute("alertMsg", "에러가 발생하였습니다.");
-			response.sendRedirect(request.getContextPath() + "/review.li?cpage=1");
+			response.sendRedirect(request.getContextPath() + "/post.list?");
 		}
 		
 	}

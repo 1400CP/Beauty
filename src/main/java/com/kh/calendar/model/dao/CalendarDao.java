@@ -115,7 +115,8 @@ private Properties prop = new Properties();
 			while(rset.next()) {
 				list.add(new Member(rset.getInt("following"),
 									rset.getString("mem_id"),
-									rset.getString("mem_name")));
+									rset.getString("mem_name"),
+									rset.getString("filepath")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
