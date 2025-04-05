@@ -18,12 +18,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
-</script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
+body {
+	padding:30px;
+}
+
 #Content1{
     height: auto;
     width: 100%;
@@ -732,7 +733,9 @@ color: white;
 				</tr>
 			</table>
 			<div id="userBoard">
-				<div class="tab">post</div>
+				<div class="tab">
+					<a href="<%= contextPath %>/post.list">post</a>
+				</div>
 				<div class="tab">
 					<a href="<%= contextPath %>/review.li">Review</a>
 				</div>
@@ -905,43 +908,36 @@ color: white;
 						첨부파일
 					</th>
 					<td colspan="3" class="review_update_img">
-					<input type="hidden" name="IMG_PATH" value="<%= rv1.getImagePath() %>">
-	                	<% if(img != null) { %>
+						<input type="hidden" name="IMG_PATH" value="<%= rv1.getImagePath() %>">
+						<input type="hidden" name="originFileNo" value="<%= img.getImgNo() %>">
                     <!-- case1. 첨부파일이 있는 경우 -->
-	                    <input type="hidden" name="originFileNo" value="<%= img.getImgNo() %>">
-
-							<div id="image_container">
+	                    <% if(img != null) { %>
+	                    <div id="image_container">
+	                    <input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
+							<br>
 							<label for="review_upload">
 								<span class="material-icons">
 									<svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 0 24 24" width="48px" fill="#E8618C"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"/></svg>
 								</span>
 							</label>
-							</div>
-							
-							<input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
-							
 							<br>
-							
 							<a download="<%= img.getOriginName() %>" href="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>" onchange="setThumbnail(event);"><%= img.getOriginName() %></a>
-							
+							<br>
+							</div>
 						<% }else { %>
                     <!-- case2. 첨부파일이 없을 경우 -->
-
-							<input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);" >
-							
+                    	<div id="image_container">
+						<input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
 							<br>
-							<div id="image_container">
 							<label for="review_upload">
 								<span class="material-icons">
 									<svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 0 24 24" width="48px" fill="#E8618C"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"/></svg>
 								</span>
 							</label>
-							</div>
-							
 							<br>
 	                        	<b>첨부파일이 없습니다</b>
 							<br>
-							
+						</div>
 	          			<% } %>
 
 						<br>

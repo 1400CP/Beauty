@@ -16,12 +16,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
-</script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
+body {
+	padding:30px;
+}
+
 #Content1{
     height: auto;
     width: 100%;

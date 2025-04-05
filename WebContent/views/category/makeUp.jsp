@@ -13,6 +13,18 @@
                         <meta charset="UTF-8">
                         <title>Beauty Talks</title>
                         <style>
+                            @font-face {
+                                font-family: 'Binggrae-Two';
+                                src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Binggrae-Bold.woff') format('woff');
+                                font-weight: normal;
+                                font-style: normal;
+                            }
+
+                            body * {
+                                font-family: 'Binggrae-Two';
+                                color: rgb(70, 69, 69);
+                            }
+
                             body {
                                 font-family: Arial, sans-serif;
                                 margin: 0;
@@ -182,12 +194,69 @@
                                 </div>
                                 <div class="filter-body">
                                     <div class="brand-checkbox">
-                                        <input type="checkbox" id="brand5">
-                                        <label for="brand5">클리오</label>
+                                        <input type="checkbox" id="brand13">
+                                        <label for="brand13">클리오</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand14">
+                                        <label for="brand14">에뛰드</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand15">
+                                        <label for="brand15">롬앤</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand16">
+                                        <label for="brand16">라네즈</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand17">
+                                        <label for="brand17">페리페라</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand18">
+                                        <label for="brand18">미샤</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand19">
+                                        <label for="brand19">정샘물</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand20">
+                                        <label for="brand20">투쿨포스쿨</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand21">
+                                        <label for="brand21">헤라</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand22">
+                                        <label for="brand22">데이지크</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand23">
+                                        <label for="brand23">퓌</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand24">
+                                        <label for="brand24">힌스</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand25">
+                                        <label for="brand25">어반디케이</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand26">
+                                        <label for="brand26">더샘</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand27">
+                                        <label for="brand27">웨이크메이크</label>
                                     </div>
                                 </div>
                                 <div class="filter-footer">
-                                    <span class="footer-text" style="color: #FF69B4;">메이크업 카테고리 내 <%= list.size() %>개의 사용이 가능합니다.</span>
+                                    <span class="footer-text" style="color: #FF69B4;">메이크업 카테고리 내 <%= list.size() %>개의
+                                            사용이 가능합니다.</span>
                                 </div>
                             </div>
 
@@ -203,8 +272,7 @@
                                         <!-- 상품 이미지 -->
                                         <td
                                             style="border-bottom: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0;">
-                                            <img src="<%= request.getContextPath() + p.getImagePath() %>" alt="상품 이미지"
-                                                height="190">
+                                            <img src="<%= p.getImagePath() %>" alt="상품 이미지" height="190">
                                         </td>
 
                                         <!-- 상품 이름 -->
@@ -223,7 +291,8 @@
                                         <td
                                             style="border-bottom: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; font-size: 20px;">
                                             <%= p.getLikeProduct() %>
-                                                <span  class="material-icons" style="vertical-align: -4px;">favorite_border</span>
+                                                <span class="material-icons"
+                                                    style="vertical-align: -4px;">favorite_border</span>
                                         </td>
 
                                         <!-- 평점 -->
@@ -320,12 +389,12 @@
                                             $(".footer-text").text("스킨케어 카테고리 내 0개의 사용이 가능합니다.");  // 결과가 없을 경우 텍스트 업데이트
                                             return;  // 비어 있는 배열일 경우 "조회된 상품이 없습니다." 메시지 출력
                                         }
-                                        $(".footer-text").text("스킨케어 카테고리 내 " + products.length + "개의 사용이 가능합니다.");
+                                        $(".footer-text").text("메이크업 카테고리 내 " + products.length + "개의 사용이 가능합니다.");
                                         var contextPath = "<%= request.getContextPath() %>";
 
                                         products.forEach(p => {
                                             // contextPath와 imagePath 결합
-                                            let imagePath = contextPath + p.imagePath;
+                                            let imagePath = p.imagePath;
                                             console.log(imagePath);
                                             console.log(p);
 

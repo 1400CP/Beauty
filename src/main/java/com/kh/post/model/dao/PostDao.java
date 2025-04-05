@@ -101,6 +101,7 @@ public class PostDao {
 				po.setLikePost(rset.getInt("LIKE_POST"));
 				
 				list.add(po);
+				System.out.println("Post list에서 Dao 멤버값 : " + rset.getInt("MEM_NO"));
 			}
 			
 		} catch (SQLException e) {
@@ -109,6 +110,7 @@ public class PostDao {
 			close(rset);
 			close(pstmt);
 		}
+		
 		return list;
 
 	}

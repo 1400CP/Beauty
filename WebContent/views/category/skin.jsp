@@ -13,6 +13,18 @@
                         <meta charset="UTF-8">
                         <title>Beauty Talks</title>
                         <style>
+                            @font-face {
+                                font-family: 'Binggrae-Two';
+                                src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Binggrae-Bold.woff') format('woff');
+                                font-weight: normal;
+                                font-style: normal;
+                            }
+
+                            body * {
+                                font-family: 'Binggrae-Two';
+                                color: rgb(70, 69, 69);
+                            }
+
                             body {
                                 font-family: Arial, sans-serif;
                                 margin: 0;
@@ -197,8 +209,44 @@
                                         <label for="brand2">노스카나인</label>
                                     </div>
                                     <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand3">
+                                        <label for="brand3">토리든</label>
+                                    </div>
+                                    <div class="brand-checkbox">
                                         <input type="checkbox" id="brand4">
-                                        <label for="brand4">토리든</label>
+                                        <label for="brand4">라운드랩</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand5">
+                                        <label for="brand5">로벡틴</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand6">
+                                        <label for="brand6">아이오페</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand7">
+                                        <label for="brand7">구달</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand8">
+                                        <label for="brand8">이니스프리</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand9">
+                                        <label for="brand9">센텔리안24</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand10">
+                                        <label for="brand10">에스트라</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand11">
+                                        <label for="brand11">마녀공장</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand12">
+                                        <label for="brand12">메디힐</label>
                                     </div>
                                 </div>
                                 <div class="filter-footer">
@@ -219,8 +267,7 @@
                                         <!-- 상품 이미지 -->
                                         <td
                                             style="border-bottom: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0;">
-                                            <img src="<%= request.getContextPath() + p.getImagePath() %>" alt="상품 이미지"
-                                                height="190">
+                                            <img src="<%= p.getImagePath() %>" alt="상품 이미지" height="190">
                                         </td>
 
                                         <!-- 상품 이름 -->
@@ -359,11 +406,12 @@
                                             $(".product").html("<tr><td colspan='6'>조회된 상품이 없습니다.</td></tr>");
                                             return;  // 비어 있는 배열일 경우 "조회된 상품이 없습니다." 메시지 출력
                                         }
-
+                                        $(".footer-text").text("스킨케어 카테고리 내 " + products.length + "개의 사용이 가능합니다.");
                                         var contextPath = "<%= request.getContextPath() %>";
 
                                         products.forEach(p => {
-                                            let imagePath = contextPath + p.imagePath;
+                                            let imagePath = p.imagePath;
+                                            console.log(imagePath)
                                             tableContent +=
                                                 "<tr>" +
                                                 "<td style='border-bottom: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; height: 200px;'>" +

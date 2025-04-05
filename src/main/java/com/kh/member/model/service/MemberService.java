@@ -136,19 +136,19 @@ public ArrayList<Member> selectListFollower(int userNo) {
 	
 }
 
-public ArrayList<Member> followList(String nickname) {
+public ArrayList<Member> followList(String nickname, int userNo) {
 	
 	Connection conn = getConnection();
-	ArrayList<Member> list = new MemberDao().followList(conn, nickname);
+	ArrayList<Member> list = new MemberDao().followList(conn, nickname, userNo);
 	close(conn);
 	return list;
 		
 }
 
-public ArrayList<Member> followerList(String nickname) {
+public ArrayList<Member> followerList(String nickname, int userNo) {
 	
 	Connection conn = getConnection();
-	ArrayList<Member> list = new MemberDao().followerList(conn, nickname);
+	ArrayList<Member> list = new MemberDao().followerList(conn, nickname, userNo);
 	close(conn);
 	return list;
 		

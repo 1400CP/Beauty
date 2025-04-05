@@ -12,6 +12,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+	body *{
+    font-family: 'Binggrae-Two';
+    color: rgb(70, 69, 69);
+}
 <!-- footer -->
 #footer_footer {
 }

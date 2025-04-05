@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class LogoutController
@@ -27,9 +28,21 @@ public class LogoutController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
+		
 		request.getSession().removeAttribute("loginUser");
 		request.getSession().removeAttribute("kakaoAccessToken");
+		HttpSession session = request.getSession();
+	    session.removeAttribute("naverId");
+	    session.removeAttribute("name");
+	    session.removeAttribute("email");
+	    session.removeAttribute("gender");
+	    session.removeAttribute("birthday");
+	    session.removeAttribute("birthyear");
+	    session.removeAttribute("mobile");
+	    session.removeAttribute("kakaoAccessToken");
 		response.sendRedirect(request.getContextPath());
+		
 		
 	}
 

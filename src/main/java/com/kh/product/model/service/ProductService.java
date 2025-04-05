@@ -48,7 +48,6 @@ public class ProductService {
 	public int insertLike(String pcode) {
 		Connection conn = getConnection();
 		int result = new ProductDao().insertLike(conn, pcode);
-		System.out.println("결과가" + result);
 		
 		if(result > 0) {
 			commit(conn);
@@ -63,7 +62,6 @@ public class ProductService {
 		
 		Connection conn = getConnection();
 		Product likeCount = new ProductDao().selectLikeCount(conn, pcode);
-		System.out.println("왔냐?" + likeCount);
 		close(conn);
 		return likeCount;
 	}

@@ -13,6 +13,18 @@
                         <meta charset="UTF-8">
                         <title>Beauty Talks</title>
                         <style>
+                            @font-face {
+                                font-family: 'Binggrae-Two';
+                                src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Binggrae-Bold.woff') format('woff');
+                                font-weight: normal;
+                                font-style: normal;
+                            }
+
+                            body * {
+                                font-family: 'Binggrae-Two';
+                                color: rgb(70, 69, 69);
+                            }
+
                             body {
                                 font-family: Arial, sans-serif;
                                 margin: 0;
@@ -182,12 +194,25 @@
                                 </div>
                                 <div class="filter-body">
                                     <div class="brand-checkbox">
-                                        <input type="checkbox" id="brand3">
-                                        <label for="brand3">미쟝센</label>
+                                        <input type="checkbox" id="brand28">
+                                        <label for="brand28">미쟝센</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand29">
+                                        <label for="brand29">어노브</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand30">
+                                        <label for="brand30">리엔</label>
+                                    </div>
+                                    <div class="brand-checkbox">
+                                        <input type="checkbox" id="brand31">
+                                        <label for="brand31">닥터포헤어</label>
                                     </div>
                                 </div>
                                 <div class="filter-footer">
-                                    <span class="footer-text" style="color: #FF69B4;">헤어케어 카테고리 내 <%= list.size() %>개의 사용이 가능합니다.</span>
+                                    <span class="footer-text" style="color: #FF69B4;">헤어케어 카테고리 내 <%= list.size() %>개의
+                                            사용이 가능합니다.</span>
                                 </div>
                             </div>
 
@@ -203,8 +228,7 @@
                                         <!-- 상품 이미지 -->
                                         <td
                                             style="border-bottom: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0;">
-                                            <img src="<%= request.getContextPath() + p.getImagePath() %>" alt="상품 이미지"
-                                                height="190">
+                                            <img src="<%= p.getImagePath() %>" alt="상품 이미지" height="190">
                                         </td>
 
                                         <!-- 상품 이름 -->
@@ -223,7 +247,8 @@
                                         <td
                                             style="border-bottom: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; font-size: 20px;">
                                             <%= p.getLikeProduct() %>
-                                                <span  class="material-icons" style="vertical-align: -4px;">favorite_border</span>
+                                                <span class="material-icons"
+                                                    style="vertical-align: -4px;">favorite_border</span>
                                         </td>
 
                                         <!-- 평점 -->
@@ -320,12 +345,12 @@
                                             $(".product").html("<tr><td colspan='6'>조회된 상품이 없습니다.</td></tr>");
                                             return;  // 비어 있는 배열일 경우 "조회된 상품이 없습니다." 메시지 출력
                                         }
-
+                                        $(".footer-text").text("헤어케어 카테고리 내 " + products.length + "개의 사용이 가능합니다.");
                                         var contextPath = "<%= request.getContextPath() %>";
 
                                         products.forEach(p => {
                                             // contextPath와 imagePath 결합
-                                            let imagePath = contextPath + p.imagePath;
+                                            let imagePath = p.imagePath;
                                             console.log(imagePath);
                                             console.log(p);
 

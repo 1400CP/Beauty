@@ -3,8 +3,6 @@ package com.kh.review.model.vo;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.kh.member.model.vo.Member;
-
 /**
  * @author HPVICTUS16
  *

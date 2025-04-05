@@ -22,7 +22,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <!-- jQuery library -->
@@ -31,10 +31,11 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
-</script>
 <style>
+body {
+	padding:30px;
+}
+
 #Content1{
 	height: auto;
 	width: 100%;
@@ -63,13 +64,12 @@
 	text-align: center;
 }
 #Content4{
-	width:1200px;
+	width: 1200px;
 	height: auto;
 	min-height: 1200px;
 	overflow: hidden;
 	margin: auto;
 	display: flex;
-	box-sizing: border-box;
 }
 #Content5{
 	width: 350px;
@@ -77,6 +77,11 @@
 	border: 1px solid #ddd;
 	margin-right: 50px;
 }
+
+#Content5 div{
+	width: 350px;
+}
+
 #Content6{
 	width: 800px;
 }
@@ -593,7 +598,6 @@ button {
 
 <!-- reviewMyPost -->
 #reviewForm_CP1 {
-	width:auto;
 	max-width: 800px;
 	box-sizing: border-box;
 }
@@ -601,6 +605,14 @@ button {
 /* #reviewTable_CP1 *{
 	border: 5px solid black;
 } */
+
+.reviewTable_CP1{
+	width: 800px;
+}
+
+.reviewTable_CP1 td{
+	border: 0.5px solid lightgrey; opacity: 0.5;
+}
 
 .reviewMP_td1 {
 	margin: auto;
@@ -699,8 +711,8 @@ button {
 }
 
 .reviewTr_img1 img{
-	width: 100%;
-	height: 100%;
+	width: 280px;
+	height: 250px;
 	box-sizing: border-box;
 	cursor:pointer;
 }
@@ -708,20 +720,103 @@ button {
 </head>
 <body>
 <!-- 대기중 -->
-<%@ include file="../common/header.jsp"%> 
-<br>
+<%@ include file="../common/header.jsp" %>
+	<% String imagePath=(loginUser.getFilePath() !=null && !loginUser.getFilePath().isEmpty()) ?
+	    loginUser.getFilePath() : request.getContextPath()
+	    + "/resources/images/account_circle_500dp_000000.png" ; %>
+	
+	    <br>
+		<div id="Content1">
+               <div id="Content2">
+                   <% if(loginUser.getFilePath() !="" ) { %>
+                       <div id="userImg"
+                           style="position: relative; display: inline-block; width: 100px; height: 100%;">
+                           <img id="userprofile" src="<%= imagePath %>" alt="유저이미지"
+                               style="border-radius: 50%; cursor: pointer;">
 
-	<div id="Content1">
-		<div id="Content2">
-			<div id="userImg" style="position: relative; display: inline-block; width: 100px; height: 100%;">
-			<img id="userprofile" src="<%= loginUser.getFilePath() %>" alt="유저이미지"
-					style="border-radius: 50%; cursor: pointer;">
-			</div>
-			<div id="userName">
-				<h2><%= loginUser.getUserName() %></h2>
-				<span style="font-size: x-small;"><%= loginUser.getUserId() %></span>
-			</div>
-		</div>
+                           <!-- 수정 아이콘 -->
+                           <span id="openProfileModal" class="material-icons"
+                               style="position: absolute; bottom: 2px; right: 2px; cursor: pointer;">
+                               photo_camera
+                           </span>
+                       </div>
+                       <% } else {%>
+                           <div id="userImg"
+                               style="position: relative; display: inline-block; width: 100px; height: 100%;">
+                               <img id="previewImage" src="<%= imagePath %>" alt="현재 프로필 이미지"
+                                   style="width: 100px; height: 100%;">
+
+                               <!-- 수정 아이콘 -->
+                               <span id="openProfileModal" class="material-icons"
+                                   style="position: absolute; bottom: 2px; right: 2px; cursor: pointer;">
+                                   photo_camera
+                               </span>
+                           </div>
+                           <% } %>
+
+                               <!-- ✅ 프로필 수정 모달 -->
+                               <div id="profileModal" class="profile-modal">
+                                   <div class="profile-modal-content">
+                                       <span class="close-profile">&times;</span>
+                                       <h2 style="color: #e8618c;">프로필 사진 변경</h2>
+
+                                       <!-- ✅ form에 class 추가하여 스타일 영향 최소화 -->
+                                       <form id="profileForm"
+                                           action="<%= contextPath %>/insert.img?userNo=<%= loginUser.getUserNo() %>"
+                                           method="POST" enctype="multipart/form-data" class="profile-form">
+                                           <input type="hidden" name="userNo"
+                                               value="<%= loginUser.getUserNo() %>">
+                                           <input type="hidden" name="userId"
+                                               value="<%= loginUser.getUserId() %>">
+                                           <input type="hidden" name="userPwd"
+                                               value="<%= loginUser.getUserPwd() %>">
+                                           <!-- 현재 사용자 프로필 이미지 -->
+                                           <div class="profile-preview">
+                                               <% if(loginUser.getFilePath() !="" ) { %>
+                                                   <img id="previewImage" src="<%= imagePath %>"
+                                                       alt="현재 프로필 이미지">
+                                                   <% } else { %>
+                                                       <img id="previewImage" src="<%= imagePath %>"
+                                                           alt="현재 프로필 이미지">
+                                                       <% } %>
+                                           </div>
+
+                                           <!-- 이미지 업로드 버튼 -->
+                                           <div class="profile-button-container">
+                                               <input type="file" id="profileUpload" name="upfile"
+                                                   accept="image/*" style="display: none;">
+                                               <label for="profileUpload" class="custom-file-upload">파일
+                                                   선택</label>
+                                               <button type="submit" id="saveProfile"
+                                                   style="font-size: medium;">저장</button>
+                                           </div>
+                                       </form>
+                                   </div>
+                               </div>
+
+                               <script>
+                                   document.getElementById('profileUpload').addEventListener('change', function (event) {
+                                       const file = event.target.files[0]; // 선택한 파일 가져오기
+                                       if (file) {
+                                           const reader = new FileReader();
+                                           reader.onload = function (e) {
+                                               document.getElementById('previewImage').src = e.target.result; // 미리보기 이미지 변경
+                                           };
+                                           reader.readAsDataURL(file); // 파일을 읽어서 Data URL 생성
+                                       }
+                                   });
+                               </script>
+
+
+                               <div id="userName" style="margin-left: 20px;">
+                                   <h2>
+                                       <%= loginUser.getUserName() %>
+                                   </h2>
+                                   <span style="font-size: x-small;">
+                                       <%= loginUser.getUserId() %>
+                                   </span>
+                               </div>
+               </div>
 		<div id="Content3">
 			<table>
 				<tr>
@@ -739,7 +834,9 @@ button {
 				</tr>
 			</table>
 			<div id="userBoard">
-				<div class="tab">post</div>
+				<div class="tab">
+					<a href="<%= contextPath %>/post.list">post</a>
+				</div>
 				<div class="tab">
 					<a href="<%= contextPath %>/review.li">Review</a>
 				</div>
@@ -830,13 +927,13 @@ button {
 				});
 
 				// 페이지 로드 시 첫 번째 탭에 언더라인 설정
-				moveUnderline(tabs[0]);
-				tabs[0].classList.add("active");
+				moveUnderline(tabs[1]);
+				tabs[1].classList.add("active");
 		});
 	</script>
 
 <!-- reviewMyPost2 -->
-<form action="" id="reviewForm_CP1" method="get" align="center">			
+	<form action="" id="reviewForm_CP1" method="get">
 		<div class="reviewMP_td1">Review 리뷰</div>
 			<div class="crossLine">──────────────────────────────────────────────────────────────────────</div>
 				<div class="reviewContent_div_btn">
@@ -844,20 +941,10 @@ button {
 						+ 리뷰 작성
 					</button>
 				</div>
-				
-				<table id="reviewTable_CP1" align="center">
-				<!-- 게시글이 없는 경우 -->
-				<% if(list.isEmpty()) { %>
-					<tr>
-						<td colspan="6" rowspan="4">
-							<p>조회된 게시글이 없습니다.</p>
-						</td>
-					</tr>
-				<% }else { %>
-				<!-- 게시글이 있는 경우 -->
-					<% for(Review rv : list) { %>
-					<% if(rv.getMemNo() != loginUser.getUserNo()) { %>
-					<% }else { %>
+			<!-- 글이 있는 경우 -->
+				<table id="reviewTable_CP1">
+				<% for(Review rv : list) { %>
+					<% if(rv.getMemNo() == loginUser.getUserNo()) { %>
 					<tr class="reviewTr_img1">
 						<td class="reviewTd_img1" rowspan="4">
 							<input type="hidden" name="REVIEW_NO" value="<%= rv.getReviewNo() %>">
@@ -898,11 +985,13 @@ button {
 						<td colspan="4" style="height: 20px"></tr>
 					<tr>
 					<% } %>
-					<% } %>
 				<% } %>
 				</table>
+			<!-- 글이 없는 경우 -->
+				<% if(list.isEmpty()) { %>
+					<p>조회된 게시글이 없습니다.</p>
+				<% } %>
 
-		
 			<script>
 					$(function(){
 						$(".reviewContent_btn2").on("click", function(){
@@ -928,7 +1017,7 @@ button {
 			<div class="paging-area" align="center">
 				<% if(currentPage != 1) { %>
 				<!-- 이전버튼 -->
-					<button type="button" onclick="location.href='<%= contextPath %>/postMyList.po?cpage=<%= currentPage -1 %>'">
+					<button type="button" onclick="location.href='<%= contextPath %>/review.my?cpage=<%= currentPage -1 %>'">
 						&lt;
 					</button>
 				<% } %>
@@ -940,7 +1029,7 @@ button {
 						</button>
 
 					<% }else { %>
-						<button type="button" onclick="location.href='<%= contextPath %>/postMyList.po?cpage=<%= i %>'">
+						<button type="button" onclick="location.href='<%= contextPath %>/review.my?cpage=<%= i %>'">
 							<%= i %>
 						</button>
 					<% } %>
@@ -948,7 +1037,7 @@ button {
 							
 				<!-- 다음버튼 -->
 				<% if(currentPage != maxPage) { %>
-					<button type="button" onclick="location.href='<%= contextPath %>/postMyList.po?cpage=<%= currentPage +1 %>'">
+					<button type="button" onclick="location.href='<%= contextPath %>/review.my?cpage=<%= currentPage +1 %>'">
 						&gt;
 					</button>
 				<% } %>

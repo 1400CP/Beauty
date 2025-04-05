@@ -7,13 +7,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-
-<!-- bestReview -->
-#form_bestReview1 {
-	width: 1000px;
-	height: 350px;
-	margin-top: 200px;
+@font-face {
+    font-family: 'Binggrae-Two';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Binggrae-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
+
 
 #table_bestReview {
 	/* background-color: black; */
@@ -73,11 +73,7 @@
 	cursor: pointer;
 }
 
-<!-- bestPost -->
-#form_bestPost {
-	width: 1100px;
-	height: 330px;
-}
+
 
 #table_bestPost {
 	/* background-color: black; */
@@ -108,7 +104,7 @@
 	font-weight: 700;
 }
 
-<!-- bestUser -->
+
 /* 초기화 */
 #bestUser_clear{
 	margin: 0px;
@@ -206,9 +202,7 @@ li {
 	transform: translateX(10px);
 }
 
-<!-- footer -->
-#footer_footer {
-}
+
 
 #form_footer {
 	background-color: black;
@@ -256,7 +250,7 @@ li {
 				</tr>
 				<tr>
 					<td colspan="15" align="center" style="height: 20px; color: gray;"><h1></h1>유저들이
-						인정한 찐템 리뷰!!</td>
+						인정한 찐템 올리브영에서 확인하세요.</td>
 				</tr>
 				<!-- 공백용 -->
 				<tr style="height: 40px;">
@@ -276,48 +270,50 @@ li {
 <!-- 1번째 줄 -->
 
 				<tr>
-					<td onclick="location.href='http://www.daum.net'"><img
-						src="resources/images/medicube.png" alt="" class="bestReviewImg1">
+					<td onclick="location.href=''">
+						
 					</td>
 					<td class="bestReview_11">
 						<div>
 							<p>
-								메디큐브<br> medicube
+								
 							</p>
 						</div>
 					</td>
 					<td colspan="2">
 						<div>
-							[1+1/흔적미백] <br> 메디큐브 연어 PDRN 핑크앰블
+							
 						</div>
 					</td>
 
 					<td style="width: 40px;"></td>
-					<td onclick="location.href='http://www.daum.net'"><img
-						src="resources/images/medicube.png" alt="" class="bestReviewImg1">
+					<td onclick="location.href=''">
+						
 					</td>
 					<td class="bestReview_11">
 						<div>
-							메디큐브<br> medicube
+							<p>
+								
+							</p>
 						</div>
 					</td>
 					<td colspan="2">
 						<div>
-							[1+1/흔적미백] <br> 메디큐브 연어 PDRN 핑크앰블
+							
 						</div>
 					</td>
 					<td style="width: 40px;"></td>
-					<td onclick="location.href='http://www.daum.net'"><img
-						src="resources/images/medicube.png" alt="" class="bestReviewImg1">
+					<td onclick="location.href=''">
+
 					</td>
 					<td class="bestReview_11">
 						<div>
-							메디큐브<br> medicube
+							
 						</div>
 					</td>
 					<td colspan="2">
 						<div>
-							[1+1/흔적미백] <br> 메디큐브 연어 PDRN 핑크앰블
+							
 						</div>
 					</td>
 				</tr>
@@ -325,35 +321,35 @@ li {
 				<tr>
 					<td colspan="3">
 						<div style="color: gray;">
-							1 믿고 쓰는 메디큐브 <br> 2 어쩌고 저쩌고 <br> 3 3등 리뷰입니다. <br>
+							닥터지 보습 세트 
 						</div>
 					</td>
 
 
-					<td onclick="location.href='http://www.daum.net'"><img
-						src="resources/images/bestreview1.png" alt=""
+					<td onclick="location.href='https://www.oliveyoung.co.kr/store/main/main.do?oy=0&utm_source=google&utm_medium=powerlink&utm_campaign=onpro_emnet_default-main_25_0101_1231&utm_content=pc_main&utm_term=%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81&utm_id=141045234423&gad_source=1&gclid=CjwKCAjw47i_BhBTEiwAaJfPpt6LtcBkzXVxHO4xG9Sny9anlyIoYym-PIe_0zxkvEVlA6rZgg3r5hoCIbwQAvD_BwE'"><img
+						src="https://image.edaily.co.kr/images/photo/files/NP/S/2022/11/PS22110701257.jpg" alt=""
 						class="bestReviewImg2"></td>
 					<td style="width: 40px;"></td>
 					<td colspan="3">
-						<div style="color: gray;">
-							1 믿고 쓰는 메디큐브 <br> 2 어쩌고 저쩌고 <br> 3 3등 리뷰입니다. <br>
+						<div style="color: gray; margin-right: 20px;" >
+							노스카나인 50ml 세럼 
 						</div>
 					</td>
 
 
-					<td onclick="location.href='http://www.daum.net'"><img
-						src="resources/images/bestreview1.png" alt=""
+					<td onclick="location.href='https://www.oliveyoung.co.kr/store/main/main.do?oy=0&utm_source=google&utm_medium=powerlink&utm_campaign=onpro_emnet_default-main_25_0101_1231&utm_content=pc_main&utm_term=%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81&utm_id=141045234423&gad_source=1&gclid=CjwKCAjw47i_BhBTEiwAaJfPpt6LtcBkzXVxHO4xG9Sny9anlyIoYym-PIe_0zxkvEVlA6rZgg3r5hoCIbwQAvD_BwE'"><img
+						src="https://image.oliveyoung.co.kr/cfimages/cf-goods/uploads/images/thumbnails/10/0000/0021/A00000021971707ko.jpg?l=ko" alt=""
 						class="bestReviewImg2"></td>
 					<td style="width: 40px;"></td>
 					<td colspan="3">
-						<div style="color: gray;">
-							1 믿고 쓰는 메디큐브 <br> 2 어쩌고 저쩌고 <br> 3 3등 리뷰입니다. <br>
+						<div style="color: gray; margin-right: 20px;">
+							토리든 세럼 리필형 50ml + 리필형 50ml
 						</div>
 					</td>
 
 
-					<td onclick="location.href='http://www.daum.net'"><img
-						src="resources/images/bestreview1.png" alt=""
+					<td onclick="location.href='https://www.oliveyoung.co.kr/store/main/main.do?oy=0&utm_source=google&utm_medium=powerlink&utm_campaign=onpro_emnet_default-main_25_0101_1231&utm_content=pc_main&utm_term=%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81&utm_id=141045234423&gad_source=1&gclid=CjwKCAjw47i_BhBTEiwAaJfPpt6LtcBkzXVxHO4xG9Sny9anlyIoYym-PIe_0zxkvEVlA6rZgg3r5hoCIbwQAvD_BwE'"><img
+						src="https://image.oliveyoung.co.kr/cfimages/cf-goods/uploads/images/thumbnails/10/0000/0021/A00000021908809ko.jpg?l=ko" alt=""
 						class="bestReviewImg2"></td>
 				</tr>
 
@@ -376,7 +372,7 @@ li {
 <!-- 공백용 -->
 				<tr style="height: 40px;">
 					<td colspan="15" align="center">
-						<button onclick="location.href='https://www.naver.com'"
+						<button onclick="location.href='<%= contextPath %>'"
 							class="bestReviewBtn">
 								더보기
 						</button>
@@ -431,17 +427,17 @@ li {
 				<tr>
 					<td style="width: 80px;"></td>
 					<td class="bestpost1_bestPost"
-						onclick="location.href='http://yahoo.co.jp'"
+						onclick="location.href='https://www.youtube.com/@mingarden_'"
 						style="width: 300px; height: 200px;"><img
 						src="resources/images/bestpost1.png"></td>
 					<td style="width: 20px;"></td>
 					<td class="bestpost2_bestPost"
-						onclick="location.href='http://www.naver.com'"
+						onclick="location.href='https://www.youtube.com/@TheFreezia'"
 						style="width: 300px; height: 200px;"><img
 						src="resources/images/bestpost2.png"></td>
 					<td style="width: 20px;"></td>
 					<td class="bestpost3_bestPost"
-						onclick="location.href='http://www.daum.net'"
+						onclick="location.href='https://www.youtube.com/@ANDA'"
 						style="width: 300px; height: 200px;"><img
 						src="resources/images/bestpost3.png"></td>
 					<td style="width: 80px;"></td>
@@ -468,18 +464,18 @@ li {
 				</tr>
 				<tr>
 					<td></td>
-					<td style="padding: 10px;">날짜, 좋아요 수</td>
+					<td style="padding: 10px;"></td>
 					<td></td>
-					<td style="padding: 10px;">날짜, 좋아요 수</td>
+					<td style="padding: 10px;"></td>
 					<td></td>
-					<td style="padding: 10px;">날짜, 좋아요 수</td>
+					<td style="padding: 10px;"></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td colspan="7" align="center" style="height: 100px;">
-						<button type="button" class="BestPost_btn"
-							onclick="location.href='http://www.naver.com/'">
-							 더보기
+						<button onclick="location.href='<%= contextPath %>'"
+							class="bestReviewBtn">
+								더보기
 						</button>
 					</td>
 

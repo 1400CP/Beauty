@@ -44,7 +44,6 @@ public class ProductDao {
 				list.add(new Product(rset.getString("pcode"), rset.getString("pname"), rset.getString("IMAGE_PATH"),
 						rset.getInt("like_product"), rset.getDouble("rate"), rset.getString("bname")));
 			}
-			System.out.println(list);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -70,7 +69,6 @@ public class ProductDao {
 				list.add(new Product(rset.getString("pcode"), rset.getString("pname"), rset.getString("IMAGE_PATH"),
 						rset.getInt("like_product"), rset.getDouble("rate"), rset.getString("bname")));
 			}
-			System.out.println(list);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -96,7 +94,6 @@ public class ProductDao {
 				list.add(new Product(rset.getString("pcode"), rset.getString("pname"), rset.getString("IMAGE_PATH"),
 						rset.getInt("like_product"), rset.getDouble("rate"), rset.getString("bname")));
 			}
-			System.out.println(list);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -144,19 +141,14 @@ public class ProductDao {
 
 	    try {
 	        pstmt = conn.prepareStatement(sql);
-	        System.out.println("실행될 SQL: " + sql);
-	        System.out.println("선택된 브랜드 개수: " + selectedBrands.length);
-	        System.out.println("선택된 브랜드: " + Arrays.toString(selectedBrands));
 
 	        // ✅ 파라미터 설정
 	        if (selectedBrands.length > 1) {
 	            for (int i = 0; i < selectedBrands.length; i++) {
 	                pstmt.setString(i + 1, selectedBrands[i]); // IN 절
-	                System.out.println("IN 파라미터 " + (i + 1) + ": " + selectedBrands[i]);
 	            }
 	        } else {
 	            pstmt.setString(1, "%" + selectedBrands[0] + "%"); // LIKE 절
-	            System.out.println("LIKE 파라미터: %" + selectedBrands[0] + "%");
 	        }
 
 	        rset = pstmt.executeQuery();
@@ -198,7 +190,6 @@ public class ProductDao {
 		} finally {
 			close(pstmt);
 		}
-		System.out.println("성공인데??" +  result);
 		return result;
 		
 	}

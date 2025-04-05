@@ -46,10 +46,8 @@ public class MemberInsertController extends HttpServlet {
 		String Token = null;
 		if(request.getParameter("Token") != null) {
 			Token = request.getParameter("Token");
-			System.out.println(Token);
 		}else {
 			Token = request.getParameter("kakaoAccessToken");
-			System.out.println(Token);
 			
 		}
 

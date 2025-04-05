@@ -90,7 +90,6 @@
     
     String naverId = (String) responseObj.get("id");
 
-    System.out.println("🔵 네이버 회원 ID: " + naverId);
 
 
 

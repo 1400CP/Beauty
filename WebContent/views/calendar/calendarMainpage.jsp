@@ -302,9 +302,7 @@
 	            <div class="menu-item" data-page="views/calendar/routineCalendar.jsp">
 	              <i class="fas fa-check-circle"><!--로고2--></i> 루틴 설정
 	            </div>
-	            <div class="menu-item" data-page="views/calendar/routineSetting.jsp">
-	              <i class="fas fa-chart-bar"><!--로고3--></i> 월간 분석
-	            </div>
+
 	          </nav>
 	      </div>
 	      <div class="L2"></div>
@@ -351,7 +349,15 @@
 	            <i class="fa-regular fa-bell">
 	            </i>
 	            <div class="profile-img">
-	              <a href="<%= contextPath %>/myPage.me"><img src="<%= loginUser.getFilePath() %>" alt="유저이미지"></a>
+	            	<% if(loginUser.getFilePath() == null) { %>
+	            		<a href="<%= contextPath %>/myPage.me">
+	              		<img src="<%= contextPath %>/resources/images/account_circle_500dp_000000.png" alt="프로필 이미지">
+	              		</a>
+	              	<% }else { %>
+	              		<a href="<%= contextPath %>/myPage.me">
+	                	<img src="<%= contextPath + "/" + loginUser.getFilePath() %>" alt="프로필 이미지">
+	                	</a>
+	              	<% } %>
 	            </div>
 	            <i class="fa-solid fa-chevron-down"><!--로고3--></i>
 	          </div>

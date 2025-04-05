@@ -145,7 +145,6 @@ public class ReviewDao {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 	        close(rset);
@@ -629,7 +628,6 @@ public class ReviewDao {
 			
 			while(rset.next()) {
 				Reply r = new Reply();
-				Member m = new Member();
 				r.setReplyNo(rset.getInt("REPLY_NO"));
 				r.setMemNo(rset.getInt("MEM_NO"));
 				r.setUserId(rset.getString("MEM_ID"));

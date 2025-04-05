@@ -21,10 +21,11 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
-</script>
 <style>
+body {
+	padding:30px;
+}
+
 #Content1{
 	height: auto;
 	width: 100%;
@@ -53,8 +54,7 @@
 	text-align: center;
 }
 #Content4{
-	width: auto;
-	min-width: 1200px;
+	width: 1200px;
 	height: auto;
 	min-height: 1200px;
 	overflow: hidden;
@@ -890,7 +890,9 @@ button {
 					</tr>
 				</table>
 				<div id="userBoard">
-					<div class="tab">post</div>
+					<div class="tab">
+						<a href="<%= contextPath %>/post.list">post</a>
+					</div>
 					<div class="tab">
 						<a href="<%= contextPath %>/review.li">Review</a>
 					</div>

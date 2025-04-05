@@ -13,6 +13,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+
+body *{
+    font-family: 'Binggrae-Two';
+    color: rgb(70, 69, 69);
+}
 div, input {
 	box-sizing: border-box;
 }
@@ -349,7 +354,7 @@ div, input {
 						alt="메시지"></a> <a href=""><img
 						src="<%= contextPath %>/resources/images/3.PNG" alt="알림"></a> <a
 						href="<%= contextPath %>/logout.me">로그아웃</a> <span>|</span> <a
-						href="<%= contextPath %>/myPage.me">마이페이지</a>
+						href="<%= contextPath %>/myPage.me?userNo=<%= loginUser.getUserNo() %>">마이페이지</a>
 				</div>
 				<div id="header3_bottom">
 					<span class="username"><b><%= loginUser.getUserName() %></b><b>님</b>,</span>

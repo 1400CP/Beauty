@@ -50,8 +50,6 @@ public class profileImage extends HttpServlet {
 			MultipartRequest multRequest = new MultipartRequest(request, savepath, maxSize, "UTF-8", new MyFileRenamePoliy());
 			
 			int userNo = Integer.parseInt(multRequest.getParameter("userNo"));
-			String userId = multRequest.getParameter("userId");
-			String userPwd = multRequest.getParameter("userPwd");
 			
 			UserProfileImage up = null;
 			
@@ -63,7 +61,7 @@ public class profileImage extends HttpServlet {
 			}
 			
 			int result = new ProfileService().insertUserImage(up, userNo);
-			Member updateMem = new MemberService().loginMember(userId, userPwd);
+			Member updateMem = new MemberService().selectMember(userNo);
 
 			HttpSession session = request.getSession();
 			if(result > 0) {
@@ -79,7 +77,7 @@ public class profileImage extends HttpServlet {
 				
 //				session.setAttribute("loginUser", updateMem);
 				
-				response.sendRedirect(request.getContextPath() + "/myPage.me");
+				response.sendRedirect(request.getContextPath() + "/myPage.me?userNo=" + userNo);
 			} else {
 				request.setAttribute("alertMsg", "프로필 이미지 등록 실패!");
 				request.getRequestDispatcher(request.getContextPath() + "/mypage.jsp");

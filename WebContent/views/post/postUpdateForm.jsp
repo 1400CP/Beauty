@@ -27,10 +27,11 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
-</script>
 <style>
+body {
+	padding:30px;
+}
+
 #Content1{
     height: auto;
     width: 100%;
@@ -734,7 +735,9 @@ color: white;
 				</tr>
 			</table>
 			<div id="userBoard">
-				<div class="tab">post</div>
+				<div class="tab">
+					<a href="<%= contextPath %>/post.list">post</a>
+				</div>
 				<div class="tab">
 					<a href="<%= contextPath %>/review.li">Review</a>
 				</div>
@@ -886,8 +889,7 @@ color: white;
 					<th width="75" height="50" align="left" class="review_EnrollTh">
 						첨부파일
 					</th>
-					<td colspan="3" class="review_update_img">
-	                <!--	<% if(img != null) { %>
+                    <!-- <% if(img != null) { %>
                      case1. 첨부파일이 있는 경우 
                     
 							<div id="image_container">
@@ -903,8 +905,8 @@ color: white;
 							<br>
 							
 							<a download="<%= img.getOriginName() %>" href="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>" onchange="setThumbnail(event);"><%= img.getOriginName() %></a>
-					-->		
-					<!--	<% }else { %> 
+							
+						<% }else { %> 
                      case2. 첨부파일이 없을 경우
 
 							<div id="image_container">
@@ -920,14 +922,14 @@ color: white;
 							<br>
 	                        	<b>첨부파일이 없습니다</b>
 							<br>
-
-	                	<% } %>
-					 -->
-					 	<% if(img != null) { %>
-                    <!-- case1. 첨부파일이 있는 경우 -->
-	                    <input type="hidden" name="originFileNo" value="<%= img.getImgNo() %>">
+	                	<% } %> -->
+                   	<td colspan="3" class="review_update_img">
+					<input type="hidden" name="originFileNo" value="<%= img.getImgNo() %>">
+						<br>
+					<!-- case1. 첨부파일이 있는 경우 -->	
+						<% if(img != null) { %>
+	                    <div id="image_container">
 	                    <input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
-							<div id="image_container">
 							<br>
 							<label for="review_upload">
 								<span class="material-icons">
@@ -935,15 +937,13 @@ color: white;
 								</span>
 							</label>
 							<br>
-							
-							<br>
 							<a download="<%= img.getOriginName() %>" href="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>" onchange="setThumbnail(event);"><%= img.getOriginName() %></a>
-							</div>
+							<br>
+						</div>
 						<% }else { %>
                     <!-- case2. 첨부파일이 없을 경우 -->
-							<div id="image_container">
+						<div id="image_container">
 							<input type="file" id="review_upload" name="upfile" onchange="setThumbnail(event);">
-							<div id="image_container"></div>
 							<br>
 							<label for="review_upload" style="center";>
 								<span class="material-icons">
@@ -953,9 +953,8 @@ color: white;
 							<br>
 	                        	<b>첨부파일이 없습니다</b>
 							<br>
-							</div>
+						</div>
 	                	<% } %>
-					 
 						<br>
 					</td>
 				</tr>

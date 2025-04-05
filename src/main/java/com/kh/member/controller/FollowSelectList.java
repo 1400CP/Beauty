@@ -37,7 +37,6 @@ public class FollowSelectList extends HttpServlet {
 		response.setContentType("application/json; charset=UTF-8");
 		
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
-		System.out.println(userNo);
 		ArrayList<Member> followList = new MemberService().selectListFollow(userNo);
 		ArrayList<Member> followerList = new MemberService().selectListFollower(userNo);
 		response.setContentType("application/json; charset=utf-8");
